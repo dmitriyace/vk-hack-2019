@@ -12,6 +12,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   grpc: ^2.1.2
   protobuf: ^0.14.4
+  flutter_typeahead: ^1.6.1
 
 dev_dependencies:
   flutter_test:

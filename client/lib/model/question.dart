@@ -1,3 +1,4 @@
+import 'package:client/api/session.pb.dart';
 import 'package:flutter/material.dart';
 
 enum QuestionType {
@@ -23,7 +24,7 @@ class Question {
 abstract class QuestionPayload {
   int maxIntervalDays;
   List<GridItem> gridItemList;
-//  List<Month> monthItemList;
+  List<Month> monthItemList;
   Function suggestionsCallback;
   Function submitCallback;
 }
@@ -46,11 +47,11 @@ class TourDatesPayload extends QuestionPayload {
   final Function submitCallback;
   TourDatesPayload(this.maxIntervalDays, this.submitCallback);
 }
-/*class MonthSelectQuestionPayload extends QuestionPayload {
+class MonthSelectQuestionPayload extends QuestionPayload {
   final List<Month> monthItemList;
   final Function submitCallback;
   MonthSelectQuestionPayload(this.monthItemList, this.submitCallback);
-}*/
+}
 
 class GridItem {
   final String title;
