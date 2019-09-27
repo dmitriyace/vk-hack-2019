@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	urlIpSearch = "http://www.travelpayouts.com/whereami"
+	urlIpSearch     = "http://www.travelpayouts.com/whereami"
 	urlAutocomplete = "http://autocomplete.travelpayouts.com/places2"
 )
 
@@ -30,6 +30,7 @@ func (s *Server) Serve(address string) error {
 
 	server := grpc.NewServer(grpc.UnaryInterceptor(logInterceptor))
 	it.RegisterAutocompleteServer(server, s)
+	it.RegisterSearcherServer(server, s)
 
 	return server.Serve(listener)
 }
