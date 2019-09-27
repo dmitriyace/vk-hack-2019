@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(Main());
 
-class MyApp extends StatelessWidget {
+class Main extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return _GlobalParent();
+  }
+}
+
+class _GlobalParent extends StatefulWidget {
+  @override
+  _GlobalParentState createState() => _GlobalParentState();
+}
+
+class _GlobalParentState extends State<_GlobalParent> {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: Text('Hello world'),
-      ),
+      title: 'Aviasales Demo',
+      home: Container()
     );
   }
 }
