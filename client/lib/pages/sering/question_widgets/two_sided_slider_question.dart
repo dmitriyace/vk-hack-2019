@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:grpc/grpc.dart';
 
-class AutocompleteQuestion extends StatefulWidget {
-  AutocompleteQuestion(
+class TwoSidedSliderQuestion extends StatefulWidget {
+  TwoSidedSliderQuestion(
       {Key key,
-      this.question,
-      this.selectQuestionById,
-      this.channel,
-      this.requirements})
+        this.question,
+        this.selectQuestionById,
+        this.channel,
+        this.requirements})
       : super(key: key);
   final Question question;
   final Function selectQuestionById;
@@ -18,11 +18,11 @@ class AutocompleteQuestion extends StatefulWidget {
   final Requirements requirements;
 
   @override
-  _AutocompleteQuestionState createState() => _AutocompleteQuestionState();
+  _TwoSidedSliderQuestionState createState() => _TwoSidedSliderQuestionState();
 }
 
-class _AutocompleteQuestionState extends State<AutocompleteQuestion> {
-  String model = '';
+class _TwoSidedSliderQuestionState extends State<TwoSidedSliderQuestion> {
+  RangeValues model = RangeValues(18.0, 30.0);
 
   @override
   Widget build(BuildContext context) {
@@ -31,22 +31,17 @@ class _AutocompleteQuestionState extends State<AutocompleteQuestion> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Text(widget.question.title),
-        TypeAheadField(
-          textFieldConfiguration: TextFieldConfiguration(
-              autofocus: false,
-              style: DefaultTextStyle.of(context)
-                  .style
-                  .copyWith(fontStyle: FontStyle.italic),
-              decoration: InputDecoration(border: OutlineInputBorder())),
-          suggestionsCallback: widget.question.payload.suggestionsCallback,
-          itemBuilder: (context, suggestion) {
-            return ListTile(
-              title: Text(suggestion.name),
-              subtitle: Text('roflan${suggestion.name}'),
-            );
-          },
-          onSuggestionSelected: (suggestion) {
-            this.model = suggestion.name;
+        RangeSlider(
+          min: widget.question.payload.min,
+          max: widget.question.payload.max,
+          values: this.model,
+          labels: RangeLabels(this.model.start.toStringAsFixed(0), this.model.end.toStringAsFixed(0)),
+          divisions: 68,
+          onChanged: (values) {
+            setState(() {
+              print(values);
+              this.model = values;
+            });
           },
         ),
         RaisedButton(
@@ -57,11 +52,11 @@ class _AutocompleteQuestionState extends State<AutocompleteQuestion> {
         ),
         widget.question.isSkippable
             ? RaisedButton(
-                child: Text('Скип'),
-                onPressed: () {
-                  widget.selectQuestionById(widget.question.idNext());
-                },
-              )
+          child: Text('Скип'),
+          onPressed: () {
+            widget.selectQuestionById(widget.question.idNext());
+          },
+        )
             : Container(),
         RaisedButton(
           child: Text('Вперед'),

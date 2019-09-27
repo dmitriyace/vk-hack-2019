@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 enum QuestionType {
   AUTOCOMPLETE,
   MULTIPLE_SELECT_GRID,
-  INPUT,
+  TWO_SIDED_SLIDER,
   TOUR_DATES,
   MONTH_SELECT,
   LINEUP
@@ -23,6 +23,8 @@ class Question {
 
 abstract class QuestionPayload {
   int maxIntervalDays;
+  double min;
+  double max;
   List<GridItem> gridItemList;
   List<Month> monthItemList;
   Function suggestionsCallback;
@@ -51,6 +53,12 @@ class MonthSelectQuestionPayload extends QuestionPayload {
   final List<Month> monthItemList;
   final Function submitCallback;
   MonthSelectQuestionPayload(this.monthItemList, this.submitCallback);
+}
+class TwoSidedSliderQuestionPayload extends QuestionPayload {
+  final double min;
+  final double max;
+  final Function submitCallback;
+  TwoSidedSliderQuestionPayload(this.min, this.max, this.submitCallback);
 }
 
 class GridItem {

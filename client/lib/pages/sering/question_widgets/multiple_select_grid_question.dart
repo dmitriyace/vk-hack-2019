@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:grpc/grpc.dart';
 
-class AutocompleteQuestion extends StatefulWidget {
-  AutocompleteQuestion(
+class MultipleSelectGridQuestion extends StatefulWidget {
+  MultipleSelectGridQuestion(
       {Key key,
       this.question,
       this.selectQuestionById,
@@ -18,11 +18,13 @@ class AutocompleteQuestion extends StatefulWidget {
   final Requirements requirements;
 
   @override
-  _AutocompleteQuestionState createState() => _AutocompleteQuestionState();
+  _MultipleSelectGridQuestionState createState() =>
+      _MultipleSelectGridQuestionState();
 }
 
-class _AutocompleteQuestionState extends State<AutocompleteQuestion> {
-  String model = '';
+class _MultipleSelectGridQuestionState
+    extends State<MultipleSelectGridQuestion> {
+  List<Continent> model = [Continent.AFRICA];
 
   @override
   Widget build(BuildContext context) {
@@ -31,23 +33,23 @@ class _AutocompleteQuestionState extends State<AutocompleteQuestion> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
         Text(widget.question.title),
-        TypeAheadField(
-          textFieldConfiguration: TextFieldConfiguration(
-              autofocus: false,
-              style: DefaultTextStyle.of(context)
-                  .style
-                  .copyWith(fontStyle: FontStyle.italic),
-              decoration: InputDecoration(border: OutlineInputBorder())),
-          suggestionsCallback: widget.question.payload.suggestionsCallback,
-          itemBuilder: (context, suggestion) {
-            return ListTile(
-              title: Text(suggestion.name),
-              subtitle: Text('roflan${suggestion.name}'),
-            );
-          },
-          onSuggestionSelected: (suggestion) {
-            this.model = suggestion.name;
-          },
+        SizedBox(
+          height: 300,
+          child: GridView.count(
+            primary: false,
+            padding: const EdgeInsets.all(20),
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            crossAxisCount: 2,
+            children:
+                List.generate(widget.question.payload.gridItemList.length, (i) {
+              return Container(
+                color: Colors.lightBlueAccent,
+                child: Center(
+                    child: Text(widget.question.payload.gridItemList[i].title)),
+              );
+            }),
+          ),
         ),
         RaisedButton(
           child: Text('Назад'),
