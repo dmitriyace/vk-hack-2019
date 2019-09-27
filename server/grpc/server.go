@@ -31,6 +31,7 @@ func (s *Server) Serve(address string) error {
 	server := grpc.NewServer(grpc.UnaryInterceptor(logInterceptor))
 	it.RegisterAutocompleteServer(server, s)
 	it.RegisterSearcherServer(server, s)
+	it.RegisterSessionServer(server, s)
 
 	return server.Serve(listener)
 }
