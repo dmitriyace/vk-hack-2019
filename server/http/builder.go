@@ -11,10 +11,11 @@ type requestBuilder struct {
 	method  string
 	body    io.Reader
 	params  url.Values
+	repeats int
 	timeout time.Duration
 }
 
-func ReqBuilder() RequestBuilder {
+func NewBuilder() RequestBuilder {
 	return &requestBuilder{}
 }
 
@@ -43,12 +44,18 @@ func (rb *requestBuilder) Body(b io.Reader) RequestBuilder {
 	return rb
 }
 
+func (rb *requestBuilder) Repeats(rr int) RequestBuilder {
+	rb.repeats = rr
+	return rb
+}
+
 func (rb *requestBuilder) Build() Request {
 	return Request{
 		url:     rb.url,
 		method:  rb.method,
 		params:  rb.params,
 		body:    rb.body,
+		repeats: rb.repeats,
 		timeout: rb.timeout,
 	}
 }
