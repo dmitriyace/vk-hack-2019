@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	const address = "127.0.0.1:8080"
+	const address = "0.0.0.0:8080"
 	server := grpc.NewServer()
 	if err := server.Serve(address); err != nil {
 		log.Fatal(err)
