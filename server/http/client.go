@@ -63,17 +63,26 @@ func (r *Request) Do() (io.ReadCloser, error) {
 			}
 		}()
 
-		tout := time.After(r.timeout)
-		select {
-		case r := <-ch:
+		if r.timeout > 0 {
+			tout := time.After(r.timeout)
+			select {
+			case r := <-ch:
+				if r.Error != nil {
+					msg := fmt.Sprintf("Request error, host: %s", reqUrl)
+					return nil, status.Error(codes.Unavailable, msg)
+				}
+				return r.Value.Body, nil
+			case <-tout:
+				log.Printf("Request %s took more than %dms, repeats: %d", reqUrl,
+					r.timeout.Milliseconds(), i+1)
+			}
+		} else {
+			r := <-ch
 			if r.Error != nil {
 				msg := fmt.Sprintf("Request error, host: %s", reqUrl)
 				return nil, status.Error(codes.Unavailable, msg)
 			}
 			return r.Value.Body, nil
-		case <-tout:
-			log.Printf("Request %s took more than %dms, repeats: %d", reqUrl,
-				r.timeout.Milliseconds(), i+1)
 		}
 	}
 
