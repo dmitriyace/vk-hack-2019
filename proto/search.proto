@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package internal;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+import "autocomplete.proto";
+import "session.proto";
+
+option go_package = "internal";
+
+message Change {
+    string iata = 1;
+    uint32 duration = 2;
+}
+
+message Segment {
+    string origin = 1;
+    string dest = 2;
+    uint32 duration = 3;
+    repeated Change changes = 4;
+    google.protobuf.Timestamp takeOff = 5;
+    google.protobuf.Timestamp landing = 6;
+}
+
+message Flight {
+    uint32 price = 1;
+    Segment depart = 2;
+    Segment return = 3;
+}
+
+message Hotel {
+    uint32 id = 1;
+    string name = 2;
+}
+
+message Package {
+    Flight flight = 1;
+    repeated uint32 hotels = 2;
+}
+
+message Trip {
+    City city = 1;
+    Country country = 2;
+    repeated Package packages = 3;
+    repeated Hotel hotels = 4;
+}
+
+message Trips {
+    repeated Trip values = 1;
+}
+
+service Searcher {
+    rpc CityByIp (google.protobuf.Empty) returns (City);
+    rpc GetTrips (Token) returns (Trips);
+}

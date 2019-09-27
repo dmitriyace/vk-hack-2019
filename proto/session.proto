@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package internal;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "internal";
+
+enum Month {
+    JANUARY = 0;
+    FEBRUARY = 1;
+    MARCH = 2;
+    APRIL = 3;
+    MAY = 4;
+    JUNE = 5;
+    JULY = 6;
+    AUGUST = 7;
+    SEPTEMBER = 8;
+    OCTOBER = 9;
+    NOVEMBER = 10;
+    DECEMBER = 11;
+}
+
+enum Continent {
+    EUROPE = 0;
+    ASIA = 1;
+    AFRICA = 2;
+    NORTH_AMERICA = 3;
+    SOUTH_AMERICA = 4;
+}
+
+message Requirements {
+    string originIata = 1;
+
+    string countryCode = 2;
+
+    string cityIata = 3;
+
+    repeated Continent routes = 4;
+
+    Month month = 5;
+
+    int32 minTemp = 6;
+
+    int32 maxTemp = 7;
+
+    google.protobuf.Timestamp startDate = 8;
+
+    google.protobuf.Timestamp endDate = 9;
+
+    uint32 duration = 10;
+
+    uint32 adults = 11;
+
+    uint32 children = 12;
+
+    uint32 budget = 13;
+}
+
+message Token {
+    string value = 1;
+}
+
+service Session {
+    rpc Open(Requirements) returns (Token);
+    rpc Close(Token) returns (google.protobuf.Empty);
+}
