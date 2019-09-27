@@ -1,0 +1,98 @@
+{
+  "NA": {
+    "US": [
+      "NYC",
+      "CHI",
+      "LAX",
+      "LAS"
+    ]
+  },
+  "LAT": {
+    "BR": [
+      "RIO"
+    ]
+  },
+  "EU": {
+    "ES": [
+      "BCN",
+      "MAD"
+    ],
+    "FR": [
+      "PAR",
+      "NCE",
+      "MRS"
+    ],
+    "GB": [
+      "LON",
+      "EDI",
+      "GLA"
+    ],
+    "DE": [
+      "MUC",
+      "BER",
+      "FRA",
+      "CGN"
+    ],
+    "IT": [
+      "ROM",
+      "VCE",
+      "FLR",
+      "MIL"
+    ],
+    "GR": [
+      "ATH",
+      "HER"
+    ]
+  },
+  "AFR": {
+    "MA": [
+      "RAK",
+      "CAS",
+      "FEZ"
+    ],
+    "TN": [
+      "TUN"
+    ],
+    "EG": [
+      "CAI",
+      "LXR",
+      "ASW",
+      "HRG",
+      "SSH",
+      "ALY"
+    ],
+    "TR": [
+      "IST",
+      "AYT",
+      "ANK"
+    ]
+  },
+  "ASIA": {
+    "CN": [
+      "BJS",
+      "SHA",
+      "SIA"
+    ],
+    "JP": [
+      "UKY",
+      "TYO",
+      "OSA"
+    ],
+    "KR": [
+      "SEL",
+      "CJU"
+    ],
+    "HK": [
+      "HKG"
+    ],
+    "SG": [
+      "SIN"
+    ]
+  },
+  "OCE": {
+    "TH": [
+      "BKK",
+      "HKT"
+    ]
+  }
+}
