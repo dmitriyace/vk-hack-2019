@@ -109,7 +109,7 @@ class _SeringPageState extends State<SeringPage> {
               color: Colors.black38,
             ),
             Expanded(
-              child: DragHandler(context: context, card: getCurrentQuestionCard(),)
+              child: DragHandler(context: context, card: getCurrentQuestionCard(), history: history)
             )
           ],
         ),

@@ -7,19 +7,13 @@ import 'package:client/pages/sering/question_widgets/one_of_two_question.dart';
 Size bigCardSize;
 final Alignment initialCardAlignment = Alignment(0.0, 0.0);
 
-enum SlideMainAxis {
-  x, y
-}
+enum SlideMainAxis { x, y }
 
-enum SlideDirection {
-  left,
-  right,
-  up,
-  down
-}
+enum SlideDirection { left, right, up, down }
 
 class DragHandler extends StatefulWidget {
   final QuestWidget card;
+  final List<int> history;
   final bool isDraggable;
   final SlideDirection slideTo;
   final Function(double distance) onSlideUpdate;
@@ -27,24 +21,19 @@ class DragHandler extends StatefulWidget {
   final double screenWidth;
   final double screenHeight;
 
-  DragHandler({
-    Key key,
-    this.card,
-    this.isDraggable = true,
-    this.slideTo,
-    this.onSlideUpdate,
-    this.onSlideComplete,
-    this.screenWidth,
-    this.screenHeight,
-    BuildContext context
-  }) {
-    bigCardSize = new Size(MediaQuery
-        .of(context)
-        .size
-        .width * 0.9, MediaQuery
-        .of(context)
-        .size
-        .height * 0.5);
+  DragHandler(
+      {Key key,
+      this.card,
+      this.history,
+      this.isDraggable = true,
+      this.slideTo,
+      this.onSlideUpdate,
+      this.onSlideComplete,
+      this.screenWidth,
+      this.screenHeight,
+      BuildContext context}) {
+    bigCardSize = new Size(MediaQuery.of(context).size.width * 0.9,
+        MediaQuery.of(context).size.height * 0.5);
   }
 
   @override
@@ -57,6 +46,7 @@ class _DragHandlerState extends State<DragHandler>
   Offset dragStart;
   Offset dragPosition;
   Offset slideBackStart;
+
   // what way we chosen
   SlideDirection slideOutDirection;
 
@@ -74,8 +64,7 @@ class _DragHandlerState extends State<DragHandler>
       vsync: this,
       duration: const Duration(milliseconds: 800),
     )
-      ..addListener(() =>
-          setState(() {
+      ..addListener(() => setState(() {
             cardOffset = Offset.lerp(slideBackStart, const Offset(0.0, 0.0),
                 Curves.elasticOut.transform(slideBackAnimation.value));
 
@@ -97,8 +86,7 @@ class _DragHandlerState extends State<DragHandler>
       vsync: this,
       duration: const Duration(milliseconds: 500),
     )
-      ..addListener(() =>
-          setState(() {
+      ..addListener(() => setState(() {
             cardOffset = slideOutTween.evaluate(slideOutAnimation);
 
             if (null != widget.onSlideUpdate) {
@@ -196,7 +184,6 @@ class _DragHandlerState extends State<DragHandler>
     slideOutAnimation.forward(from: 0.0);
   }
 
-
   void _slideDown() {
     // final screenHeight = context.size.height;
     dragStart = _chooseRandomDragStart();
@@ -219,7 +206,8 @@ class _DragHandlerState extends State<DragHandler>
   void _onPanUpdate(DragUpdateDetails details) {
     setState(() {
       dragPosition = details.globalPosition;
-      cardOffset = Offset(dragPosition.dx - dragStart.dx, dragPosition.dy - dragStart.dy);
+      cardOffset = Offset(
+          dragPosition.dx - dragStart.dx, dragPosition.dy - dragStart.dy);
 
       if (null != widget.onSlideUpdate) {
         widget.onSlideUpdate(cardOffset.distance);
@@ -234,7 +222,6 @@ class _DragHandlerState extends State<DragHandler>
     final isInTopRegion = (cardOffset.dy / context.size.height) < -0.40;
     final isInBottomRegion = (cardOffset.dy / context.size.height) > 0.40;
 
-    // todo add delay for card method call
     setState(() {
       if (isInLeftRegion || isInRightRegion) {
         slideOutTween = Tween(
@@ -242,7 +229,7 @@ class _DragHandlerState extends State<DragHandler>
 
         slideOutAnimation.forward(from: 0.0);
 
-        if(isInLeftRegion) {
+        if (isInLeftRegion) {
           setState(() {
             slideOutDirection = SlideDirection.left;
             print('left');
@@ -251,11 +238,16 @@ class _DragHandlerState extends State<DragHandler>
             });
         });
         } else setState(() {
-          slideOutDirection =  SlideDirection.right;
-          print('right');
-          new Future.delayed(const Duration(milliseconds: 150), () {
-            widget.card.back();
-          });
+          if (widget.history.length > 1) {
+            slideOutDirection = SlideDirection.right;
+            print('right');
+            new Future.delayed(const Duration(milliseconds: 150), () {
+              widget.card.back();
+            });
+          } else {
+            slideBackStart = cardOffset;
+            slideBackAnimation.forward(from: 0.0);
+          }
         });{
         }
       } else if (isInTopRegion || isInBottomRegion) {
@@ -263,7 +255,7 @@ class _DragHandlerState extends State<DragHandler>
             begin: cardOffset, end: dragVector * (4 * context.size.height));
         slideOutAnimation.forward(from: 0.0);
 
-        if(isInBottomRegion) {
+        if (isInBottomRegion) {
           setState(() {
             slideOutDirection = SlideDirection.down;
             print('down');
