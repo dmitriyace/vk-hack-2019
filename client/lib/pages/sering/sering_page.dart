@@ -78,13 +78,14 @@ class _SeringPageState extends State<SeringPage> {
             getNextQuestionId: getNextQuestionId,
             finish: finish,
             channel: widget.channel);
-      case QuestionType.GRID_MULTIPLE_SELECT:
+/*      case QuestionType.GRID_MULTIPLE_SELECT:
         return GridMultipleSelectQuestion(
             question: getCurrentQuestion(),
+            prevQuestion: widget.questions.firstWhere((el) => this.history.length > 1 ? el.id == this.history[this.history.length - 2] : false, orElse: (){}),
             selectQuestionById: selectQuestionById,
             getNextQuestionId: getNextQuestionId,
             finish: finish,
-            channel: widget.channel);
+            channel: widget.channel);*/
       default:
         return Text('default');
     }

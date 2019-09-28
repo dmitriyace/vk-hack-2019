@@ -98,7 +98,7 @@ class _GlobalParentState extends State<_GlobalParent> {
           1: {"JP": 5}
         },
         null),
-    Question(
+    /*Question(
         3,
         1,
         QuestionType.GRID_MULTIPLE_SELECT,
@@ -109,7 +109,17 @@ class _GlobalParentState extends State<_GlobalParent> {
         ]),
         null,
         null,
-        null),
+        {
+          0: {
+            "PAR": 20
+          },
+          1: {
+            "NCE": 20
+          },
+          2: {
+            "MRS": 20
+          }
+        }),*/
 /*    Question(4, 1, QuestionType.YES_DC,
         YesDCQuestionPayload('5 вопрос', 'Да', 'Хз'), null, null, null),
     Question(5, 1, QuestionType.YES_DC,
