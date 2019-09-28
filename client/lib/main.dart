@@ -39,7 +39,7 @@ class _GlobalParentState extends State<_GlobalParent> {
             'Вы хотели бы увидеть одно из Семи Чудес Света вживую?',
             'Да!',
             'Без разницы',
-        AssetImage('images/giza.jpg')),
+        Image.asset('images/giza.jpg')),
         null,
         null,
         {
@@ -50,7 +50,7 @@ class _GlobalParentState extends State<_GlobalParent> {
         1,
         QuestionType.YES_DC,
         YesDCQuestionPayload(
-            'Как насчет искупаться в теплом море?', 'Определенно.', 'Не важно', AssetImage('images/beach.jpg')),
+            'Как насчет искупаться в теплом море?', 'Определенно.', 'Не важно', Image.asset('images/beach.jpg')),
         null,
         {
           0: {
@@ -89,7 +89,7 @@ class _GlobalParentState extends State<_GlobalParent> {
         2,
         1,
         QuestionType.ONE_OF_TWO,
-        OneOfTwoQuestionPayload('Что выберете?', 'Пицца', AssetImage('images/pizza.jpg'), 'Суши', AssetImage('images/sushi.jpg')),
+        OneOfTwoQuestionPayload('Что выберете?', 'Пицца', Image.asset('images/pizza.jpg'), 'Суши', Image.asset('images/sushi.jpg')),
         {
           0: {"NOR": 3, "EUR": 3},
           1: {"ASI": 3}
@@ -99,35 +99,18 @@ class _GlobalParentState extends State<_GlobalParent> {
           1: {"JP": 5}
         },
         null),
-
-    /*Question(
-        3,
-        1,
-        QuestionType.GRID_MULTIPLE_SELECT,
-        GridMultipleSelectPayload('Что вам по душе?', [
-          GridItem('Пляжный отдых', null),
-          GridItem('Культурный туризм', null),
-          GridItem('Гастрономический туризм', null)
-        ]),
-        null,
-        null,
-        {
-          0: {
-            "PAR": 20
-          },
-          1: {
-            "NCE": 20
-          },
-          2: {
-            "MRS": 20
-          }
-        }),*/
-/*    Question(4, 1, QuestionType.YES_DC,
-        YesDCQuestionPayload('5 вопрос', 'Да', 'Хз'), null, null, null),
-    Question(5, 1, QuestionType.YES_DC,
-        YesDCQuestionPayload('6 вопрос', 'Да', 'Хз'), null, null, null),
-    Question(6, 1, QuestionType.YES_DC,
-        YesDCQuestionPayload('7 вопрос', 'Да', 'Хз'), null, null, null)*/
+    Question(
+      3, 1, QuestionType.YES_DC, YesDCQuestionPayload('Хотите избежать процесс получения визы?', 'Да, мое время - на вес золота', 'Не волнует', Image.asset('image/visa.jpg')),
+      null,
+      null,
+      null,
+    ),
+    Question(4, 1, QuestionType.YES_DC, YesDCQuestionPayload('Горные пейзажи завораживают вас до глубины души', 'О, да', 'Ничего особенного', Image.asset('images/mountains.jpg')),
+    null, null, null),
+    Question(5, 1, QuestionType.YES_DC, YesDCQuestionPayload('Вы - настоящий ценитель Высокого', 'Именно так.', 'ДА ДА Я', Image.asset('images/sculpture.jpg')),
+    null, null, null),
+    Question(6, 1, QuestionType.YES_DC, YesDCQuestionPayload('Экзотика вас не пугает, а напротив', 'Так и есть', 'Только не насекомые!', Image.asset('images/venus.jpg')),
+    null, null, null),
   ];
 
   @override

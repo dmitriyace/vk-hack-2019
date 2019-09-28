@@ -34,9 +34,9 @@ abstract class QuestionPayload {
   String dCOption;
   String firstOption;
   String secondOption;
-  AssetImage firstImage;
-  AssetImage secondImage;
-  AssetImage image;
+  Image firstImage;
+  Image secondImage;
+  Image image;
   List<GridItem> gridItems;
 }
 
@@ -44,16 +44,16 @@ class YesDCQuestionPayload extends QuestionPayload {
   String title;
   String yesOption;
   String dCOption;
-  AssetImage image;
+  Image image;
   YesDCQuestionPayload(this.title, this.yesOption, this.dCOption, this.image);
 }
 
 class OneOfTwoQuestionPayload extends QuestionPayload {
   String title;
   String firstOption;
-  AssetImage firstImage;
+  Image firstImage;
   String secondOption;
-  AssetImage secondImage;
+  Image secondImage;
   OneOfTwoQuestionPayload(this.title, this.firstOption, this.firstImage, this.secondOption, this.secondImage);
 }
 

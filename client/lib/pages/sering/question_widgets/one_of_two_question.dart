@@ -134,11 +134,7 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
                       height: 160,
                       child: Stack(
                         children: <Widget>[
-                          DecoratedBox(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image:
-                                      widget.question.payload.firstImage))),
+                          widget.question.payload.firstImage,
                           Text(widget.question.payload.firstOption)
                         ],
                       ),
@@ -153,17 +149,13 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
                       height: 160,
                       child: Stack(
                         children: <Widget>[
-                          DecoratedBox(
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image:
-                                      widget.question.payload.secondImage))),
+                          widget.question.payload.secondImage,
                           Text(widget.question.payload.secondOption)
                         ],
                       ),
                     ),
                     onTap: () {
-                      // todo handle answer
+
                     },
                   ),
                 ],

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:client/api/google/protobuf/empty.pb.dart';
 import 'package:client/api/search.pbgrpc.dart';
 import 'package:client/api/session.pb.dart';
 import 'package:client/model/question.dart';
@@ -25,10 +26,21 @@ class _SeringPageState extends State<SeringPage> {
   int currentQuestionId = HomePage.firstQuestion;
   QuestionType currentQuestionType;
   QuestWidget currentQuestionCard;
+  Question preparedSpecialQuestion;
+
+  Future<Question> getSpecialQuestion() async {
+    Cities generatedCities;
+    QuestionsClient questionsClient = QuestionsClient(widget.channel);
+    await questionsClient.random(Empty()).then((resp) => generatedCities = resp);
+    return Question(-1, 1, QuestionType.ONE_OF_TWO, OneOfTwoQuestionPayload('Какой вид вам нравится больше?', '', Image.network(generatedCities.values[0].photo), '', Image.network(generatedCities.values[1].photo)),
+      null, null, {0: {generatedCities.values[0].iata: 2}, 1: {generatedCities.values[1].iata: 2}});
+  }
 
   void selectQuestionById(int id) {
     setState(() {
-      if (widget.questions.firstWhere((el) => el.id == id, orElse: () {}) !=
+      if (id == -1) {
+        this.currentQuestionId = id;
+      } else if (widget.questions.firstWhere((el) => el.id == id, orElse: () {}) !=
           null) {
         this.currentQuestionId = id;
         this.history.add(id);
@@ -36,18 +48,26 @@ class _SeringPageState extends State<SeringPage> {
     });
   }
 
-  Question getCurrentQuestion() =>
-      widget.questions.firstWhere((q) => q.id == this.currentQuestionId);
+  Question getCurrentQuestion() {
+    Question question;
+    if (this.currentQuestionId == -1) {
+      question = this.preparedSpecialQuestion;
+    } else {
+      question = widget.questions.firstWhere((q) => q.id == this.currentQuestionId);
+    }
+    return question;
+  }
 
   int getNextQuestionId() {
     var questions = this.widget.questions.where((el) =>
         this.history.firstWhere((elem) => elem == el.id, orElse: () {}) ==
         null);
     final _random = new Random();
-
-    return questions.length > 0
+    if (_random.nextDouble() <= 0.20) {
+      return -1;
+    } else return questions.length > 0
         ? questions.toList()[_random.nextInt(questions.length)].id
-        : null;
+        : -1;
   }
 
   void finish() async {
@@ -63,6 +83,7 @@ class _SeringPageState extends State<SeringPage> {
 
   QuestWidget getCurrentQuestionCard() {
     setState(() {
+      this.getSpecialQuestion().then((resp) => this.preparedSpecialQuestion = resp);
       currentQuestionType = getCurrentQuestion().type;
     });
     switch (currentQuestionType) {
