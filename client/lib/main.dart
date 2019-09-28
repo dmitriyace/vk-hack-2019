@@ -135,9 +135,6 @@ class _GlobalParentState extends State<_GlobalParent> {
       title: 'Aviasales Demo',
       theme: ThemeData(
         backgroundColor: Color.fromRGBO(68, 148, 236, 1),
-        textTheme: TextTheme(
-
-        ),
       ),
       home: HomePage(questions: _questions, channel: _channel),
     );

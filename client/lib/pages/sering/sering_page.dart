@@ -10,7 +10,7 @@ import 'package:client/pages/sering/question_widgets/quest_widget.dart';
 import 'package:client/pages/sering/question_widgets/yes_dc_question.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
-import 'package:client/components/dragHandler.dart';
+import 'package:client/components/drag_handler.dart';
 import '../result_page.dart';
 
 class SeringPage extends StatefulWidget {
