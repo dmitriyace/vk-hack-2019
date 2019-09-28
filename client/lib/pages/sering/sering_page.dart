@@ -6,10 +6,11 @@ import 'package:client/model/question.dart';
 import 'package:client/pages/home_page.dart';
 import 'package:client/pages/sering/question_widgets/grid_multiple_select_question.dart';
 import 'package:client/pages/sering/question_widgets/one_of_two_question.dart';
+import 'package:client/pages/sering/question_widgets/quest_widget.dart';
 import 'package:client/pages/sering/question_widgets/yes_dc_question.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
-
+import 'package:client/components/dragHandler.dart';
 import '../result_page.dart';
 
 class SeringPage extends StatefulWidget {
@@ -60,7 +61,7 @@ class _SeringPageState extends State<SeringPage> {
     ));
   }
 
-  Widget getCurrentQuestionCard() {
+  QuestWidget getCurrentQuestionCard() {
     switch (getCurrentQuestion().type) {
       case QuestionType.YES_DC:
         return YesDCQuestion(
@@ -87,7 +88,7 @@ class _SeringPageState extends State<SeringPage> {
             finish: finish,
             channel: widget.channel);*/
       default:
-        return Text('default');
+        return null;
     }
   }
 
@@ -108,7 +109,7 @@ class _SeringPageState extends State<SeringPage> {
               color: Colors.black38,
             ),
             Expanded(
-              child: getCurrentQuestionCard(),
+              child: DragHandler(context: context, card: getCurrentQuestionCard(),)
             )
           ],
         ),

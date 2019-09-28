@@ -2,11 +2,12 @@ import 'package:client/api/search.pbgrpc.dart';
 import 'package:client/api/session.pb.dart';
 import 'package:client/model/question.dart';
 import 'package:client/pages/home_page.dart';
+import 'package:client/pages/sering/question_widgets/quest_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:grpc/grpc.dart';
 
-class YesDCQuestion extends StatefulWidget {
+class YesDCQuestion extends StatefulWidget implements QuestWidget {
   YesDCQuestion(
       {Key key,
       this.question,
@@ -25,6 +26,26 @@ class YesDCQuestion extends StatefulWidget {
 
   @override
   _YesDCQuestionState createState() => _YesDCQuestionState();
+
+  @override
+  void back() {
+    // TODO: implement back
+  }
+
+  @override
+  void done() {
+    // TODO: implement done
+  }
+
+  @override
+  void forward() {
+    // TODO: implement forward
+  }
+
+  @override
+  void skip() {
+    // TODO: implement skip
+  }
 }
 
 class _YesDCQuestionState extends State<YesDCQuestion> {

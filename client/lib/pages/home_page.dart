@@ -30,17 +30,11 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-/*              hasHistory
-                  ? RaisedButton(
-                onPressed: null,
-                child: Text('История поисков'),
-              )
-                  : Container(),*/
               RaisedButton(onPressed: () {
                 this.createSessionClient();
                 Navigator.push(context, MaterialPageRoute(
                     builder: (context) {
-                      HomePage.firstQuestion = new Random().nextInt(4);
+                      HomePage.firstQuestion = new Random().nextInt(3);
                       return SeringPage(questions: questions, channel: channel);}
                 ));
               }, child: Text('Начать'))

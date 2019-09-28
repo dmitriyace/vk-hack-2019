@@ -1,6 +1,8 @@
+import 'package:client/pages/sering/question_widgets/quest_widget.dart';
 import 'package:flutter/material.dart';
 import 'card.dart';
 import 'dart:math';
+import 'package:client/pages/sering/question_widgets/one_of_two_question.dart';
 
 Size bigCardSize;
 final Alignment initialCardAlignment = Alignment(0.0, 0.0);
@@ -17,7 +19,7 @@ enum SlideDirection {
 }
 
 class DragHandler extends StatefulWidget {
-  final Widget card;
+  final QuestWidget card;
   final bool isDraggable;
   final SlideDirection slideTo;
   final Function(double distance) onSlideUpdate;
@@ -61,12 +63,6 @@ class _DragHandlerState extends State<DragHandler>
   AnimationController slideBackAnimation;
   Tween<Offset> slideOutTween;
   AnimationController slideOutAnimation;
-  // for finding out where user slides from the start (see function where this var is used)
-  SlideMainAxis slideAxis = SlideMainAxis.x;
-
-  // to get the starting position
-  Offset _containerInitialPosition = Offset(0, 0);
-  GlobalKey _containerKey = GlobalKey();
 
   AnimationController _animationController;
   Alignment cardAlignment = new Alignment(0.0, 0.0);
@@ -122,19 +118,6 @@ class _DragHandlerState extends State<DragHandler>
           });
         }
       });
-
-    WidgetsBinding.instance.addPostFrameCallback(_getInitialPosition);
-  }
-
-  void _getInitialPosition(_) {
-    final RenderBox containerRenderBox =
-    _containerKey.currentContext.findRenderObject();
-    final containerPosition = containerRenderBox.localToGlobal(Offset(0.0, 0.0));
-
-    print(containerPosition);
-    setState(() {
-      _containerInitialPosition = containerPosition;
-    });
   }
 
   @override
@@ -228,20 +211,6 @@ class _DragHandlerState extends State<DragHandler>
   void _onPanStart(DragStartDetails details) {
     dragStart = details.globalPosition;
 
-//    print('x ${dragStart.dx}, y ${dragStart.dy}');
-
-    var rofl1 = ((dragStart.dx / context.size.width)).abs();
-    var rofl2 = ((dragStart.dy / context.size.height)).abs();
-    print('x ${rofl1}');
-    print('y ${rofl2}');
-    print('x > y : ${rofl1 > rofl2}');
-
-    if(rofl1 > rofl2) {
-      slideAxis = SlideMainAxis.x;
-    } else {
-      slideAxis = SlideMainAxis.y;
-    }
-
     if (slideBackAnimation.isAnimating) {
       slideBackAnimation.stop(canceled: true);
     }
@@ -250,16 +219,7 @@ class _DragHandlerState extends State<DragHandler>
   void _onPanUpdate(DragUpdateDetails details) {
     setState(() {
       dragPosition = details.globalPosition;
-      switch(slideAxis) {
-        case SlideMainAxis.x:
-          print('x');
-          cardOffset = Offset(dragPosition.dx - dragStart.dx, 0.0);
-          break;
-        case SlideMainAxis.y:
-          print('y');
-          cardOffset = Offset(0.0, dragPosition.dy - dragStart.dy);
-          break;
-      }
+      cardOffset = Offset(dragPosition.dx - dragStart.dx, dragPosition.dy - dragStart.dy);
 
       if (null != widget.onSlideUpdate) {
         widget.onSlideUpdate(cardOffset.distance);
@@ -281,19 +241,45 @@ class _DragHandlerState extends State<DragHandler>
 
         slideOutAnimation.forward(from: 0.0);
 
-        slideOutDirection =
-        isInLeftRegion ? SlideDirection.left : SlideDirection.right;
+        if(isInLeftRegion) {
+          setState(() {
+            slideOutDirection = SlideDirection.left;
+            print('left');
+            widget.card.forward();
+        });
+        } else setState(() {
+          slideOutDirection =   SlideDirection.right;
+          print('right');
+          widget.card.back();
+        });{
+        }
       } else if (isInTopRegion || isInBottomRegion) {
         slideOutTween = Tween(
             begin: cardOffset, end: dragVector * (4 * context.size.height));
         slideOutAnimation.forward(from: 0.0);
 
-        slideOutDirection = isInBottomRegion ? SlideDirection.down : SlideDirection.up;
+        if(isInBottomRegion) {
+          setState(() {
+            slideOutDirection = SlideDirection.down;
+            print('down');
+            // poshel v zheppu
+            widget.card.skip();
+          });
+
+        } else setState(() {
+          slideOutDirection = SlideDirection.up;
+          print('up');
+          // prishel v zheppu
+          widget.card.done();
+        });
       } else {
         // a nu davai ee obratno
         slideBackStart = cardOffset;
         slideBackAnimation.forward(from: 0.0);
       }
+
+      slideBackStart = cardOffset;
+      slideBackAnimation.forward(from: 0.0);
     });
   }
 

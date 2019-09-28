@@ -4,10 +4,11 @@ import 'package:client/model/question.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:grpc/grpc.dart';
+import 'quest_widget.dart';
 
 import '../../home_page.dart';
 
-class OneOfTwoQuestion extends StatefulWidget {
+class OneOfTwoQuestion extends StatefulWidget implements QuestWidget {
   OneOfTwoQuestion(
       {Key key,
       this.question,
@@ -121,7 +122,13 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
         Text(widget.question.payload.title),
         GestureDetector(
           onTap: () {
-            _OneOfTwoQuestionState.model = 1;
+            setState(() {
+              if(_OneOfTwoQuestionState.model == 1) {
+                _OneOfTwoQuestionState.model = 0;
+              } else {
+                _OneOfTwoQuestionState.model = 1;
+              }
+            });
           },
           child: Container(
             width: 200,
@@ -134,7 +141,13 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
         ),
         GestureDetector(
           onTap: () {
-            _OneOfTwoQuestionState.model = 2;
+            setState(() {
+              if(_OneOfTwoQuestionState.model == 2) {
+                _OneOfTwoQuestionState.model = 0;
+              } else {
+                _OneOfTwoQuestionState.model = 2;
+              }
+            });
           },
           child: Container(
             width: 200,
