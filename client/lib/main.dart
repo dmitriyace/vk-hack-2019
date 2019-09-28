@@ -42,7 +42,7 @@ class _GlobalParentState extends State<_GlobalParent> {
         null,
         null,
         {
-          0: {"CAI": 7}
+          0: {"CAI": 6}
         }),
     Question(
         1,
@@ -98,6 +98,7 @@ class _GlobalParentState extends State<_GlobalParent> {
           1: {"JP": 5}
         },
         null),
+
     /*Question(
         3,
         1,
