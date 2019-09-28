@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:client/api/session.pb.dart';
 import 'package:client/model/question.dart';
+import 'package:client/pages/home_page.dart';
 import 'package:client/pages/sering/question_widgets/one_of_two_question.dart';
 import 'package:client/pages/sering/question_widgets/yes_dc_question.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +14,13 @@ class SeringPage extends StatefulWidget {
   SeringPage({Key key, this.questions, this.channel}) : super(key: key);
   final List<Question> questions;
   final ClientChannel channel;
-  static final int firstQuestion = new Random().nextInt(7);
 
   _SeringPageState createState() => _SeringPageState();
 }
 
 class _SeringPageState extends State<SeringPage> {
-  List<int> history = [SeringPage.firstQuestion];
-  int currentQuestionId = SeringPage.firstQuestion;
+  List<int> history = [HomePage.firstQuestion];
+  int currentQuestionId = HomePage.firstQuestion;
 
   void selectQuestionById(int id, bool forward) {
     setState(() {
