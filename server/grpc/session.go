@@ -37,8 +37,13 @@ func (s *Server) Open(ctx context.Context, e *empty.Empty) (*it.Token, error) {
 	}
 
 	go func() {
+		cc := getCities()
+
+		clientCities := make([]City, len(cc))
+		_ = copy(clientCities, cc)
+
 		session := Session{
-			cities: getCities(),
+			cities: clientCities,
 		}
 		Sessions[token.String()] = session
 	}()

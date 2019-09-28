@@ -156,10 +156,7 @@ func getCities() []City {
 		}
 	}
 
-	res := make([]City, len(cities))
-	_ = copy(res, cities)
-
-	return res
+	return cities
 }
 
 func continent(cs Coordinates) (string, error) {
