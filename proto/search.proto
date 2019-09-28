@@ -38,5 +38,5 @@ service Weights {
     rpc ChangeContinent(ContinentDelta) returns (google.protobuf.Empty);
     rpc ChangeCountry(CountryDelta) returns (google.protobuf.Empty);
     rpc ChangeCity(CityDelta) returns (google.protobuf.Empty);
-    rpc Result(google.protobuf.Empty) returns (Cities);
+    rpc Result(Token) returns (Cities);
 }

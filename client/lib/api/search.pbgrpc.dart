@@ -12,6 +12,7 @@ import 'dart:core' as $core;
 import 'package:grpc/service_api.dart' as $grpc;
 import 'search.pb.dart' as $2;
 import 'google/protobuf/empty.pb.dart' as $0;
+import 'session.pb.dart' as $1;
 export 'search.pb.dart';
 
 class WeightsClient extends $grpc.Client {
@@ -28,9 +29,9 @@ class WeightsClient extends $grpc.Client {
       '/internal.Weights/ChangeCity',
       ($2.CityDelta value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.Empty.fromBuffer(value));
-  static final _$result = $grpc.ClientMethod<$0.Empty, $2.Cities>(
+  static final _$result = $grpc.ClientMethod<$1.Token, $2.Cities>(
       '/internal.Weights/Result',
-      ($0.Empty value) => value.writeToBuffer(),
+      ($1.Token value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $2.Cities.fromBuffer(value));
 
   WeightsClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
@@ -60,7 +61,7 @@ class WeightsClient extends $grpc.Client {
     return $grpc.ResponseFuture(call);
   }
 
-  $grpc.ResponseFuture<$2.Cities> result($0.Empty request,
+  $grpc.ResponseFuture<$2.Cities> result($1.Token request,
       {$grpc.CallOptions options}) {
     final call = $createCall(_$result, $async.Stream.fromIterable([request]),
         options: options);
@@ -93,12 +94,12 @@ abstract class WeightsServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $2.CityDelta.fromBuffer(value),
         ($0.Empty value) => value.writeToBuffer()));
-    $addMethod($grpc.ServiceMethod<$0.Empty, $2.Cities>(
+    $addMethod($grpc.ServiceMethod<$1.Token, $2.Cities>(
         'Result',
         result_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($core.List<$core.int> value) => $1.Token.fromBuffer(value),
         ($2.Cities value) => value.writeToBuffer()));
   }
 
@@ -118,7 +119,7 @@ abstract class WeightsServiceBase extends $grpc.Service {
   }
 
   $async.Future<$2.Cities> result_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+      $grpc.ServiceCall call, $async.Future<$1.Token> request) async {
     return result(call, await request);
   }
 
@@ -128,5 +129,5 @@ abstract class WeightsServiceBase extends $grpc.Service {
       $grpc.ServiceCall call, $2.CountryDelta request);
   $async.Future<$0.Empty> changeCity(
       $grpc.ServiceCall call, $2.CityDelta request);
-  $async.Future<$2.Cities> result($grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$2.Cities> result($grpc.ServiceCall call, $1.Token request);
 }
