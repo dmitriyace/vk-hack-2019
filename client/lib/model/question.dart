@@ -1,5 +1,6 @@
 import 'package:client/api/search.pb.dart';
 import 'package:client/api/session.pb.dart';
+import 'package:flutter/cupertino.dart';
 
 enum QuestionType {
   YES_DC,
@@ -33,6 +34,9 @@ abstract class QuestionPayload {
   String dCOption;
   String firstOption;
   String secondOption;
+  AssetImage firstImage;
+  AssetImage secondImage;
+  AssetImage image;
   List<GridItem> gridItems;
 }
 
@@ -40,14 +44,17 @@ class YesDCQuestionPayload extends QuestionPayload {
   String title;
   String yesOption;
   String dCOption;
-  YesDCQuestionPayload(this.title, this.yesOption, this.dCOption);
+  AssetImage image;
+  YesDCQuestionPayload(this.title, this.yesOption, this.dCOption, this.image);
 }
 
 class OneOfTwoQuestionPayload extends QuestionPayload {
   String title;
   String firstOption;
+  AssetImage firstImage;
   String secondOption;
-  OneOfTwoQuestionPayload(this.title, this.firstOption, this.secondOption);
+  AssetImage secondImage;
+  OneOfTwoQuestionPayload(this.title, this.firstOption, this.firstImage, this.secondOption, this.secondImage);
 }
 
 class GridMultipleSelectPayload extends QuestionPayload {

@@ -38,7 +38,8 @@ class _GlobalParentState extends State<_GlobalParent> {
         YesDCQuestionPayload(
             'Вы хотели бы увидеть одно из Семи Чудес Света вживую?',
             'Да!',
-            'Без разницы'),
+            'Без разницы',
+        AssetImage('images/giza.jpg')),
         null,
         null,
         {
@@ -49,7 +50,7 @@ class _GlobalParentState extends State<_GlobalParent> {
         1,
         QuestionType.YES_DC,
         YesDCQuestionPayload(
-            'Как насчет искупаться в теплом море?', 'Определенно.', 'Не важно'),
+            'Как насчет искупаться в теплом море?', 'Определенно.', 'Не важно', AssetImage('images/beach.jpg')),
         null,
         {
           0: {
@@ -88,7 +89,7 @@ class _GlobalParentState extends State<_GlobalParent> {
         2,
         1,
         QuestionType.ONE_OF_TWO,
-        OneOfTwoQuestionPayload('Что выберете?', 'Пицца', 'Суши'),
+        OneOfTwoQuestionPayload('Что выберете?', 'Пицца', AssetImage('images/pizza.jpg'), 'Суши', AssetImage('images/sushi.jpg')),
         {
           0: {"NOR": 3, "EUR": 3},
           1: {"ASI": 3}
