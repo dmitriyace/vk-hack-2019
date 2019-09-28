@@ -127,7 +127,7 @@ class CityDelta extends $pb.GeneratedMessage {
 class City extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('City', package: const $pb.PackageName('internal'), createEmptyInstance: create)
     ..aOS(1, 'name')
-    ..aOS(2, 'country')
+    ..aOS(2, 'countryCode', protoName: 'countryCode')
     ..aOS(3, 'photo')
     ..hasRequiredFields = false
   ;
@@ -151,10 +151,10 @@ class City extends $pb.GeneratedMessage {
   $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
 
-  $core.String get country => $_getS(1, '');
-  set country($core.String v) { $_setString(1, v); }
-  $core.bool hasCountry() => $_has(1);
-  void clearCountry() => clearField(2);
+  $core.String get countryCode => $_getS(1, '');
+  set countryCode($core.String v) { $_setString(1, v); }
+  $core.bool hasCountryCode() => $_has(1);
+  void clearCountryCode() => clearField(2);
 
   $core.String get photo => $_getS(2, '');
   set photo($core.String v) { $_setString(2, v); }

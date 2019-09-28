@@ -70,7 +70,7 @@ const City$json = const {
   '1': 'City',
   '2': const [
     const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
-    const {'1': 'country', '3': 2, '4': 1, '5': 9, '10': 'country'},
+    const {'1': 'countryCode', '3': 2, '4': 1, '5': 9, '10': 'countryCode'},
     const {'1': 'photo', '3': 3, '4': 1, '5': 9, '10': 'photo'},
   ],
 };
