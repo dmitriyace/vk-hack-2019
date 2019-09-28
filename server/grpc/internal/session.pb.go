@@ -8,7 +8,6 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	empty "github.com/golang/protobuf/ptypes/empty"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -26,230 +25,6 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type Month int32
-
-const (
-	Month_JANUARY   Month = 0
-	Month_FEBRUARY  Month = 1
-	Month_MARCH     Month = 2
-	Month_APRIL     Month = 3
-	Month_MAY       Month = 4
-	Month_JUNE      Month = 5
-	Month_JULY      Month = 6
-	Month_AUGUST    Month = 7
-	Month_SEPTEMBER Month = 8
-	Month_OCTOBER   Month = 9
-	Month_NOVEMBER  Month = 10
-	Month_DECEMBER  Month = 11
-)
-
-var Month_name = map[int32]string{
-	0:  "JANUARY",
-	1:  "FEBRUARY",
-	2:  "MARCH",
-	3:  "APRIL",
-	4:  "MAY",
-	5:  "JUNE",
-	6:  "JULY",
-	7:  "AUGUST",
-	8:  "SEPTEMBER",
-	9:  "OCTOBER",
-	10: "NOVEMBER",
-	11: "DECEMBER",
-}
-
-var Month_value = map[string]int32{
-	"JANUARY":   0,
-	"FEBRUARY":  1,
-	"MARCH":     2,
-	"APRIL":     3,
-	"MAY":       4,
-	"JUNE":      5,
-	"JULY":      6,
-	"AUGUST":    7,
-	"SEPTEMBER": 8,
-	"OCTOBER":   9,
-	"NOVEMBER":  10,
-	"DECEMBER":  11,
-}
-
-func (x Month) String() string {
-	return proto.EnumName(Month_name, int32(x))
-}
-
-func (Month) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_3a6be1b361fa6f14, []int{0}
-}
-
-type Continent int32
-
-const (
-	Continent_EUROPE        Continent = 0
-	Continent_ASIA          Continent = 1
-	Continent_AFRICA        Continent = 2
-	Continent_NORTH_AMERICA Continent = 3
-	Continent_SOUTH_AMERICA Continent = 4
-)
-
-var Continent_name = map[int32]string{
-	0: "EUROPE",
-	1: "ASIA",
-	2: "AFRICA",
-	3: "NORTH_AMERICA",
-	4: "SOUTH_AMERICA",
-}
-
-var Continent_value = map[string]int32{
-	"EUROPE":        0,
-	"ASIA":          1,
-	"AFRICA":        2,
-	"NORTH_AMERICA": 3,
-	"SOUTH_AMERICA": 4,
-}
-
-func (x Continent) String() string {
-	return proto.EnumName(Continent_name, int32(x))
-}
-
-func (Continent) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_3a6be1b361fa6f14, []int{1}
-}
-
-type Requirements struct {
-	OriginIata           string               `protobuf:"bytes,1,opt,name=originIata,proto3" json:"originIata,omitempty"`
-	CountryCode          string               `protobuf:"bytes,2,opt,name=countryCode,proto3" json:"countryCode,omitempty"`
-	CityIata             string               `protobuf:"bytes,3,opt,name=cityIata,proto3" json:"cityIata,omitempty"`
-	Routes               []Continent          `protobuf:"varint,4,rep,packed,name=routes,proto3,enum=internal.Continent" json:"routes,omitempty"`
-	Month                Month                `protobuf:"varint,5,opt,name=month,proto3,enum=internal.Month" json:"month,omitempty"`
-	MinTemp              int32                `protobuf:"varint,6,opt,name=minTemp,proto3" json:"minTemp,omitempty"`
-	MaxTemp              int32                `protobuf:"varint,7,opt,name=maxTemp,proto3" json:"maxTemp,omitempty"`
-	StartDate            *timestamp.Timestamp `protobuf:"bytes,8,opt,name=startDate,proto3" json:"startDate,omitempty"`
-	EndDate              *timestamp.Timestamp `protobuf:"bytes,9,opt,name=endDate,proto3" json:"endDate,omitempty"`
-	Duration             uint32               `protobuf:"varint,10,opt,name=duration,proto3" json:"duration,omitempty"`
-	Adults               uint32               `protobuf:"varint,11,opt,name=adults,proto3" json:"adults,omitempty"`
-	Children             uint32               `protobuf:"varint,12,opt,name=children,proto3" json:"children,omitempty"`
-	Budget               uint32               `protobuf:"varint,13,opt,name=budget,proto3" json:"budget,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
-	XXX_unrecognized     []byte               `json:"-"`
-	XXX_sizecache        int32                `json:"-"`
-}
-
-func (m *Requirements) Reset()         { *m = Requirements{} }
-func (m *Requirements) String() string { return proto.CompactTextString(m) }
-func (*Requirements) ProtoMessage()    {}
-func (*Requirements) Descriptor() ([]byte, []int) {
-	return fileDescriptor_3a6be1b361fa6f14, []int{0}
-}
-
-func (m *Requirements) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Requirements.Unmarshal(m, b)
-}
-func (m *Requirements) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Requirements.Marshal(b, m, deterministic)
-}
-func (m *Requirements) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Requirements.Merge(m, src)
-}
-func (m *Requirements) XXX_Size() int {
-	return xxx_messageInfo_Requirements.Size(m)
-}
-func (m *Requirements) XXX_DiscardUnknown() {
-	xxx_messageInfo_Requirements.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Requirements proto.InternalMessageInfo
-
-func (m *Requirements) GetOriginIata() string {
-	if m != nil {
-		return m.OriginIata
-	}
-	return ""
-}
-
-func (m *Requirements) GetCountryCode() string {
-	if m != nil {
-		return m.CountryCode
-	}
-	return ""
-}
-
-func (m *Requirements) GetCityIata() string {
-	if m != nil {
-		return m.CityIata
-	}
-	return ""
-}
-
-func (m *Requirements) GetRoutes() []Continent {
-	if m != nil {
-		return m.Routes
-	}
-	return nil
-}
-
-func (m *Requirements) GetMonth() Month {
-	if m != nil {
-		return m.Month
-	}
-	return Month_JANUARY
-}
-
-func (m *Requirements) GetMinTemp() int32 {
-	if m != nil {
-		return m.MinTemp
-	}
-	return 0
-}
-
-func (m *Requirements) GetMaxTemp() int32 {
-	if m != nil {
-		return m.MaxTemp
-	}
-	return 0
-}
-
-func (m *Requirements) GetStartDate() *timestamp.Timestamp {
-	if m != nil {
-		return m.StartDate
-	}
-	return nil
-}
-
-func (m *Requirements) GetEndDate() *timestamp.Timestamp {
-	if m != nil {
-		return m.EndDate
-	}
-	return nil
-}
-
-func (m *Requirements) GetDuration() uint32 {
-	if m != nil {
-		return m.Duration
-	}
-	return 0
-}
-
-func (m *Requirements) GetAdults() uint32 {
-	if m != nil {
-		return m.Adults
-	}
-	return 0
-}
-
-func (m *Requirements) GetChildren() uint32 {
-	if m != nil {
-		return m.Children
-	}
-	return 0
-}
-
-func (m *Requirements) GetBudget() uint32 {
-	if m != nil {
-		return m.Budget
-	}
-	return 0
-}
-
 type Token struct {
 	Value                string   `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -261,7 +36,7 @@ func (m *Token) Reset()         { *m = Token{} }
 func (m *Token) String() string { return proto.CompactTextString(m) }
 func (*Token) ProtoMessage()    {}
 func (*Token) Descriptor() ([]byte, []int) {
-	return fileDescriptor_3a6be1b361fa6f14, []int{1}
+	return fileDescriptor_3a6be1b361fa6f14, []int{0}
 }
 
 func (m *Token) XXX_Unmarshal(b []byte) error {
@@ -290,52 +65,23 @@ func (m *Token) GetValue() string {
 }
 
 func init() {
-	proto.RegisterEnum("internal.Month", Month_name, Month_value)
-	proto.RegisterEnum("internal.Continent", Continent_name, Continent_value)
-	proto.RegisterType((*Requirements)(nil), "internal.Requirements")
 	proto.RegisterType((*Token)(nil), "internal.Token")
 }
 
 func init() { proto.RegisterFile("session.proto", fileDescriptor_3a6be1b361fa6f14) }
 
 var fileDescriptor_3a6be1b361fa6f14 = []byte{
-	// 562 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x53, 0x6f, 0x6f, 0x93, 0x40,
-	0x18, 0x1f, 0x6b, 0x29, 0xe5, 0xe9, 0x3a, 0xf1, 0x34, 0x0b, 0xa9, 0x51, 0xc9, 0x12, 0x13, 0x32,
-	0x13, 0x66, 0xaa, 0x2f, 0x7c, 0xcb, 0x18, 0x73, 0x5d, 0xd6, 0xb2, 0x1c, 0x60, 0x32, 0xdf, 0x18,
-	0x36, 0xce, 0x8e, 0x08, 0x77, 0x15, 0x0e, 0xe3, 0x3e, 0x8a, 0xdf, 0xc9, 0x0f, 0x65, 0xee, 0xae,
-	0x74, 0xcd, 0x7c, 0xe1, 0xbb, 0xfb, 0xfd, 0xe3, 0x09, 0xbf, 0x7b, 0x0e, 0xc6, 0x0d, 0x69, 0x9a,
-	0x82, 0x51, 0x6f, 0x55, 0x33, 0xce, 0xd0, 0xb0, 0xa0, 0x9c, 0xd4, 0x34, 0x2b, 0x27, 0xaf, 0x97,
-	0x8c, 0x2d, 0x4b, 0x72, 0x2c, 0xf9, 0x9b, 0xf6, 0xdb, 0x31, 0x2f, 0x2a, 0xd2, 0xf0, 0xac, 0x5a,
-	0x29, 0xeb, 0xe4, 0xc5, 0x63, 0x03, 0xa9, 0x56, 0xfc, 0x5e, 0x89, 0x87, 0x7f, 0x7a, 0xb0, 0x87,
-	0xc9, 0x8f, 0xb6, 0xa8, 0x49, 0x45, 0x28, 0x6f, 0xd0, 0x2b, 0x00, 0x56, 0x17, 0xcb, 0x82, 0xce,
-	0x32, 0x9e, 0xd9, 0x9a, 0xa3, 0xb9, 0x26, 0xde, 0x62, 0x90, 0x03, 0xa3, 0x5b, 0xd6, 0x52, 0x5e,
-	0xdf, 0x07, 0x2c, 0x27, 0xf6, 0xae, 0x34, 0x6c, 0x53, 0x68, 0x02, 0xc3, 0xdb, 0x82, 0xdf, 0xcb,
-	0x7c, 0x4f, 0xca, 0x1b, 0x8c, 0xde, 0xc2, 0xa0, 0x66, 0x2d, 0x27, 0x8d, 0xdd, 0x77, 0x7a, 0xee,
-	0xfe, 0xf4, 0x99, 0xd7, 0xfd, 0x87, 0x17, 0x30, 0xca, 0x0b, 0x4a, 0x28, 0xc7, 0x6b, 0x0b, 0x7a,
-	0x03, 0x7a, 0xc5, 0x28, 0xbf, 0xb3, 0x75, 0x47, 0x73, 0xf7, 0xa7, 0x4f, 0x1e, 0xbc, 0x73, 0x41,
-	0x63, 0xa5, 0x22, 0x1b, 0x8c, 0xaa, 0xa0, 0x09, 0xa9, 0x56, 0xf6, 0xc0, 0xd1, 0x5c, 0x1d, 0x77,
-	0x50, 0x2a, 0xd9, 0x2f, 0xa9, 0x18, 0x6b, 0x45, 0x41, 0xf4, 0x11, 0xcc, 0x86, 0x67, 0x35, 0x3f,
-	0xcd, 0x38, 0xb1, 0x87, 0x8e, 0xe6, 0x8e, 0xa6, 0x13, 0x4f, 0xf5, 0xe4, 0x75, 0x3d, 0x79, 0x49,
-	0x57, 0x24, 0x7e, 0x30, 0xa3, 0x0f, 0x60, 0x10, 0x9a, 0xcb, 0x9c, 0xf9, 0xdf, 0x5c, 0x67, 0x15,
-	0x9d, 0xe4, 0x6d, 0x9d, 0xf1, 0x82, 0x51, 0x1b, 0x1c, 0xcd, 0x1d, 0xe3, 0x0d, 0x46, 0x07, 0x30,
-	0xc8, 0xf2, 0xb6, 0xe4, 0x8d, 0x3d, 0x92, 0xca, 0x1a, 0xc9, 0x1e, 0xef, 0x8a, 0x32, 0xaf, 0x09,
-	0xb5, 0xf7, 0x54, 0xa6, 0xc3, 0x22, 0x73, 0xd3, 0xe6, 0x4b, 0xc2, 0xed, 0xb1, 0xca, 0x28, 0x74,
-	0xf8, 0x12, 0xf4, 0x84, 0x7d, 0x27, 0x14, 0x3d, 0x07, 0xfd, 0x67, 0x56, 0xb6, 0x64, 0x7d, 0x83,
-	0x0a, 0x1c, 0xfd, 0xd6, 0x40, 0x97, 0xdd, 0xa1, 0x11, 0x18, 0x17, 0xfe, 0x22, 0xf5, 0xf1, 0xb5,
-	0xb5, 0x83, 0xf6, 0x60, 0x78, 0x16, 0x9e, 0x60, 0x89, 0x34, 0x64, 0x82, 0x3e, 0xf7, 0x71, 0x70,
-	0x6e, 0xed, 0x8a, 0xa3, 0x7f, 0x85, 0x67, 0x97, 0x56, 0x0f, 0x19, 0xd0, 0x9b, 0xfb, 0xd7, 0x56,
-	0x1f, 0x0d, 0xa1, 0x7f, 0x91, 0x2e, 0x42, 0x4b, 0x57, 0xa7, 0xcb, 0x6b, 0x6b, 0x80, 0x00, 0x06,
-	0x7e, 0xfa, 0x29, 0x8d, 0x13, 0xcb, 0x40, 0x63, 0x30, 0xe3, 0xf0, 0x2a, 0x09, 0xe7, 0x27, 0x21,
-	0xb6, 0x86, 0x62, 0x50, 0x14, 0x24, 0x91, 0x00, 0xa6, 0x18, 0xb4, 0x88, 0x3e, 0x2b, 0x09, 0x04,
-	0x3a, 0x0d, 0x03, 0x85, 0x46, 0x47, 0x31, 0x98, 0x9b, 0x15, 0x10, 0x1f, 0x0c, 0x53, 0x1c, 0x5d,
-	0x85, 0xd6, 0x8e, 0x18, 0xe3, 0xc7, 0x33, 0xdf, 0xd2, 0xe4, 0x98, 0x33, 0x3c, 0x0b, 0x7c, 0x6b,
-	0x17, 0x3d, 0x85, 0xf1, 0x22, 0xc2, 0xc9, 0xf9, 0x57, 0x7f, 0x1e, 0x4a, 0xaa, 0x27, 0xa8, 0x38,
-	0x4a, 0xb7, 0xa8, 0xfe, 0xb4, 0x04, 0x23, 0x56, 0xef, 0x06, 0x1d, 0x43, 0x3f, 0x5a, 0x89, 0xea,
-	0x1e, 0xd6, 0x68, 0x7b, 0xf1, 0x27, 0x5b, 0xeb, 0xa5, 0x2a, 0x7c, 0x07, 0x7a, 0x50, 0xb2, 0x86,
-	0xa0, 0xc7, 0xca, 0xe4, 0xe0, 0x9f, 0x2b, 0x0f, 0xc5, 0x93, 0x3a, 0x81, 0x2f, 0x9b, 0x67, 0x79,
-	0x33, 0x90, 0xda, 0xfb, 0xbf, 0x01, 0x00, 0x00, 0xff, 0xff, 0x77, 0x85, 0x64, 0x0b, 0xb8, 0x03,
-	0x00, 0x00,
+	// 153 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x2d, 0x4e, 0x2d, 0x2e,
+	0xce, 0xcc, 0xcf, 0xd3, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2, 0xc8, 0xcc, 0x2b, 0x49, 0x2d,
+	0xca, 0x4b, 0xcc, 0x91, 0x92, 0x4e, 0xcf, 0xcf, 0x4f, 0xcf, 0x49, 0xd5, 0x07, 0x8b, 0x27, 0x95,
+	0xa6, 0xe9, 0xa7, 0xe6, 0x16, 0x94, 0x54, 0x42, 0x94, 0x29, 0xc9, 0x72, 0xb1, 0x86, 0xe4, 0x67,
+	0xa7, 0xe6, 0x09, 0x89, 0x70, 0xb1, 0x96, 0x25, 0xe6, 0x94, 0xa6, 0x4a, 0x30, 0x2a, 0x30, 0x6a,
+	0x70, 0x06, 0x41, 0x38, 0x46, 0x39, 0x5c, 0xec, 0xc1, 0x10, 0x63, 0x85, 0xf4, 0xb9, 0x58, 0xfc,
+	0x0b, 0x52, 0xf3, 0x84, 0xc4, 0xf4, 0x20, 0xe6, 0xe9, 0xc1, 0xcc, 0xd3, 0x73, 0x05, 0x99, 0x27,
+	0xc5, 0xaf, 0x07, 0xb3, 0x51, 0x0f, 0x62, 0xa2, 0x01, 0x17, 0xab, 0x73, 0x4e, 0x7e, 0x71, 0xaa,
+	0x10, 0xba, 0x8c, 0x14, 0x0e, 0x23, 0x92, 0xd8, 0xc0, 0x7c, 0x63, 0x40, 0x00, 0x00, 0x00, 0xff,
+	0xff, 0xd4, 0x04, 0xf2, 0xd5, 0xcb, 0x00, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -350,7 +96,7 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type SessionClient interface {
-	Open(ctx context.Context, in *Requirements, opts ...grpc.CallOption) (*Token, error)
+	Open(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*Token, error)
 	Close(ctx context.Context, in *Token, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
@@ -362,7 +108,7 @@ func NewSessionClient(cc *grpc.ClientConn) SessionClient {
 	return &sessionClient{cc}
 }
 
-func (c *sessionClient) Open(ctx context.Context, in *Requirements, opts ...grpc.CallOption) (*Token, error) {
+func (c *sessionClient) Open(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*Token, error) {
 	out := new(Token)
 	err := c.cc.Invoke(ctx, "/internal.Session/Open", in, out, opts...)
 	if err != nil {
@@ -382,7 +128,7 @@ func (c *sessionClient) Close(ctx context.Context, in *Token, opts ...grpc.CallO
 
 // SessionServer is the server API for Session service.
 type SessionServer interface {
-	Open(context.Context, *Requirements) (*Token, error)
+	Open(context.Context, *empty.Empty) (*Token, error)
 	Close(context.Context, *Token) (*empty.Empty, error)
 }
 
@@ -390,7 +136,7 @@ type SessionServer interface {
 type UnimplementedSessionServer struct {
 }
 
-func (*UnimplementedSessionServer) Open(ctx context.Context, req *Requirements) (*Token, error) {
+func (*UnimplementedSessionServer) Open(ctx context.Context, req *empty.Empty) (*Token, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Open not implemented")
 }
 func (*UnimplementedSessionServer) Close(ctx context.Context, req *Token) (*empty.Empty, error) {
@@ -402,7 +148,7 @@ func RegisterSessionServer(s *grpc.Server, srv SessionServer) {
 }
 
 func _Session_Open_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Requirements)
+	in := new(empty.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -414,7 +160,7 @@ func _Session_Open_Handler(srv interface{}, ctx context.Context, dec func(interf
 		FullMethod: "/internal.Session/Open",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SessionServer).Open(ctx, req.(*Requirements))
+		return srv.(SessionServer).Open(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
