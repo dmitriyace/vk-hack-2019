@@ -6,14 +6,6 @@ import "google/protobuf/empty.proto";
 
 import "session.proto";
 
-enum Continent {
-    EUROPE = 0;
-    ASIA = 1;
-    AFRICA = 2;
-    NORTH_AMERICA = 3;
-    SOUTH_AMERICA = 4;
-    OCEANIA = 5;
-}
 
 message Delta {
     int32 value = 1; 
@@ -34,8 +26,17 @@ message CityDelta {
     map<string, Delta> targets = 2; 
 }
 
+message City {
+    string name = 1;
+}
+
+message Cities {
+    repeated City values = 1;
+}
+
 service Weights {
-    rpc ChangeContinet(ContinentDelta) returns (google.protobuf.Empty);
+    rpc ChangeContinent(ContinentDelta) returns (google.protobuf.Empty);
     rpc ChangeCountry(CountryDelta) returns (google.protobuf.Empty);
     rpc ChangeCity(CityDelta) returns (google.protobuf.Empty);
+    rpc Result(google.protobuf.Empty) returns (Cities);
 }

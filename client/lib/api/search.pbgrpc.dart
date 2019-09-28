@@ -15,9 +15,9 @@ import 'google/protobuf/empty.pb.dart' as $0;
 export 'search.pb.dart';
 
 class WeightsClient extends $grpc.Client {
-  static final _$changeContinet =
+  static final _$changeContinent =
       $grpc.ClientMethod<$2.ContinentDelta, $0.Empty>(
-          '/internal.Weights/ChangeContinet',
+          '/internal.Weights/ChangeContinent',
           ($2.ContinentDelta value) => value.writeToBuffer(),
           ($core.List<$core.int> value) => $0.Empty.fromBuffer(value));
   static final _$changeCountry = $grpc.ClientMethod<$2.CountryDelta, $0.Empty>(
@@ -28,14 +28,18 @@ class WeightsClient extends $grpc.Client {
       '/internal.Weights/ChangeCity',
       ($2.CityDelta value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.Empty.fromBuffer(value));
+  static final _$result = $grpc.ClientMethod<$0.Empty, $2.Cities>(
+      '/internal.Weights/Result',
+      ($0.Empty value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $2.Cities.fromBuffer(value));
 
   WeightsClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
 
-  $grpc.ResponseFuture<$0.Empty> changeContinet($2.ContinentDelta request,
+  $grpc.ResponseFuture<$0.Empty> changeContinent($2.ContinentDelta request,
       {$grpc.CallOptions options}) {
     final call = $createCall(
-        _$changeContinet, $async.Stream.fromIterable([request]),
+        _$changeContinent, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
@@ -55,6 +59,13 @@ class WeightsClient extends $grpc.Client {
         options: options);
     return $grpc.ResponseFuture(call);
   }
+
+  $grpc.ResponseFuture<$2.Cities> result($0.Empty request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(_$result, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
 }
 
 abstract class WeightsServiceBase extends $grpc.Service {
@@ -62,8 +73,8 @@ abstract class WeightsServiceBase extends $grpc.Service {
 
   WeightsServiceBase() {
     $addMethod($grpc.ServiceMethod<$2.ContinentDelta, $0.Empty>(
-        'ChangeContinet',
-        changeContinet_Pre,
+        'ChangeContinent',
+        changeContinent_Pre,
         false,
         false,
         ($core.List<$core.int> value) => $2.ContinentDelta.fromBuffer(value),
@@ -82,11 +93,18 @@ abstract class WeightsServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $2.CityDelta.fromBuffer(value),
         ($0.Empty value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Empty, $2.Cities>(
+        'Result',
+        result_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($2.Cities value) => value.writeToBuffer()));
   }
 
-  $async.Future<$0.Empty> changeContinet_Pre(
+  $async.Future<$0.Empty> changeContinent_Pre(
       $grpc.ServiceCall call, $async.Future<$2.ContinentDelta> request) async {
-    return changeContinet(call, await request);
+    return changeContinent(call, await request);
   }
 
   $async.Future<$0.Empty> changeCountry_Pre(
@@ -99,10 +117,16 @@ abstract class WeightsServiceBase extends $grpc.Service {
     return changeCity(call, await request);
   }
 
-  $async.Future<$0.Empty> changeContinet(
+  $async.Future<$2.Cities> result_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+    return result(call, await request);
+  }
+
+  $async.Future<$0.Empty> changeContinent(
       $grpc.ServiceCall call, $2.ContinentDelta request);
   $async.Future<$0.Empty> changeCountry(
       $grpc.ServiceCall call, $2.CountryDelta request);
   $async.Future<$0.Empty> changeCity(
       $grpc.ServiceCall call, $2.CityDelta request);
+  $async.Future<$2.Cities> result($grpc.ServiceCall call, $0.Empty request);
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:client/model/question.dart';
 import 'package:client/pages/sering/sering_page.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +10,7 @@ class HomePage extends StatelessWidget {
 
   final ClientChannel channel;
   final List<Question> questions;
+  static int firstQuestion;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,9 @@ class HomePage extends StatelessWidget {
                   : Container(),*/
               RaisedButton(onPressed: () {
                 Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => SeringPage(questions: questions, channel: channel)
+                    builder: (context) {
+                      HomePage.firstQuestion = new Random().nextInt(7);
+                      return SeringPage(questions: questions, channel: channel);}
                 ));
               }, child: Text('Начать'))
             ],

@@ -2,10 +2,15 @@ package grpc
 
 import (
 	"context"
+	it "github.com/N1cOs/vkhack2019/server/grpc/internal"
 	"google.golang.org/grpc"
 	"log"
 	"net"
 	"time"
+)
+
+const (
+	urlCities = "http://api.travelpayouts.com/data/ru/cities.json"
 )
 
 type Server struct {
@@ -23,7 +28,7 @@ func (s *Server) Serve(address string) error {
 	defer listener.Close()
 
 	server := grpc.NewServer(grpc.UnaryInterceptor(logInterceptor))
-
+	it.RegisterSessionServer(server, s)
 	return server.Serve(listener)
 }
 
