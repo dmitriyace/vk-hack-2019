@@ -71,13 +71,13 @@ class _GridMultipleSelectQuestionState
         RaisedButton(
           child: Text('Назад'),
           onPressed: () {
-            widget.selectQuestionById(0, false);
+            widget.selectQuestionById(0);
           },
         ),
         RaisedButton(
           child: Text('Скип'),
           onPressed: () {
-            widget.selectQuestionById(widget.getNextQuestionId(), true);
+            widget.selectQuestionById(widget.getNextQuestionId());
           },
         ),
         RaisedButton(
@@ -118,7 +118,7 @@ class _GridMultipleSelectQuestionState
                 }
               }
             });
-            widget.selectQuestionById(widget.getNextQuestionId(), true);
+            widget.selectQuestionById(widget.getNextQuestionId());
           },
         ),
       ],

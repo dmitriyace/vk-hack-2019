@@ -33,47 +33,60 @@ class YesDCQuestion extends StatefulWidget implements QuestWidget {
   void skip() {
     _YesDCQuestionState.model = false;
     var id = this.getNextQuestionId();
-    if (id == null) this.finish();
-    else this.selectQuestionById(id, true);
+    if (id == null)
+      this.finish();
+    else
+      this.selectQuestionById(id);
   }
 
   @override
   void forward() async {
-    var client = WeightsClient(this.channel);
-    if (this.question.continentWeights != null) {
-      var delta = ContinentDelta();
-      delta.token = HomePage.token;
-      this.question.continentWeights[0].forEach((k, v) {
-        var d = Delta.create();
-        d.value = v;
-        delta.targets[k] = d;
-      });
-      await client.changeContinent(delta);
+    if (_YesDCQuestionState.model) {
+      var client = WeightsClient(this.channel);
+      if (this.question.continentWeights != null) {
+        var delta = ContinentDelta();
+        delta.token = HomePage.token;
+        this.question.continentWeights[0].forEach((k, v) {
+          var d = Delta.create();
+          d.value = v;
+          delta.targets[k] = d;
+        });
+        await client.changeContinent(delta);
+      }
+      if (this.question.countryWeights != null) {
+        var delta = CountryDelta();
+        delta.token = HomePage.token;
+        this.question.countryWeights[0].forEach((k, v) {
+          var d = Delta.create();
+          d.value = v;
+          delta.targets[k] = d;
+        });
+        await client.changeCountry(delta);
+      }
+      if (this.question.cityWeights != null) {
+        var delta = CityDelta();
+        delta.token = HomePage.token;
+        this.question.cityWeights[0].forEach((k, v) {
+          var d = Delta.create();
+          d.value = v;
+          delta.targets[k] = d;
+        });
+        await client.changeCity(delta);
+      }
+      var id = this.getNextQuestionId();
+      if (id == null)
+        this.finish();
+      else
+        this.selectQuestionById(id);
+      _YesDCQuestionState.model = false;
+    } else {
+      _YesDCQuestionState.model = false;
+      var id = this.getNextQuestionId();
+      if (id == null)
+        this.finish();
+      else
+        this.selectQuestionById(id);
     }
-    if (this.question.countryWeights != null) {
-      var delta = CountryDelta();
-      delta.token = HomePage.token;
-      this.question.countryWeights[0].forEach((k, v) {
-        var d = Delta.create();
-        d.value = v;
-        delta.targets[k] = d;
-      });
-      await client.changeCountry(delta);
-    }
-    if (this.question.cityWeights != null) {
-      var delta = CityDelta();
-      delta.token = HomePage.token;
-      this.question.cityWeights[0].forEach((k, v) {
-        var d = Delta.create();
-        d.value = v;
-        delta.targets[k] = d;
-      });
-      await client.changeCity(delta);
-    }
-    var id = this.getNextQuestionId();
-    if (id == null) this.finish();
-      else this.selectQuestionById(id, true);
-    _YesDCQuestionState.model = false;
   }
 }
 

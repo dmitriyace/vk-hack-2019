@@ -27,41 +27,53 @@ class OneOfTwoQuestion extends StatefulWidget implements QuestWidget {
   _OneOfTwoQuestionState createState() => _OneOfTwoQuestionState();
 
   void forward() async {
-    var client = WeightsClient(this.channel);
-    if (this.question.continentWeights != null) {
-      var delta = ContinentDelta();
-      delta.token = HomePage.token;
-      this.question.continentWeights[_OneOfTwoQuestionState.model-1].forEach((k, v) {
-        var d = Delta.create();
-        d.value = v;
-        delta.targets[k] = d;
-      });
-      await client.changeContinent(delta);
+    if (_OneOfTwoQuestionState.model == 0) {
+      _OneOfTwoQuestionState.model = 0;
+      var id = this.getNextQuestionId();
+      if (id == null) this.finish();
+      else this.selectQuestionById(id);
+    } else {
+      var client = WeightsClient(this.channel);
+      if (this.question.continentWeights != null) {
+        var delta = ContinentDelta();
+        delta.token = HomePage.token;
+        this.question.continentWeights[_OneOfTwoQuestionState.model - 1]
+            .forEach((k, v) {
+          var d = Delta.create();
+          d.value = v;
+          delta.targets[k] = d;
+        });
+        await client.changeContinent(delta);
+      }
+      if (this.question.countryWeights != null) {
+        var delta = CountryDelta();
+        delta.token = HomePage.token;
+        this.question.countryWeights[_OneOfTwoQuestionState.model - 1].forEach((
+            k, v) {
+          var d = Delta.create();
+          d.value = v;
+          delta.targets[k] = d;
+        });
+        await client.changeCountry(delta);
+      }
+      if (this.question.cityWeights != null) {
+        var delta = CityDelta();
+        delta.token = HomePage.token;
+        this.question.cityWeights[_OneOfTwoQuestionState.model - 1].forEach((k,
+            v) {
+          var d = Delta.create();
+          d.value = v;
+          delta.targets[k] = d;
+        });
+        await client.changeCity(delta);
+      }
+      _OneOfTwoQuestionState.model = 0;
+      var id = this.getNextQuestionId();
+      if (id == null)
+        this.finish();
+      else
+        this.selectQuestionById(id, true);
     }
-    if (this.question.countryWeights != null) {
-      var delta = CountryDelta();
-      delta.token = HomePage.token;
-      this.question.countryWeights[_OneOfTwoQuestionState.model-1].forEach((k, v) {
-        var d = Delta.create();
-        d.value = v;
-        delta.targets[k] = d;
-      });
-      await client.changeCountry(delta);
-    }
-    if (this.question.cityWeights != null) {
-      var delta = CityDelta();
-      delta.token = HomePage.token;
-      this.question.cityWeights[_OneOfTwoQuestionState.model-1].forEach((k, v) {
-        var d = Delta.create();
-        d.value = v;
-        delta.targets[k] = d;
-      });
-      await client.changeCity(delta);
-    }
-    _OneOfTwoQuestionState.model = 0;
-    var id = this.getNextQuestionId();
-    if (id == null) this.finish();
-    else this.selectQuestionById(id, true);
   }
 
   void done() {
@@ -73,7 +85,7 @@ class OneOfTwoQuestion extends StatefulWidget implements QuestWidget {
     _OneOfTwoQuestionState.model = 0;
     var id = this.getNextQuestionId();
     if (id == null) this.finish();
-    else this.selectQuestionById(id, true);
+    else this.selectQuestionById(id);
   }
 }
 
