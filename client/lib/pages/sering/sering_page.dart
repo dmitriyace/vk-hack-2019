@@ -13,13 +13,14 @@ class SeringPage extends StatefulWidget {
   SeringPage({Key key, this.questions, this.channel}) : super(key: key);
   final List<Question> questions;
   final ClientChannel channel;
+  static final int firstQuestion = new Random().nextInt(7);
 
   _SeringPageState createState() => _SeringPageState();
 }
 
 class _SeringPageState extends State<SeringPage> {
-  List<int> history = [0];
-  int currentQuestionId = 0;
+  List<int> history = [SeringPage.firstQuestion];
+  int currentQuestionId = SeringPage.firstQuestion;
 
   void selectQuestionById(int id, bool forward) {
     setState(() {

@@ -33,9 +33,11 @@ class _GlobalParentState extends State<_GlobalParent> {
             'Да!',
             'Без разницы'),
         null,
-        null,
         {
-          0: {"CAI": 10}
+          0: {"EG": 3}
+        },
+        {
+          0: {"CAI": 7}
         }),
     Question(
         1,
@@ -61,20 +63,20 @@ class _GlobalParentState extends State<_GlobalParent> {
         },
         {
           0: {
-            "LAS": 10,
-            "RIO": 10,
-            "BCN": 10,
-            "NCE": 10,
-            "MRS": 10,
-            "HER": 10,
-            "CAS": 10,
-            "TUN": 10,
-            "HRG": 10,
-            "SSH": 10,
-            "AYT": 10,
-            "OSA": 10,
-            "BKK": 10,
-            "HKT": 10
+            "LAS": 5,
+            "RIO": 5,
+            "BCN": 5,
+            "NCE": 5,
+            "MRS": 5,
+            "HER": 5,
+            "CAS": 5,
+            "TUN": 5,
+            "HRG": 5,
+            "SSH": 5,
+            "AYT": 5,
+            "OSA": 5,
+            "BKK": 5,
+            "HKT": 5
           }
         }),
     Question(
