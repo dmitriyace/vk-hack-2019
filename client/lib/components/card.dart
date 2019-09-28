@@ -6,6 +6,7 @@ class SwipableCard extends StatelessWidget {
   SwipableCard(this.question);
 
 
+
   @override
   Widget build(BuildContext context) {
     return new Card(
