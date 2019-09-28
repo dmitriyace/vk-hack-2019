@@ -73,6 +73,7 @@ class _SeringPageState extends State<SeringPage> {
       case QuestionType.ONE_OF_TWO:
         return OneOfTwoQuestion(
             question: getCurrentQuestion(),
+            prevQuestion: widget.questions.firstWhere((el) => this.history.length > 1 ? el.id == this.history[this.history.length - 2] : false, orElse: (){}),
             selectQuestionById: selectQuestionById,
             getNextQuestionId: getNextQuestionId,
             finish: finish,
