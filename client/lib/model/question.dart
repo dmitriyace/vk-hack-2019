@@ -4,7 +4,7 @@ import 'package:client/api/session.pb.dart';
 enum QuestionType {
   YES_DC,
   ONE_OF_TWO,
-  MULTIPLE_SELECT
+  GRID_MULTIPLE_SELECT
 }
 
 class Question {
@@ -33,6 +33,7 @@ abstract class QuestionPayload {
   String dCOption;
   String firstOption;
   String secondOption;
+  List<GridItem> gridItems;
 }
 
 class YesDCQuestionPayload extends QuestionPayload {
@@ -47,6 +48,18 @@ class OneOfTwoQuestionPayload extends QuestionPayload {
   String firstOption;
   String secondOption;
   OneOfTwoQuestionPayload(this.title, this.firstOption, this.secondOption);
+}
+
+class GridMultipleSelectPayload extends QuestionPayload {
+  String title;
+  List<GridItem> gridItems;
+  GridMultipleSelectPayload(this.title, this.gridItems);
+}
+
+class GridItem {
+  String text;
+  String img;
+  GridItem(this.text, this.img);
 }
 
 class MultipleSelectQuestionPayload extends QuestionPayload {

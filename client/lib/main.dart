@@ -87,8 +87,12 @@ class _GlobalParentState extends State<_GlobalParent> {
         {0: {"NOR": 3, "EUR": 3}, 1: {"ASI": 3}},
         {0: {"IT": 5}, 1: {"JP": 5}},
         null),
-    Question(3, 1, QuestionType.YES_DC,
-        YesDCQuestionPayload('4 вопрос', 'Да', 'Хз'), null, null, null),
+    Question(3, 1, QuestionType.GRID_MULTIPLE_SELECT,
+        GridMultipleSelectPayload('Что вам по душе?', [
+          GridItem('Пляжный отдых', null),
+          GridItem('Культурный туризм', null),
+          GridItem('Гастрономический туризм', null)
+        ]), null, null, null),
     Question(4, 1, QuestionType.YES_DC,
         YesDCQuestionPayload('5 вопрос', 'Да', 'Хз'), null, null, null),
     Question(5, 1, QuestionType.YES_DC,
