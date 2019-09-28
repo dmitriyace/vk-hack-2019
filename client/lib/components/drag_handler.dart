@@ -246,12 +246,16 @@ class _DragHandlerState extends State<DragHandler>
           setState(() {
             slideOutDirection = SlideDirection.left;
             print('left');
-            widget.card.forward();
+            new Future.delayed(const Duration(milliseconds: 150), () {
+              widget.card.forward();
+            });
         });
         } else setState(() {
-          slideOutDirection =   SlideDirection.right;
+          slideOutDirection =  SlideDirection.right;
           print('right');
-          widget.card.back();
+          new Future.delayed(const Duration(milliseconds: 150), () {
+            widget.card.back();
+          });
         });{
         }
       } else if (isInTopRegion || isInBottomRegion) {
@@ -263,14 +267,14 @@ class _DragHandlerState extends State<DragHandler>
           setState(() {
             slideOutDirection = SlideDirection.down;
             print('down');
-            // poshel v zheppu
-            widget.card.skip();
+            new Future.delayed(const Duration(milliseconds: 150), () {
+              widget.card.skip();
+            });
           });
 
         } else setState(() {
           slideOutDirection = SlideDirection.up;
           print('up');
-          // prishel v zheppu
           widget.card.done();
         });
       } else {
@@ -279,7 +283,7 @@ class _DragHandlerState extends State<DragHandler>
         slideBackAnimation.forward(from: 0.0);
       }
 
-      new Future.delayed(const Duration(milliseconds: 300), () {
+      new Future.delayed(const Duration(milliseconds: 150), () {
         slideBackStart = cardOffset;
         slideBackAnimation.forward(from: 0.0);
       });
