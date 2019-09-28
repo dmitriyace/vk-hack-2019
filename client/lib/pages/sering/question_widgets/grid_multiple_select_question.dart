@@ -39,18 +39,19 @@ class _GridMultipleSelectQuestionState
           },
         ),
         Text(widget.question.payload.title),
-        SizedBox(
-          width: 300,
+        Expanded(
           child: GridView.count(
+            primary: false,
+            padding: const EdgeInsets.all(20),
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
             crossAxisCount: 2,
             children: List.generate(widget.question.payload.gridItems.length,
                 (index) {
-              return Center(
-                child: Container(
+              return Container(
                   padding: const EdgeInsets.all(8),
                   child: Text(widget.question.payload.gridItems[index].text),
                   color: Colors.teal[100],
-                ),
               );
             }),
           ),

@@ -44,7 +44,7 @@ class _SeringPageState extends State<SeringPage> {
     var questions = this.widget.questions.where((el) => this.history.firstWhere((elem) => elem == el.id, orElse: (){}) == null);
     final _random = new Random();
 
-    return questions.toList()[_random.nextInt(questions.length)].id;
+    return questions.length > 0 ? questions.toList()[_random.nextInt(questions.length)].id : 0;
   }
 
   void finish() async {
