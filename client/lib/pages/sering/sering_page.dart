@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:client/api/search.pbgrpc.dart';
 import 'package:client/api/session.pb.dart';
 import 'package:client/model/question.dart';
 import 'package:client/pages/home_page.dart';
@@ -48,9 +49,14 @@ class _SeringPageState extends State<SeringPage> {
   }
 
   void finish() async {
-    //List<String> results = await
+    var client = WeightsClient(widget.channel);
+    var resultRequest = ResultRequest();
+    resultRequest.token = HomePage.token;
+    resultRequest.pageSize = 5;
+    resultRequest.offset = 0;
+    Cities results = await client.result(resultRequest);
     Navigator.push(context, MaterialPageRoute(
-        builder: (context) => ResultPage()
+        builder: (context) => ResultPage(results: results)
     ));
   }
 
@@ -59,6 +65,7 @@ class _SeringPageState extends State<SeringPage> {
       case QuestionType.YES_DC:
         return YesDCQuestion(
             question: getCurrentQuestion(),
+            prevQuestion: widget.questions.firstWhere((el) => this.history.length > 1 ? el.id == this.history[this.history.length - 2] : false, orElse: (){}),
             selectQuestionById: selectQuestionById,
             getNextQuestionId: getNextQuestionId,
             finish: finish,

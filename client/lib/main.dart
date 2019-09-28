@@ -1,3 +1,4 @@
+import 'package:client/api/session.pbgrpc.dart';
 import 'package:client/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
@@ -19,9 +20,15 @@ class _GlobalParent extends StatefulWidget {
 }
 
 class _GlobalParentState extends State<_GlobalParent> {
-  static var _channel = ClientChannel('192.168.43.95',
+  static var _channel = ClientChannel('95.213.38.135',
       port: 8080,
       options: ChannelOptions(credentials: ChannelCredentials.insecure()));
+
+  @override
+  void dispose() {
+    SessionClient(_channel).close(HomePage.token);
+    super.dispose();
+  }
 
   List<Question> _questions = [
     Question(
@@ -33,9 +40,7 @@ class _GlobalParentState extends State<_GlobalParent> {
             'Да!',
             'Без разницы'),
         null,
-        {
-          0: {"EG": 3}
-        },
+        null,
         {
           0: {"CAI": 7}
         }),
@@ -84,21 +89,33 @@ class _GlobalParentState extends State<_GlobalParent> {
         1,
         QuestionType.ONE_OF_TWO,
         OneOfTwoQuestionPayload('Что выберете?', 'Пицца', 'Суши'),
-        {0: {"NOR": 3, "EUR": 3}, 1: {"ASI": 3}},
-        {0: {"IT": 5}, 1: {"JP": 5}},
+        {
+          0: {"NOR": 3, "EUR": 3},
+          1: {"ASI": 3}
+        },
+        {
+          0: {"IT": 5},
+          1: {"JP": 5}
+        },
         null),
-    Question(3, 1, QuestionType.GRID_MULTIPLE_SELECT,
+    Question(
+        3,
+        1,
+        QuestionType.GRID_MULTIPLE_SELECT,
         GridMultipleSelectPayload('Что вам по душе?', [
           GridItem('Пляжный отдых', null),
           GridItem('Культурный туризм', null),
           GridItem('Гастрономический туризм', null)
-        ]), null, null, null),
-    Question(4, 1, QuestionType.YES_DC,
+        ]),
+        null,
+        null,
+        null),
+/*    Question(4, 1, QuestionType.YES_DC,
         YesDCQuestionPayload('5 вопрос', 'Да', 'Хз'), null, null, null),
     Question(5, 1, QuestionType.YES_DC,
         YesDCQuestionPayload('6 вопрос', 'Да', 'Хз'), null, null, null),
     Question(6, 1, QuestionType.YES_DC,
-        YesDCQuestionPayload('7 вопрос', 'Да', 'Хз'), null, null, null)
+        YesDCQuestionPayload('7 вопрос', 'Да', 'Хз'), null, null, null)*/
   ];
 
   @override

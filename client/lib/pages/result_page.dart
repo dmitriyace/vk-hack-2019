@@ -1,8 +1,9 @@
+import 'package:client/api/search.pb.dart';
 import 'package:flutter/material.dart';
 
 class ResultPage extends StatelessWidget  {
   ResultPage({Key key, this.results}) : super(key: key);
-  final List<String> results;
+  final Cities results;
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class ResultPage extends StatelessWidget  {
           width: 200,
           child: ListView.builder(
               padding: const EdgeInsets.all(8),
-              itemCount: this.results.length,
+              itemCount: this.results.values.length,
               itemBuilder: (BuildContext context, int index) {
                 return Container(
                   height: 50,
@@ -19,7 +20,7 @@ class ResultPage extends StatelessWidget  {
                   child: Center(child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Expanded(child: Text(this.results[0])),
+                      Expanded(child: Text(this.results.values[index].name)),
                       RaisedButton(
                         child: Text('Перейти'),
                         onPressed: null,
