@@ -13,7 +13,6 @@ enum SlideDirection { left, right, up, down }
 
 class DragHandler extends StatefulWidget {
   final QuestWidget card;
-  final List<int> history;
   final bool isDraggable;
   final SlideDirection slideTo;
   final Function(double distance) onSlideUpdate;
@@ -24,7 +23,6 @@ class DragHandler extends StatefulWidget {
   DragHandler(
       {Key key,
       this.card,
-      this.history,
       this.isDraggable = true,
       this.slideTo,
       this.onSlideUpdate,
@@ -238,16 +236,13 @@ class _DragHandlerState extends State<DragHandler>
             });
         });
         } else setState(() {
-          if (widget.history.length > 1) {
-            slideOutDirection = SlideDirection.right;
+            /*slideOutDirection = SlideDirection.right;
             print('right');
             new Future.delayed(const Duration(milliseconds: 150), () {
               widget.card.back();
-            });
-          } else {
+            });*/
             slideBackStart = cardOffset;
             slideBackAnimation.forward(from: 0.0);
-          }
         });{
         }
       } else if (isInTopRegion || isInBottomRegion) {

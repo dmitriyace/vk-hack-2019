@@ -11,14 +11,12 @@ class GridMultipleSelectQuestion extends StatefulWidget {
   GridMultipleSelectQuestion(
       {Key key,
       this.question,
-      this.prevQuestion,
       this.selectQuestionById,
       this.channel,
       this.getNextQuestionId,
       this.finish})
       : super(key: key);
   final Question question;
-  final Question prevQuestion;
   final Function selectQuestionById;
   final Function getNextQuestionId;
   final Function finish;

@@ -25,16 +25,12 @@ class _SeringPageState extends State<SeringPage> {
   List<int> history = [HomePage.firstQuestion];
   int currentQuestionId = HomePage.firstQuestion;
 
-  void selectQuestionById(int id, bool forward) {
+  void selectQuestionById(int id) {
     setState(() {
-      if (forward) {
-        if (widget.questions.firstWhere((el) => el.id == id, orElse: (){}) != null) {
-          this.currentQuestionId = id;
-          this.history.add(id);
-        }
-      } else if (this.history.length > 1) {
-        this.currentQuestionId = this.history[this.history.length - 2];
-        this.history.removeLast();
+      if (widget.questions.firstWhere((el) => el.id == id, orElse: () {}) !=
+          null) {
+        this.currentQuestionId = id;
+        this.history.add(id);
       }
     });
   }
@@ -43,10 +39,14 @@ class _SeringPageState extends State<SeringPage> {
       widget.questions.firstWhere((q) => q.id == this.currentQuestionId);
 
   int getNextQuestionId() {
-    var questions = this.widget.questions.where((el) => this.history.firstWhere((elem) => elem == el.id, orElse: (){}) == null);
+    var questions = this.widget.questions.where((el) =>
+        this.history.firstWhere((elem) => elem == el.id, orElse: () {}) ==
+        null);
     final _random = new Random();
 
-    return questions.length > 0 ? questions.toList()[_random.nextInt(questions.length)].id : null;
+    return questions.length > 0
+        ? questions.toList()[_random.nextInt(questions.length)].id
+        : null;
   }
 
   void finish() async {
@@ -56,9 +56,8 @@ class _SeringPageState extends State<SeringPage> {
     resultRequest.pageSize = 5;
     resultRequest.offset = 0;
     Cities results = await client.result(resultRequest);
-    Navigator.push(context, MaterialPageRoute(
-        builder: (context) => ResultPage(results: results)
-    ));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => ResultPage(results: results)));
   }
 
   QuestWidget getCurrentQuestionCard() {
@@ -66,7 +65,6 @@ class _SeringPageState extends State<SeringPage> {
       case QuestionType.YES_DC:
         return YesDCQuestion(
             question: getCurrentQuestion(),
-            prevQuestion: widget.questions.firstWhere((el) => this.history.length > 1 ? el.id == this.history[this.history.length - 2] : false, orElse: (){}),
             selectQuestionById: selectQuestionById,
             getNextQuestionId: getNextQuestionId,
             finish: finish,
@@ -74,7 +72,6 @@ class _SeringPageState extends State<SeringPage> {
       case QuestionType.ONE_OF_TWO:
         return OneOfTwoQuestion(
             question: getCurrentQuestion(),
-            prevQuestion: widget.questions.firstWhere((el) => this.history.length > 1 ? el.id == this.history[this.history.length - 2] : false, orElse: (){}),
             selectQuestionById: selectQuestionById,
             getNextQuestionId: getNextQuestionId,
             finish: finish,
@@ -82,7 +79,6 @@ class _SeringPageState extends State<SeringPage> {
 /*      case QuestionType.GRID_MULTIPLE_SELECT:
         return GridMultipleSelectQuestion(
             question: getCurrentQuestion(),
-            prevQuestion: widget.questions.firstWhere((el) => this.history.length > 1 ? el.id == this.history[this.history.length - 2] : false, orElse: (){}),
             selectQuestionById: selectQuestionById,
             getNextQuestionId: getNextQuestionId,
             finish: finish,
@@ -109,8 +105,9 @@ class _SeringPageState extends State<SeringPage> {
               color: Colors.black38,
             ),
             Expanded(
-              child: DragHandler(context: context, card: getCurrentQuestionCard(), history: history)
-            )
+                child: DragHandler(
+                    context: context,
+                    card: getCurrentQuestionCard()))
           ],
         ),
       )),
