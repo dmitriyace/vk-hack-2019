@@ -5,6 +5,10 @@ import 'dart:math';
 Size bigCardSize;
 final Alignment initialCardAlignment = Alignment(0.0, 0.0);
 
+enum SlideMainAxis {
+  x, y
+}
+
 enum SlideDirection {
   left,
   right,
@@ -51,10 +55,18 @@ class _DragHandlerState extends State<DragHandler>
   Offset dragStart;
   Offset dragPosition;
   Offset slideBackStart;
+  // what way we chosen
   SlideDirection slideOutDirection;
+
   AnimationController slideBackAnimation;
   Tween<Offset> slideOutTween;
   AnimationController slideOutAnimation;
+  // for finding out where user slides from the start (see function where this var is used)
+  SlideMainAxis slideAxis = SlideMainAxis.x;
+
+  // to get the starting position
+  Offset _containerInitialPosition = Offset(0, 0);
+  GlobalKey _containerKey = GlobalKey();
 
   AnimationController _animationController;
   Alignment cardAlignment = new Alignment(0.0, 0.0);
@@ -110,6 +122,19 @@ class _DragHandlerState extends State<DragHandler>
           });
         }
       });
+
+    WidgetsBinding.instance.addPostFrameCallback(_getInitialPosition);
+  }
+
+  void _getInitialPosition(_) {
+    final RenderBox containerRenderBox =
+    _containerKey.currentContext.findRenderObject();
+    final containerPosition = containerRenderBox.localToGlobal(Offset(0.0, 0.0));
+
+    print(containerPosition);
+    setState(() {
+      _containerInitialPosition = containerPosition;
+    });
   }
 
   @override
@@ -203,6 +228,20 @@ class _DragHandlerState extends State<DragHandler>
   void _onPanStart(DragStartDetails details) {
     dragStart = details.globalPosition;
 
+//    print('x ${dragStart.dx}, y ${dragStart.dy}');
+
+    var rofl1 = ((dragStart.dx / context.size.width)).abs();
+    var rofl2 = ((dragStart.dy / context.size.height)).abs();
+    print('x ${rofl1}');
+    print('y ${rofl2}');
+    print('x > y : ${rofl1 > rofl2}');
+
+    if(rofl1 > rofl2) {
+      slideAxis = SlideMainAxis.x;
+    } else {
+      slideAxis = SlideMainAxis.y;
+    }
+
     if (slideBackAnimation.isAnimating) {
       slideBackAnimation.stop(canceled: true);
     }
@@ -211,7 +250,16 @@ class _DragHandlerState extends State<DragHandler>
   void _onPanUpdate(DragUpdateDetails details) {
     setState(() {
       dragPosition = details.globalPosition;
-      cardOffset = dragPosition - dragStart;
+      switch(slideAxis) {
+        case SlideMainAxis.x:
+          print('x');
+          cardOffset = Offset(dragPosition.dx - dragStart.dx, 0.0);
+          break;
+        case SlideMainAxis.y:
+          print('y');
+          cardOffset = Offset(0.0, dragPosition.dy - dragStart.dy);
+          break;
+      }
 
       if (null != widget.onSlideUpdate) {
         widget.onSlideUpdate(cardOffset.distance);
@@ -251,14 +299,13 @@ class _DragHandlerState extends State<DragHandler>
 
   @override
   Widget build(BuildContext context) {
-    return new Center(child: new Transform(
-      transform:
-      new Matrix4.translationValues(cardOffset.dx, cardOffset.dy, 0.0),
+    return new Center(child: Transform(
+      transform: Matrix4.translationValues(cardOffset.dx, cardOffset.dy, 0.0),
       child: new Container(
-        width: 200,
-        height: 200,
+        width: 400,
+        height: 400,
         padding: const EdgeInsets.all(16.0),
-        child: new GestureDetector(
+        child: GestureDetector(
           onPanStart: _onPanStart,
           onPanUpdate: _onPanUpdate,
           onPanEnd: _onPanEnd,
@@ -267,20 +314,5 @@ class _DragHandlerState extends State<DragHandler>
       ),
     ),
     );
-  }
-}
-
-class CardAnimation {
-  static Animation<Alignment> frontCardDisappearAlignmentAnim(
-      AnimationController parent, Alignment beginAlign) {
-    return new AlignmentTween(
-        begin: beginAlign,
-        end: Alignment(beginAlign.y > 0
-            ? beginAlign.y + 30.0
-            : beginAlign.y - 30.0, 0.0) // Has swiped to the left or right?
-    ).animate(CurvedAnimation(
-        parent: parent,
-        curve: new Interval(0.0, 0.5, curve: Curves.easeIn)
-    ));
   }
 }
