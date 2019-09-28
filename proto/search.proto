@@ -3,7 +3,6 @@ syntax = "proto3";
 package internal;
 
 import "google/protobuf/empty.proto";
-import "google/protobuf/wrappers.proto";
 
 import "session.proto";
 
@@ -28,9 +27,10 @@ message CityDelta {
 }
 
 message City {
-    string name = 1;
-    string countryCode = 2;
-    string photo = 3;
+    string iata = 1;
+    string name = 2;
+    string countryCode = 3;
+    string photo = 4;
 }
 
 message ResultRequest {
@@ -44,7 +44,7 @@ message Cities {
 }
 
 service Questions {
-    rpc Random(google.protobuf.UInt32Value) returns (Cities);
+    rpc Random(google.protobuf.Empty) returns (Cities);
 } 
 
 service Weights {

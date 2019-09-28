@@ -126,9 +126,10 @@ class CityDelta extends $pb.GeneratedMessage {
 
 class City extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('City', package: const $pb.PackageName('internal'), createEmptyInstance: create)
-    ..aOS(1, 'name')
-    ..aOS(2, 'countryCode', protoName: 'countryCode')
-    ..aOS(3, 'photo')
+    ..aOS(1, 'iata')
+    ..aOS(2, 'name')
+    ..aOS(3, 'countryCode', protoName: 'countryCode')
+    ..aOS(4, 'photo')
     ..hasRequiredFields = false
   ;
 
@@ -146,20 +147,25 @@ class City extends $pb.GeneratedMessage {
   static City getDefault() => _defaultInstance ??= create()..freeze();
   static City _defaultInstance;
 
-  $core.String get name => $_getS(0, '');
-  set name($core.String v) { $_setString(0, v); }
-  $core.bool hasName() => $_has(0);
-  void clearName() => clearField(1);
+  $core.String get iata => $_getS(0, '');
+  set iata($core.String v) { $_setString(0, v); }
+  $core.bool hasIata() => $_has(0);
+  void clearIata() => clearField(1);
 
-  $core.String get countryCode => $_getS(1, '');
-  set countryCode($core.String v) { $_setString(1, v); }
-  $core.bool hasCountryCode() => $_has(1);
-  void clearCountryCode() => clearField(2);
+  $core.String get name => $_getS(1, '');
+  set name($core.String v) { $_setString(1, v); }
+  $core.bool hasName() => $_has(1);
+  void clearName() => clearField(2);
 
-  $core.String get photo => $_getS(2, '');
-  set photo($core.String v) { $_setString(2, v); }
-  $core.bool hasPhoto() => $_has(2);
-  void clearPhoto() => clearField(3);
+  $core.String get countryCode => $_getS(2, '');
+  set countryCode($core.String v) { $_setString(2, v); }
+  $core.bool hasCountryCode() => $_has(2);
+  void clearCountryCode() => clearField(3);
+
+  $core.String get photo => $_getS(3, '');
+  set photo($core.String v) { $_setString(3, v); }
+  $core.bool hasPhoto() => $_has(3);
+  void clearPhoto() => clearField(4);
 }
 
 class ResultRequest extends $pb.GeneratedMessage {
