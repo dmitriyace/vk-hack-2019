@@ -30,6 +30,18 @@ class _YesDCQuestionState extends State<YesDCQuestion> {
       children: <Widget>[
         Text(widget.question.payload.title),
         RaisedButton(
+          child: Text(widget.question.payload.yesOption),
+          onPressed: () {
+            //todo
+          },
+        ),
+        RaisedButton(
+          child: Text(widget.question.payload.dCOption),
+          onPressed: () {
+            //todo
+          },
+        ),
+        RaisedButton(
           child: Text('Назад'),
           onPressed: () {
             widget.selectQuestionById(0, false);

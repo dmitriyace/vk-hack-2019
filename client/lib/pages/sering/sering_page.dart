@@ -13,16 +13,17 @@ class SeringPage extends StatefulWidget {
 }
 
 class _SeringPageState extends State<SeringPage> {
-  List<int> history = [];
+  List<int> history = [0];
   int currentQuestionId = 0;
-  Requirements requirements = Requirements();
 
   void selectQuestionById(int id, bool forward) {
     setState(() {
       if (forward) {
-        this.currentQuestionId = id;
-        this.history.add(id);
-      } else {
+        if (widget.questions.firstWhere((el) => el.id == id, orElse: (){}) != null) {
+          this.currentQuestionId = id;
+          this.history.add(id);
+        }
+      } else if (this.history.length > 1) {
         this.currentQuestionId = this.history[this.history.length - 2];
         this.history.removeLast();
       }
@@ -32,10 +33,7 @@ class _SeringPageState extends State<SeringPage> {
   Question getCurrentQuestion() =>
       widget.questions.firstWhere((q) => q.id == this.currentQuestionId);
 
-  int getNextQuestionId() => widget.questions
-      .where((el) => this.history.firstWhere((elem) => elem == el.id) == null)
-      .first
-      .id;
+  int getNextQuestionId() => this.currentQuestionId + 1;
 
   Widget getCurrentQuestionCard() {
     switch (getCurrentQuestion().type) {

@@ -1,39 +1,42 @@
-import 'package:client/api/autocomplete.pb.dart';
+import 'package:client/api/search.pb.dart';
 import 'package:client/api/session.pb.dart';
 
-enum LocationScope { CONTINENT, COUNTRY, CITY }
 enum QuestionType {
   YES_DC,
   MULTIPLE_SELECT
 }
 
-abstract class Question {
+class Question {
   int id;
   int tier;
   QuestionType type;
   QuestionPayload payload;
-  LocationScope scope;
   Map<
       int,
-      Map<Continent, int>
+      Map<String, int>
   > continentWeights;
   Map<
       int,
-      Map<Country, int>
+      Map<String, int>
   > countryWeights;
   Map<
       int,
-      Map<City, int>
+      Map<String, int>
   > cityWeights;
+  Question(this.id, this.tier, this.type, this.payload, this. continentWeights, this.countryWeights, this.cityWeights);
 }
 
 abstract class QuestionPayload {
   String title;
+  String yesOption;
+  String dCOption;
 }
 
 class YesDCQuestionPayload extends QuestionPayload {
+  String title;
   String yesOption;
   String dCOption;
+  YesDCQuestionPayload(this.title, this.yesOption, this.dCOption);
 }
 
 class MultipleSelectQuestionPayload extends QuestionPayload {
