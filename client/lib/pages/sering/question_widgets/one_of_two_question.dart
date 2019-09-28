@@ -61,7 +61,9 @@ class OneOfTwoQuestion extends StatefulWidget implements QuestWidget {
       await client.changeCity(delta);
     }
     _OneOfTwoQuestionState.model = 0;
-    this.selectQuestionById(this.getNextQuestionId(), true);
+    var id = this.getNextQuestionId();
+    if (id == null) this.finish();
+    else this.selectQuestionById(id, true);
   }
   void back() async {
     var client = WeightsClient(this.channel);
@@ -106,7 +108,9 @@ class OneOfTwoQuestion extends StatefulWidget implements QuestWidget {
 
   void skip() {
     _OneOfTwoQuestionState.model = 0;
-    this.selectQuestionById(this.getNextQuestionId(), true);
+    var id = this.getNextQuestionId();
+    if (id == null) this.finish();
+    else this.selectQuestionById(id, true);
   }
 }
 
