@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	it "github.com/N1cOs/vkhack2019/server/grpc/internal"
 	"github.com/N1cOs/vkhack2019/server/http"
 	"github.com/golang/protobuf/ptypes/empty"
@@ -110,8 +111,8 @@ func (s *Server) ChangeCity(ctx context.Context, delta *it.CityDelta) (*empty.Em
 	return &empty.Empty{}, nil
 }
 
-func (s *Server) Result(ctx context.Context, token *it.Token) (*it.Cities, error) {
-	session, err := GetSession(token.Value)
+func (s *Server) Result(ctx context.Context, req *it.ResultRequest) (*it.Cities, error) {
+	session, err := GetSession(req.Token.Value)
 	if err != nil {
 		return nil, err
 	}
@@ -121,9 +122,11 @@ func (s *Server) Result(ctx context.Context, token *it.Token) (*it.Cities, error
 	})
 
 	var cc []*it.City
-	for i := 0; i < 10; i++ {
+	for i := req.Offset; i < req.Offset+req.PageSize; i++ {
+		c := session.cities[i]
 		city := &it.City{
-			Name: session.cities[i].Name,
+			Name:  c.Name,
+			Photo: fmt.Sprintf(urlPhoto, c.Iata),
 		}
 		cc = append(cc, city)
 	}
