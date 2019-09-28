@@ -5,11 +5,22 @@
       "CHI",
       "LAX",
       "LAS"
+    ],
+    "food": [
+      "hamburger",
+      "brownies",
+      "apple pie"
     ]
   },
   "LAT": {
     "BR": [
       "RIO"
+    ],
+    "food": [
+      "pupusas",
+      "tacos",
+      "tamales",
+      "tortillas"
     ]
   },
   "EU": {
@@ -42,6 +53,14 @@
     "GR": [
       "ATH",
       "HER"
+    ],
+    "food": [
+      "pasta",
+      "chocolate",
+      "cheese",
+      "waffles",
+      "meatballs",
+      "pizza"
     ]
   },
   "AFR": {
@@ -65,6 +84,11 @@
       "IST",
       "AYT",
       "ANK"
+    ],
+    "food": [
+      "Chakalaka",
+      "Piri piri chicken",
+      "madesu"
     ]
   },
   "ASIA": {
@@ -87,12 +111,25 @@
     ],
     "SG": [
       "SIN"
+    ],
+    "food": [
+      "Nasi Padang",
+      "Philippine",
+      "Amok",
+      "Nasi Lemak"
     ]
   },
   "OCE": {
     "TH": [
       "BKK",
       "HKT"
+    ],
+    "food": [
+      "Kau kau",
+      "Palsami",
+      "Yaqona, Kava",
+      "Pie",
+      "Fish and Chips"
     ]
   }
 }
