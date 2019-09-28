@@ -28,39 +28,39 @@ class YesDCQuestion extends StatefulWidget implements QuestWidget {
   _YesDCQuestionState createState() => _YesDCQuestionState();
 
   @override
-  void back() async {
+  void forward() async {
     var client = WeightsClient(this.channel);
-    if (this.prevQuestion.continentWeights != null) {
+    if (this.question.continentWeights != null) {
       var delta = ContinentDelta();
       delta.token = HomePage.token;
-      this.prevQuestion.continentWeights[0].forEach((k, v) {
+      this.question.continentWeights[0].forEach((k, v) {
         var d = Delta.create();
-        d.value = -v;
+        d.value = v;
         delta.targets[k] = d;
       });
       await client.changeContinent(delta);
     }
-    if (this.prevQuestion.countryWeights != null) {
+    if (this.question.countryWeights != null) {
       var delta = CountryDelta();
       delta.token = HomePage.token;
-      this.prevQuestion.countryWeights[0].forEach((k, v) {
+      this.question.countryWeights[0].forEach((k, v) {
         var d = Delta.create();
-        d.value = -v;
+        d.value = v;
         delta.targets[k] = d;
       });
       await client.changeCountry(delta);
     }
-    if (this.prevQuestion.cityWeights != null) {
+    if (this.question.cityWeights != null) {
       var delta = CityDelta();
       delta.token = HomePage.token;
-      this.prevQuestion.cityWeights[0].forEach((k, v) {
+      this.question.cityWeights[0].forEach((k, v) {
         var d = Delta.create();
-        d.value = -v;
+        d.value = v;
         delta.targets[k] = d;
       });
       await client.changeCity(delta);
     }
-    this.selectQuestionById(0, false);
+    this.selectQuestionById(this.getNextQuestionId(), true);
   }
 
   void done() {
@@ -74,7 +74,7 @@ class YesDCQuestion extends StatefulWidget implements QuestWidget {
   }
 
   @override
-  void forward() async {
+  void back() async {
     if (_YesDCQuestionState.model) {
       var client = WeightsClient(this.channel);
       if (this.prevQuestion.continentWeights != null) {
