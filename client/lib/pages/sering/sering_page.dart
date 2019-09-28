@@ -4,7 +4,6 @@ import 'package:client/api/search.pbgrpc.dart';
 import 'package:client/api/session.pb.dart';
 import 'package:client/model/question.dart';
 import 'package:client/pages/home_page.dart';
-import 'package:client/pages/sering/question_widgets/grid_multiple_select_question.dart';
 import 'package:client/pages/sering/question_widgets/one_of_two_question.dart';
 import 'package:client/pages/sering/question_widgets/quest_widget.dart';
 import 'package:client/pages/sering/question_widgets/yes_dc_question.dart';
@@ -24,6 +23,8 @@ class SeringPage extends StatefulWidget {
 class _SeringPageState extends State<SeringPage> {
   List<int> history = [HomePage.firstQuestion];
   int currentQuestionId = HomePage.firstQuestion;
+  QuestionType currentQuestionType;
+  QuestWidget currentQuestionCard;
 
   void selectQuestionById(int id) {
     setState(() {
@@ -61,28 +62,27 @@ class _SeringPageState extends State<SeringPage> {
   }
 
   QuestWidget getCurrentQuestionCard() {
-    switch (getCurrentQuestion().type) {
+    setState(() {
+      currentQuestionType = getCurrentQuestion().type;
+    });
+    switch (currentQuestionType) {
       case QuestionType.YES_DC:
-        return YesDCQuestion(
+        currentQuestionCard = YesDCQuestion(
             question: getCurrentQuestion(),
             selectQuestionById: selectQuestionById,
             getNextQuestionId: getNextQuestionId,
             finish: finish,
             channel: widget.channel);
+        return currentQuestionCard;
+
       case QuestionType.ONE_OF_TWO:
-        return OneOfTwoQuestion(
+        currentQuestionCard = OneOfTwoQuestion(
             question: getCurrentQuestion(),
             selectQuestionById: selectQuestionById,
             getNextQuestionId: getNextQuestionId,
             finish: finish,
             channel: widget.channel);
-/*      case QuestionType.GRID_MULTIPLE_SELECT:
-        return GridMultipleSelectQuestion(
-            question: getCurrentQuestion(),
-            selectQuestionById: selectQuestionById,
-            getNextQuestionId: getNextQuestionId,
-            finish: finish,
-            channel: widget.channel);*/
+        return currentQuestionCard;
       default:
         return null;
     }
@@ -98,16 +98,33 @@ class _SeringPageState extends State<SeringPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.all(30.0),
-              width: 150.0,
-              height: 20.0,
-              color: Colors.black38,
-            ),
             Expanded(
                 child: DragHandler(
                     context: context,
-                    card: getCurrentQuestionCard()))
+                    card: getCurrentQuestionCard(),
+                    questionType: currentQuestionType)),
+            Column(
+              children: <Widget>[
+                MaterialButton(
+                  height: 35,
+                  color: Colors.green,
+                  child: new Text('Завершить опрос',
+                      style: new TextStyle(color: Colors.white)),
+                  onPressed: () {
+                    currentQuestionCard.done();
+                  },
+                ),
+                MaterialButton(
+                  height: 35,
+                  color: Colors.grey,
+                  child: new Text('Пропустить вопрос',
+                      style: new TextStyle(color: Colors.white)),
+                  onPressed: () {
+                    currentQuestionCard.skip();
+                  },
+                ),
+              ],
+            )
           ],
         ),
       )),

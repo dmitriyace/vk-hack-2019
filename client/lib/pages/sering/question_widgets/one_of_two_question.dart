@@ -30,14 +30,18 @@ class OneOfTwoQuestion extends StatefulWidget implements QuestWidget {
     if (_OneOfTwoQuestionState.model == 0) {
       _OneOfTwoQuestionState.model = 0;
       var id = this.getNextQuestionId();
-      if (id == null) this.finish();
-      else this.selectQuestionById(id);
+      if (id == null)
+        this.finish();
+      else
+        this.selectQuestionById(id);
     } else {
       var client = WeightsClient(this.channel);
       if (this.question.continentWeights != null) {
         var delta = ContinentDelta();
         delta.token = HomePage.token;
-        this.question.continentWeights[_OneOfTwoQuestionState.model - 1]
+        this
+            .question
+            .continentWeights[_OneOfTwoQuestionState.model - 1]
             .forEach((k, v) {
           var d = Delta.create();
           d.value = v;
@@ -48,8 +52,10 @@ class OneOfTwoQuestion extends StatefulWidget implements QuestWidget {
       if (this.question.countryWeights != null) {
         var delta = CountryDelta();
         delta.token = HomePage.token;
-        this.question.countryWeights[_OneOfTwoQuestionState.model - 1].forEach((
-            k, v) {
+        this
+            .question
+            .countryWeights[_OneOfTwoQuestionState.model - 1]
+            .forEach((k, v) {
           var d = Delta.create();
           d.value = v;
           delta.targets[k] = d;
@@ -59,8 +65,10 @@ class OneOfTwoQuestion extends StatefulWidget implements QuestWidget {
       if (this.question.cityWeights != null) {
         var delta = CityDelta();
         delta.token = HomePage.token;
-        this.question.cityWeights[_OneOfTwoQuestionState.model - 1].forEach((k,
-            v) {
+        this
+            .question
+            .cityWeights[_OneOfTwoQuestionState.model - 1]
+            .forEach((k, v) {
           var d = Delta.create();
           d.value = v;
           delta.targets[k] = d;
@@ -84,8 +92,15 @@ class OneOfTwoQuestion extends StatefulWidget implements QuestWidget {
   void skip() {
     _OneOfTwoQuestionState.model = 0;
     var id = this.getNextQuestionId();
-    if (id == null) this.finish();
-    else this.selectQuestionById(id);
+    if (id == null)
+      this.finish();
+    else
+      this.selectQuestionById(id);
+  }
+
+  @override
+  void set question(Question _question) {
+    this.question = _question;
   }
 }
 
@@ -98,45 +113,53 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
-        Text(widget.question.payload.title),
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              if(_OneOfTwoQuestionState.model == 1) {
-                _OneOfTwoQuestionState.model = 0;
-              } else {
-                _OneOfTwoQuestionState.model = 1;
-              }
-            });
-          },
-          child: Container(
-            width: 200,
-            height: 60,
-            color: model == 1 ? Colors.lightBlue : Colors.grey,
-            child: Center(
-              child: Text(widget.question.payload.firstOption),
+        Stack(
+          children: <Widget>[
+            Text(widget.question.payload.title),
+            Row(
+              children: <Widget>[
+                GestureDetector(
+                  child: Container(
+                    width: 90,
+                    height: 160,
+                    child: Stack(
+                      children: <Widget>[
+                        DecoratedBox(
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image:
+                                        widget.question.payload.firstImage))),
+                        Text(widget.question.payload.firstOption)
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    // todo handle answer
+                  },
+                ),
+                GestureDetector(
+                  child: Container(
+                    width: 90,
+                    height: 160,
+                    child: Stack(
+                      children: <Widget>[
+                        DecoratedBox(
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image:
+                                        widget.question.payload.secondImage))),
+                        Text(widget.question.payload.secondOption)
+                      ],
+                    ),
+                  ),
+                  onTap: () {
+                    // todo handle answer
+                  },
+                ),
+              ],
             ),
-          ),
+          ],
         ),
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              if(_OneOfTwoQuestionState.model == 2) {
-                _OneOfTwoQuestionState.model = 0;
-              } else {
-                _OneOfTwoQuestionState.model = 2;
-              }
-            });
-          },
-          child: Container(
-            width: 200,
-            height: 60,
-            color: model == 2 ? Colors.lightBlue : Colors.grey,
-            child: Center(
-              child: Text(widget.question.payload.secondOption),
-            ),
-          ),
-        )
       ],
     );
   }

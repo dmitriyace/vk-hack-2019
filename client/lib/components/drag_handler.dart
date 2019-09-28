@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'card.dart';
 import 'dart:math';
 import 'package:client/pages/sering/question_widgets/one_of_two_question.dart';
+import '../model/question.dart';
 
 Size bigCardSize;
 final Alignment initialCardAlignment = Alignment(0.0, 0.0);
@@ -19,6 +20,7 @@ class DragHandler extends StatefulWidget {
   final Function(SlideDirection direction) onSlideComplete;
   final double screenWidth;
   final double screenHeight;
+  final QuestionType questionType;
 
   DragHandler(
       {Key key,
@@ -29,6 +31,7 @@ class DragHandler extends StatefulWidget {
       this.onSlideComplete,
       this.screenWidth,
       this.screenHeight,
+      this.questionType,
       BuildContext context}) {
     bigCardSize = new Size(MediaQuery.of(context).size.width * 0.9,
         MediaQuery.of(context).size.height * 0.5);
@@ -232,19 +235,15 @@ class _DragHandlerState extends State<DragHandler>
             slideOutDirection = SlideDirection.left;
             print('left');
             new Future.delayed(const Duration(milliseconds: 150), () {
-              widget.card.forward();
+              widget.card.skip();
             });
-        });
-        } else setState(() {
-            /*slideOutDirection = SlideDirection.right;
-            print('right');
-            new Future.delayed(const Duration(milliseconds: 150), () {
-              widget.card.back();
-            });*/
+          });
+        } else
+          setState(() {
+            widget.card.skip();
             slideBackStart = cardOffset;
             slideBackAnimation.forward(from: 0.0);
-        });{
-        }
+          });
       } else if (isInTopRegion || isInBottomRegion) {
         slideOutTween = Tween(
             begin: cardOffset, end: dragVector * (4 * context.size.height));
@@ -258,12 +257,12 @@ class _DragHandlerState extends State<DragHandler>
               widget.card.skip();
             });
           });
-
-        } else setState(() {
-          slideOutDirection = SlideDirection.up;
-          print('up');
-          widget.card.done();
-        });
+        } else
+          setState(() {
+            slideOutDirection = SlideDirection.up;
+            print('up');
+            widget.card.skip();
+          });
       } else {
         // a nu davai ee obratno
         slideBackStart = cardOffset;
@@ -279,20 +278,21 @@ class _DragHandlerState extends State<DragHandler>
 
   @override
   Widget build(BuildContext context) {
-    return new Center(child: Transform(
-      transform: Matrix4.translationValues(cardOffset.dx, cardOffset.dy, 0.0),
-      child: new Container(
-        width: 400,
-        height: 400,
-        padding: const EdgeInsets.all(16.0),
-        child: GestureDetector(
-          onPanStart: _onPanStart,
-          onPanUpdate: _onPanUpdate,
-          onPanEnd: _onPanEnd,
-          child: widget.card,
+    return new Center(
+      child: Transform(
+        transform: Matrix4.translationValues(cardOffset.dx, cardOffset.dy, 0.0),
+        child: new Container(
+          width: 400,
+          height: 400,
+          padding: const EdgeInsets.all(16.0),
+          child: GestureDetector(
+            onPanStart: _onPanStart,
+            onPanUpdate: _onPanUpdate,
+            onPanEnd: _onPanEnd,
+            child: widget.card,
+          ),
         ),
       ),
-    ),
     );
   }
 }

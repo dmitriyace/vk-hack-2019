@@ -88,6 +88,11 @@ class YesDCQuestion extends StatefulWidget implements QuestWidget {
         this.selectQuestionById(id);
     }
   }
+
+  @override
+  void set question(Question _question) {
+    this.question = _question;
+  }
 }
 
 class _YesDCQuestionState extends State<YesDCQuestion> {
@@ -107,15 +112,30 @@ class _YesDCQuestionState extends State<YesDCQuestion> {
             });
           },
           child: Container(
-            width: 200,
-            height: 200,
-            color: _YesDCQuestionState.model ? Colors.blue : Colors.grey,
-            child: Center(
-                child: Text(
-              _YesDCQuestionState.model
-                  ? widget.question.payload.yesOption
-                  : widget.question.payload.dCOption,
-            )),
+            child: Column(children: <Widget>[
+              Column(children: <Widget>[
+                MaterialButton(
+                  height: 35,
+                  color: Colors.green,
+                  child: new Text(widget.question.payload.yesOption,
+                      style:
+                          new TextStyle(fontSize: 16.0, color: Colors.white)),
+                  onPressed: () {
+                    // todo handle answer logic
+                  },
+                ),
+                MaterialButton(
+                  height: 35,
+                  color: Colors.grey,
+                  child: new Text(widget.question.payload.dCOption,
+                      style:
+                          new TextStyle(fontSize: 16.0, color: Colors.white)),
+                  onPressed: () {
+                    // todo handle answer logic
+                  },
+                )
+              ]),
+            ]),
           ),
         ),
       ],
