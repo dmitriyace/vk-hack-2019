@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key key, @required this.hasHistory, this.introQuestions, this.channel}) : super(key: key);
+  HomePage({Key key, this.questions, this.channel}) : super(key: key);
 
-  final bool hasHistory;
   final ClientChannel channel;
-  final List<Question> introQuestions;
+  final List<Question> questions;
 
   @override
   Widget build(BuildContext context) {
@@ -19,15 +18,15 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              hasHistory
+/*              hasHistory
                   ? RaisedButton(
                 onPressed: null,
                 child: Text('История поисков'),
               )
-                  : Container(),
+                  : Container(),*/
               RaisedButton(onPressed: () {
                 Navigator.push(context, MaterialPageRoute(
-                    builder: (context) => SeringPage(introQuestions: introQuestions, channel: channel)
+                    builder: (context) => SeringPage(questions: questions, channel: channel)
                 ));
               }, child: Text('Начать'))
             ],
