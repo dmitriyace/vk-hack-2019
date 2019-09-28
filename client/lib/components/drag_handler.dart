@@ -234,6 +234,7 @@ class _DragHandlerState extends State<DragHandler>
     final isInTopRegion = (cardOffset.dy / context.size.height) < -0.40;
     final isInBottomRegion = (cardOffset.dy / context.size.height) > 0.40;
 
+    // todo add delay for card method call
     setState(() {
       if (isInLeftRegion || isInRightRegion) {
         slideOutTween = Tween(
@@ -278,8 +279,10 @@ class _DragHandlerState extends State<DragHandler>
         slideBackAnimation.forward(from: 0.0);
       }
 
-      slideBackStart = cardOffset;
-      slideBackAnimation.forward(from: 0.0);
+      new Future.delayed(const Duration(milliseconds: 300), () {
+        slideBackStart = cardOffset;
+        slideBackAnimation.forward(from: 0.0);
+      });
     });
   }
 
