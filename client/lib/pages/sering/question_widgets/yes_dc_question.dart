@@ -71,7 +71,9 @@ class YesDCQuestion extends StatefulWidget implements QuestWidget {
 
   void skip() {
     _YesDCQuestionState.model = false;
-    this.selectQuestionById(this.getNextQuestionId(), true);
+    var id = this.getNextQuestionId();
+    if (id == null) this.finish();
+    else this.selectQuestionById(id, true);
   }
 
   @override
@@ -107,7 +109,9 @@ class YesDCQuestion extends StatefulWidget implements QuestWidget {
       });
       await client.changeCity(delta);
     }
-    this.selectQuestionById(this.getNextQuestionId(), true);
+    var id = this.getNextQuestionId();
+    if (id == null) this.finish();
+      else this.selectQuestionById(id, true);
     _YesDCQuestionState.model = false;
   }
 }
