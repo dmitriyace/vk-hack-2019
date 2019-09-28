@@ -4,6 +4,8 @@ import 'package:client/pages/sering/question_widgets/yes_dc_question.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
 
+import '../result_page.dart';
+
 class SeringPage extends StatefulWidget {
   SeringPage({Key key, this.questions, this.channel}) : super(key: key);
   final List<Question> questions;
@@ -35,6 +37,12 @@ class _SeringPageState extends State<SeringPage> {
 
   int getNextQuestionId() => this.currentQuestionId + 1;
 
+  void finish() {
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context) => ResultPage()
+    ));
+  }
+
   Widget getCurrentQuestionCard() {
     switch (getCurrentQuestion().type) {
       case QuestionType.YES_DC:
@@ -42,6 +50,7 @@ class _SeringPageState extends State<SeringPage> {
             question: getCurrentQuestion(),
             selectQuestionById: selectQuestionById,
             getNextQuestionId: getNextQuestionId,
+            finish: finish,
             channel: widget.channel);
       default:
         return Text('default');

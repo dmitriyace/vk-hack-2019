@@ -5,15 +5,18 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:grpc/grpc.dart';
 
 class YesDCQuestion extends StatefulWidget {
-  YesDCQuestion({Key key,
-    this.question,
-    this.selectQuestionById,
-    this.channel,
-    this.getNextQuestionId})
+  YesDCQuestion(
+      {Key key,
+      this.question,
+      this.selectQuestionById,
+      this.channel,
+      this.getNextQuestionId,
+      this.finish})
       : super(key: key);
   final Question question;
   final Function selectQuestionById;
   final Function getNextQuestionId;
+  final Function finish;
   final ClientChannel channel;
 
   @override
@@ -21,13 +24,18 @@ class YesDCQuestion extends StatefulWidget {
 }
 
 class _YesDCQuestionState extends State<YesDCQuestion> {
-
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: <Widget>[
+        RaisedButton(
+          child: Text('Завершить'),
+          onPressed: () {
+            widget.finish();
+          },
+        ),
         Text(widget.question.payload.title),
         RaisedButton(
           child: Text(widget.question.payload.yesOption),
