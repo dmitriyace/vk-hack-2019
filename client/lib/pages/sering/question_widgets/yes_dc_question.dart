@@ -100,45 +100,56 @@ class _YesDCQuestionState extends State<YesDCQuestion> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Text(widget.question.payload.title),
-        GestureDetector(
-          onTap: () {
-            setState(() {
-              _YesDCQuestionState.model = !_YesDCQuestionState.model;
-            });
-          },
-          child: Container(
-            child: Column(children: <Widget>[
-              Column(children: <Widget>[
-                MaterialButton(
-                  height: 35,
-                  color: Colors.green,
-                  child: new Text(widget.question.payload.yesOption,
-                      style:
-                          new TextStyle(fontSize: 16.0, color: Colors.white)),
-                  onPressed: () {
-                    // todo handle answer logic
-                  },
-                ),
-                MaterialButton(
-                  height: 35,
-                  color: Colors.grey,
-                  child: new Text(widget.question.payload.dCOption,
-                      style:
-                          new TextStyle(fontSize: 16.0, color: Colors.white)),
-                  onPressed: () {
-                    // todo handle answer logic
-                  },
-                )
-              ]),
-            ]),
-          ),
+    return Container(
+      width: 300,
+      height: 400,
+      padding: const EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+        border: Border.all(),
+        borderRadius: BorderRadius.all(
+            Radius.circular(15.0) //         <--- border radius here
         ),
-      ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Text(widget.question.payload.title),
+          GestureDetector(
+            onTap: () {
+              setState(() {
+                _YesDCQuestionState.model = !_YesDCQuestionState.model;
+              });
+            },
+            child: Container(
+              child: Column(children: <Widget>[
+                Column(children: <Widget>[
+                  MaterialButton(
+                    height: 35,
+                    color: Colors.green,
+                    child: new Text(widget.question.payload.yesOption,
+                        style:
+                            new TextStyle(fontSize: 16.0, color: Colors.white)),
+                    onPressed: () {
+                      // todo handle answer logic
+                    },
+                  ),
+                  MaterialButton(
+                    height: 35,
+                    color: Colors.grey,
+                    child: new Text(widget.question.payload.dCOption,
+                        style:
+                            new TextStyle(fontSize: 16.0, color: Colors.white)),
+                    onPressed: () {
+                      // todo handle answer logic
+                    },
+                  )
+                ]),
+              ]),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

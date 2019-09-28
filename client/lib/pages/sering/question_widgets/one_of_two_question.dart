@@ -109,58 +109,69 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        Stack(
-          children: <Widget>[
-            Text(widget.question.payload.title),
-            Row(
-              children: <Widget>[
-                GestureDetector(
-                  child: Container(
-                    width: 90,
-                    height: 160,
-                    child: Stack(
-                      children: <Widget>[
-                        DecoratedBox(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image:
-                                        widget.question.payload.firstImage))),
-                        Text(widget.question.payload.firstOption)
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    // todo handle answer
-                  },
-                ),
-                GestureDetector(
-                  child: Container(
-                    width: 90,
-                    height: 160,
-                    child: Stack(
-                      children: <Widget>[
-                        DecoratedBox(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image:
-                                        widget.question.payload.secondImage))),
-                        Text(widget.question.payload.secondOption)
-                      ],
-                    ),
-                  ),
-                  onTap: () {
-                    // todo handle answer
-                  },
-                ),
-              ],
-            ),
-          ],
+    return Container(
+      width: 300,
+      height: 400,
+      padding: const EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+        border: Border.all(),
+        borderRadius: BorderRadius.all(
+            Radius.circular(15.0)
         ),
-      ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              Text(widget.question.payload.title),
+              Row(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Container(
+                      width: 90,
+                      height: 160,
+                      child: Stack(
+                        children: <Widget>[
+                          DecoratedBox(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image:
+                                      widget.question.payload.firstImage))),
+                          Text(widget.question.payload.firstOption)
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      // todo handle answer
+                    },
+                  ),
+                  GestureDetector(
+                    child: Container(
+                      width: 90,
+                      height: 160,
+                      child: Stack(
+                        children: <Widget>[
+                          DecoratedBox(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image:
+                                      widget.question.payload.secondImage))),
+                          Text(widget.question.payload.secondOption)
+                        ],
+                      ),
+                    ),
+                    onTap: () {
+                      // todo handle answer
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
