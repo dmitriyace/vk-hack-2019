@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:client/api/session.pb.dart';
 import 'package:client/model/question.dart';
 import 'package:client/pages/sering/question_widgets/one_of_two_question.dart';
@@ -36,7 +38,12 @@ class _SeringPageState extends State<SeringPage> {
   Question getCurrentQuestion() =>
       widget.questions.firstWhere((q) => q.id == this.currentQuestionId);
 
-  int getNextQuestionId() => this.currentQuestionId + 1;
+  int getNextQuestionId() {
+    var questions = this.widget.questions.where((el) => this.history.firstWhere((elem) => elem == el.id, orElse: (){}) == null);
+    final _random = new Random();
+
+    return questions.toList()[_random.nextInt(questions.length)].id;
+  }
 
   void finish() {
     Navigator.push(context, MaterialPageRoute(
