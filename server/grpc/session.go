@@ -46,9 +46,9 @@ func (s *Server) Open(ctx context.Context, e *empty.Empty) (*it.Token, error) {
 
 		var cities []CityInfo
 
-		for _, c := range cc {
+		for i := range cc {
 			info := CityInfo{
-				City:   &c,
+				City:   &cc[i],
 				Weight: 0,
 			}
 			cities = append(cities, info)

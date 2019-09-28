@@ -69,10 +69,10 @@ func (s *Server) ChangeContinent(ctx context.Context, delta *it.ContinentDelta) 
 	}
 
 	for i := range session.cities {
-		city := session.cities[i]
-		deltaVal := delta.Targets[city.City.Continent]
+		cityInfo := session.cities[i].City
+		deltaVal := delta.Targets[cityInfo.Continent]
 		if deltaVal != nil {
-			city.Weight += int(deltaVal.Value)
+			session.cities[i].Weight += int(deltaVal.Value)
 		}
 	}
 
@@ -87,10 +87,10 @@ func (s *Server) ChangeCountry(ctx context.Context, delta *it.CountryDelta) (*em
 	}
 
 	for i := range session.cities {
-		city := session.cities[i]
-		deltaVal := delta.Targets[city.City.CountryCode]
+		cityInfo := session.cities[i].City
+		deltaVal := delta.Targets[cityInfo.CountryCode]
 		if deltaVal != nil {
-			city.Weight += int(deltaVal.Value)
+			session.cities[i].Weight += int(deltaVal.Value)
 		}
 	}
 
@@ -104,16 +104,10 @@ func (s *Server) ChangeCity(ctx context.Context, delta *it.CityDelta) (*empty.Em
 	}
 
 	for i := range session.cities {
-		city := session.cities[i]
-		deltaVal := delta.Targets[city.City.Iata]
+		cityInfo := session.cities[i].City
+		deltaVal := delta.Targets[cityInfo.Iata]
 		if deltaVal != nil {
-			city.Weight += int(deltaVal.Value)
-		}
-	}
-
-	for _, c := range session.cities {
-		if c.Weight > 0 {
-			log.Printf("%s:%s:%d", c.City.Iata, c.City.Name, c.Weight)
+			session.cities[i].Weight += int(deltaVal.Value)
 		}
 	}
 
