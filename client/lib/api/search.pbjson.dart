@@ -5,65 +5,76 @@
 // @dart = 2.3
 // ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type
 
-const Change$json = const {
-  '1': 'Change',
+const Continent$json = const {
+  '1': 'Continent',
   '2': const [
-    const {'1': 'iata', '3': 1, '4': 1, '5': 9, '10': 'iata'},
-    const {'1': 'duration', '3': 2, '4': 1, '5': 13, '10': 'duration'},
+    const {'1': 'EUROPE', '2': 0},
+    const {'1': 'ASIA', '2': 1},
+    const {'1': 'AFRICA', '2': 2},
+    const {'1': 'NORTH_AMERICA', '2': 3},
+    const {'1': 'SOUTH_AMERICA', '2': 4},
+    const {'1': 'OCEANIA', '2': 5},
   ],
 };
 
-const Segment$json = const {
-  '1': 'Segment',
+const Delta$json = const {
+  '1': 'Delta',
   '2': const [
-    const {'1': 'origin', '3': 1, '4': 1, '5': 9, '10': 'origin'},
-    const {'1': 'dest', '3': 2, '4': 1, '5': 9, '10': 'dest'},
-    const {'1': 'duration', '3': 3, '4': 1, '5': 13, '10': 'duration'},
-    const {'1': 'changes', '3': 4, '4': 3, '5': 11, '6': '.internal.Change', '10': 'changes'},
-    const {'1': 'takeOff', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'takeOff'},
-    const {'1': 'landing', '3': 6, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'landing'},
+    const {'1': 'value', '3': 1, '4': 1, '5': 5, '10': 'value'},
   ],
 };
 
-const Flight$json = const {
-  '1': 'Flight',
+const ContinentDelta$json = const {
+  '1': 'ContinentDelta',
   '2': const [
-    const {'1': 'price', '3': 1, '4': 1, '5': 13, '10': 'price'},
-    const {'1': 'depart', '3': 2, '4': 1, '5': 11, '6': '.internal.Segment', '10': 'depart'},
-    const {'1': 'return', '3': 3, '4': 1, '5': 11, '6': '.internal.Segment', '10': 'return'},
+    const {'1': 'token', '3': 1, '4': 1, '5': 11, '6': '.internal.Token', '10': 'token'},
+    const {'1': 'targets', '3': 2, '4': 3, '5': 11, '6': '.internal.ContinentDelta.TargetsEntry', '10': 'targets'},
   ],
+  '3': const [ContinentDelta_TargetsEntry$json],
 };
 
-const Hotel$json = const {
-  '1': 'Hotel',
+const ContinentDelta_TargetsEntry$json = const {
+  '1': 'TargetsEntry',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 13, '10': 'id'},
-    const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
+    const {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.internal.Delta', '10': 'value'},
   ],
+  '7': const {'7': true},
 };
 
-const Package$json = const {
-  '1': 'Package',
+const CountryDelta$json = const {
+  '1': 'CountryDelta',
   '2': const [
-    const {'1': 'flight', '3': 1, '4': 1, '5': 11, '6': '.internal.Flight', '10': 'flight'},
-    const {'1': 'hotels', '3': 2, '4': 3, '5': 13, '10': 'hotels'},
+    const {'1': 'token', '3': 1, '4': 1, '5': 11, '6': '.internal.Token', '10': 'token'},
+    const {'1': 'targets', '3': 2, '4': 3, '5': 11, '6': '.internal.CountryDelta.TargetsEntry', '10': 'targets'},
   ],
+  '3': const [CountryDelta_TargetsEntry$json],
 };
 
-const Trip$json = const {
-  '1': 'Trip',
+const CountryDelta_TargetsEntry$json = const {
+  '1': 'TargetsEntry',
   '2': const [
-    const {'1': 'city', '3': 1, '4': 1, '5': 11, '6': '.internal.City', '10': 'city'},
-    const {'1': 'country', '3': 2, '4': 1, '5': 11, '6': '.internal.Country', '10': 'country'},
-    const {'1': 'packages', '3': 3, '4': 3, '5': 11, '6': '.internal.Package', '10': 'packages'},
-    const {'1': 'hotels', '3': 4, '4': 3, '5': 11, '6': '.internal.Hotel', '10': 'hotels'},
+    const {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
+    const {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.internal.Delta', '10': 'value'},
   ],
+  '7': const {'7': true},
 };
 
-const Trips$json = const {
-  '1': 'Trips',
+const CityDelta$json = const {
+  '1': 'CityDelta',
   '2': const [
-    const {'1': 'values', '3': 1, '4': 3, '5': 11, '6': '.internal.Trip', '10': 'values'},
+    const {'1': 'token', '3': 1, '4': 1, '5': 11, '6': '.internal.Token', '10': 'token'},
+    const {'1': 'targets', '3': 2, '4': 3, '5': 11, '6': '.internal.CityDelta.TargetsEntry', '10': 'targets'},
   ],
+  '3': const [CityDelta_TargetsEntry$json],
+};
+
+const CityDelta_TargetsEntry$json = const {
+  '1': 'TargetsEntry',
+  '2': const [
+    const {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
+    const {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.internal.Delta', '10': 'value'},
+  ],
+  '7': const {'7': true},
 };
 

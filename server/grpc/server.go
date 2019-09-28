@@ -2,16 +2,10 @@ package grpc
 
 import (
 	"context"
-	it "github.com/N1cOs/vkhack2019/server/grpc/internal"
 	"google.golang.org/grpc"
 	"log"
 	"net"
 	"time"
-)
-
-const (
-	urlIpSearch     = "http://www.travelpayouts.com/whereami"
-	urlAutocomplete = "http://autocomplete.travelpayouts.com/places2"
 )
 
 type Server struct {
@@ -29,9 +23,6 @@ func (s *Server) Serve(address string) error {
 	defer listener.Close()
 
 	server := grpc.NewServer(grpc.UnaryInterceptor(logInterceptor))
-	it.RegisterAutocompleteServer(server, s)
-	it.RegisterSearcherServer(server, s)
-	it.RegisterSessionServer(server, s)
 
 	return server.Serve(listener)
 }

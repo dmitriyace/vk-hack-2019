@@ -2,9 +2,6 @@ import 'package:client/pages/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
 
-import 'api/autocomplete.pb.dart';
-import 'api/autocomplete.pbgrpc.dart';
-import 'api/session.pb.dart';
 import 'model/question.dart';
 
 void main() => runApp(Main());
@@ -25,93 +22,86 @@ class _GlobalParentState extends State<_GlobalParent> {
   static var _channel = ClientChannel('192.168.43.95',
       port: 8080,
       options: ChannelOptions(credentials: ChannelCredentials.insecure()));
-  List<Question> _introQuestions = [
+
+  List<Question> _questions = [
     Question(
         0,
-        'Укажите город отправления',
-        QuestionType.AUTOCOMPLETE,
-            () {
-          return 1;
+        1,
+        QuestionType.YES_DC,
+        YesDCQuestionPayload(
+            'Вы хотели бы увидеть одно из Семи Чудес Света вживую?',
+            'Да!',
+            'Без разницы'),
+        null,
+        {
+          0: {"EG": 3}
         },
-        false,
-        AutocompleteQuestionPayload((String pattern) async {
-          if (pattern != '') {
-            var autocomplete = CityAutocomplete();
-            autocomplete.value = pattern;
-            Cities result;
-            await AutocompleteClient(_channel)
-                .city(autocomplete)
-                .then((el) => result = el);
-            return Future<List>.value(List.of(result.values));
-          }
-          return Future<List>.value([]);
-        }, (Requirements requirements, String model, Function cont) {
-          if (model == '') {
-            requirements.originIata = model;
-            cont();
-          }
-        })),
+        {
+          0: {"CAI": 7}
+        }),
     Question(
         1,
-        'Страна назначение',
-        QuestionType.AUTOCOMPLETE,
-            () {
-          return 2;
+        1,
+        QuestionType.YES_DC,
+        YesDCQuestionPayload(
+            'Как насчет искупаться в теплом море?', 'Определенно.', 'Не важно'),
+        null,
+        {
+          0: {
+            "BR": 5,
+            "ES": 5,
+            "FR": 5,
+            "IT": 5,
+            "GR": 5,
+            "MA": 5,
+            "TN": 5,
+            "EG": 5,
+            "TR": 5,
+            "JP": 5,
+            "TH": 5
+          }
         },
-        false,
-        AutocompleteQuestionPayload((String pattern) async {
-          if (pattern != '') {
-            var autocomplete = CountryAutocomplete();
-            autocomplete.value = pattern;
-            Countries result;
-            await AutocompleteClient(_channel)
-                .country(autocomplete)
-                .then((el) => result = el);
-            return Future<List>.value(List.of(result.values));
+        {
+          0: {
+            "LAS": 5,
+            "RIO": 5,
+            "BCN": 5,
+            "NCE": 5,
+            "MRS": 5,
+            "HER": 5,
+            "CAS": 5,
+            "TUN": 5,
+            "HRG": 5,
+            "SSH": 5,
+            "AYT": 5,
+            "OSA": 5,
+            "BKK": 5,
+            "HKT": 5
           }
-          return Future<List>.value(List.of([]));
-        }, (Requirements requirements, String model, Function cont) {
-          if (model == '') {
-            requirements.countryCode = model;
-            cont();
-          }
-        })),
+        }),
     Question(
         2,
-        'Страна назначение',
-        QuestionType.AUTOCOMPLETE,
-            () {
-          return 3;
-        },
-        false,
-        AutocompleteQuestionPayload((String pattern) async {
-          if (pattern != '') {
-            var autocomplete = CityAutocomplete();
-            autocomplete.value = pattern;
-            Cities result;
-            await AutocompleteClient(_channel)
-                .city(autocomplete)
-                .then((el) => result = el);
-            return Future<List>.value(List.of(result.values));
-          }
-          return Future<List>.value(List.of([]));
-        }, (Requirements requirements, String model, Function cont) {
-          if (model == '') {
-            requirements.cityIata = model;
-            cont();
-          }
-        })),
+        1,
+        QuestionType.ONE_OF_TWO,
+        OneOfTwoQuestionPayload('Что выберете?', 'Пицца', 'Суши'),
+        {0: {"NOR": 3, "EUR": 3}, 1: {"ASI": 3}},
+        {0: {"IT": 5}, 1: {"JP": 5}},
+        null),
+    Question(3, 1, QuestionType.YES_DC,
+        YesDCQuestionPayload('4 вопрос', 'Да', 'Хз'), null, null, null),
+    Question(4, 1, QuestionType.YES_DC,
+        YesDCQuestionPayload('5 вопрос', 'Да', 'Хз'), null, null, null),
+    Question(5, 1, QuestionType.YES_DC,
+        YesDCQuestionPayload('6 вопрос', 'Да', 'Хз'), null, null, null),
+    Question(6, 1, QuestionType.YES_DC,
+        YesDCQuestionPayload('7 вопрос', 'Да', 'Хз'), null, null, null)
   ];
-  bool _hasHistory = false;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Aviasales Demo',
-      home: HomePage(
-          hasHistory: _hasHistory,
-          introQuestions: _introQuestions,
-          channel: _channel),
+      home: HomePage(questions: _questions, channel: _channel),
     );
   }
 }

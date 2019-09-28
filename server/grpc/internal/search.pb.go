@@ -8,7 +8,6 @@ import (
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	empty "github.com/golang/protobuf/ptypes/empty"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -26,430 +25,264 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type Change struct {
-	Iata                 string   `protobuf:"bytes,1,opt,name=iata,proto3" json:"iata,omitempty"`
-	Duration             uint32   `protobuf:"varint,2,opt,name=duration,proto3" json:"duration,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+type Continent int32
+
+const (
+	Continent_EUROPE        Continent = 0
+	Continent_ASIA          Continent = 1
+	Continent_AFRICA        Continent = 2
+	Continent_NORTH_AMERICA Continent = 3
+	Continent_SOUTH_AMERICA Continent = 4
+	Continent_OCEANIA       Continent = 5
+)
+
+var Continent_name = map[int32]string{
+	0: "EUROPE",
+	1: "ASIA",
+	2: "AFRICA",
+	3: "NORTH_AMERICA",
+	4: "SOUTH_AMERICA",
+	5: "OCEANIA",
 }
 
-func (m *Change) Reset()         { *m = Change{} }
-func (m *Change) String() string { return proto.CompactTextString(m) }
-func (*Change) ProtoMessage()    {}
-func (*Change) Descriptor() ([]byte, []int) {
+var Continent_value = map[string]int32{
+	"EUROPE":        0,
+	"ASIA":          1,
+	"AFRICA":        2,
+	"NORTH_AMERICA": 3,
+	"SOUTH_AMERICA": 4,
+	"OCEANIA":       5,
+}
+
+func (x Continent) String() string {
+	return proto.EnumName(Continent_name, int32(x))
+}
+
+func (Continent) EnumDescriptor() ([]byte, []int) {
 	return fileDescriptor_453745cff914010e, []int{0}
 }
 
-func (m *Change) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Change.Unmarshal(m, b)
-}
-func (m *Change) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Change.Marshal(b, m, deterministic)
-}
-func (m *Change) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Change.Merge(m, src)
-}
-func (m *Change) XXX_Size() int {
-	return xxx_messageInfo_Change.Size(m)
-}
-func (m *Change) XXX_DiscardUnknown() {
-	xxx_messageInfo_Change.DiscardUnknown(m)
+type Delta struct {
+	Value                int32    `protobuf:"varint,1,opt,name=value,proto3" json:"value,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
 }
 
-var xxx_messageInfo_Change proto.InternalMessageInfo
+func (m *Delta) Reset()         { *m = Delta{} }
+func (m *Delta) String() string { return proto.CompactTextString(m) }
+func (*Delta) ProtoMessage()    {}
+func (*Delta) Descriptor() ([]byte, []int) {
+	return fileDescriptor_453745cff914010e, []int{0}
+}
 
-func (m *Change) GetIata() string {
+func (m *Delta) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Delta.Unmarshal(m, b)
+}
+func (m *Delta) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Delta.Marshal(b, m, deterministic)
+}
+func (m *Delta) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Delta.Merge(m, src)
+}
+func (m *Delta) XXX_Size() int {
+	return xxx_messageInfo_Delta.Size(m)
+}
+func (m *Delta) XXX_DiscardUnknown() {
+	xxx_messageInfo_Delta.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Delta proto.InternalMessageInfo
+
+func (m *Delta) GetValue() int32 {
 	if m != nil {
-		return m.Iata
-	}
-	return ""
-}
-
-func (m *Change) GetDuration() uint32 {
-	if m != nil {
-		return m.Duration
+		return m.Value
 	}
 	return 0
 }
 
-type Segment struct {
-	Origin               string               `protobuf:"bytes,1,opt,name=origin,proto3" json:"origin,omitempty"`
-	Dest                 string               `protobuf:"bytes,2,opt,name=dest,proto3" json:"dest,omitempty"`
-	Duration             uint32               `protobuf:"varint,3,opt,name=duration,proto3" json:"duration,omitempty"`
-	Changes              []*Change            `protobuf:"bytes,4,rep,name=changes,proto3" json:"changes,omitempty"`
-	TakeOff              *timestamp.Timestamp `protobuf:"bytes,5,opt,name=takeOff,proto3" json:"takeOff,omitempty"`
-	Landing              *timestamp.Timestamp `protobuf:"bytes,6,opt,name=landing,proto3" json:"landing,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}             `json:"-"`
-	XXX_unrecognized     []byte               `json:"-"`
-	XXX_sizecache        int32                `json:"-"`
+type ContinentDelta struct {
+	Token                *Token            `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	Targets              map[string]*Delta `protobuf:"bytes,2,rep,name=targets,proto3" json:"targets,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
 }
 
-func (m *Segment) Reset()         { *m = Segment{} }
-func (m *Segment) String() string { return proto.CompactTextString(m) }
-func (*Segment) ProtoMessage()    {}
-func (*Segment) Descriptor() ([]byte, []int) {
+func (m *ContinentDelta) Reset()         { *m = ContinentDelta{} }
+func (m *ContinentDelta) String() string { return proto.CompactTextString(m) }
+func (*ContinentDelta) ProtoMessage()    {}
+func (*ContinentDelta) Descriptor() ([]byte, []int) {
 	return fileDescriptor_453745cff914010e, []int{1}
 }
 
-func (m *Segment) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Segment.Unmarshal(m, b)
+func (m *ContinentDelta) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ContinentDelta.Unmarshal(m, b)
 }
-func (m *Segment) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Segment.Marshal(b, m, deterministic)
+func (m *ContinentDelta) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ContinentDelta.Marshal(b, m, deterministic)
 }
-func (m *Segment) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Segment.Merge(m, src)
+func (m *ContinentDelta) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ContinentDelta.Merge(m, src)
 }
-func (m *Segment) XXX_Size() int {
-	return xxx_messageInfo_Segment.Size(m)
+func (m *ContinentDelta) XXX_Size() int {
+	return xxx_messageInfo_ContinentDelta.Size(m)
 }
-func (m *Segment) XXX_DiscardUnknown() {
-	xxx_messageInfo_Segment.DiscardUnknown(m)
+func (m *ContinentDelta) XXX_DiscardUnknown() {
+	xxx_messageInfo_ContinentDelta.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Segment proto.InternalMessageInfo
+var xxx_messageInfo_ContinentDelta proto.InternalMessageInfo
 
-func (m *Segment) GetOrigin() string {
+func (m *ContinentDelta) GetToken() *Token {
 	if m != nil {
-		return m.Origin
-	}
-	return ""
-}
-
-func (m *Segment) GetDest() string {
-	if m != nil {
-		return m.Dest
-	}
-	return ""
-}
-
-func (m *Segment) GetDuration() uint32 {
-	if m != nil {
-		return m.Duration
-	}
-	return 0
-}
-
-func (m *Segment) GetChanges() []*Change {
-	if m != nil {
-		return m.Changes
+		return m.Token
 	}
 	return nil
 }
 
-func (m *Segment) GetTakeOff() *timestamp.Timestamp {
+func (m *ContinentDelta) GetTargets() map[string]*Delta {
 	if m != nil {
-		return m.TakeOff
+		return m.Targets
 	}
 	return nil
 }
 
-func (m *Segment) GetLanding() *timestamp.Timestamp {
-	if m != nil {
-		return m.Landing
-	}
-	return nil
+type CountryDelta struct {
+	Token                *Token            `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	Targets              map[string]*Delta `protobuf:"bytes,2,rep,name=targets,proto3" json:"targets,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
 }
 
-type Flight struct {
-	Price                uint32   `protobuf:"varint,1,opt,name=price,proto3" json:"price,omitempty"`
-	Depart               *Segment `protobuf:"bytes,2,opt,name=depart,proto3" json:"depart,omitempty"`
-	Return               *Segment `protobuf:"bytes,3,opt,name=return,proto3" json:"return,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Flight) Reset()         { *m = Flight{} }
-func (m *Flight) String() string { return proto.CompactTextString(m) }
-func (*Flight) ProtoMessage()    {}
-func (*Flight) Descriptor() ([]byte, []int) {
+func (m *CountryDelta) Reset()         { *m = CountryDelta{} }
+func (m *CountryDelta) String() string { return proto.CompactTextString(m) }
+func (*CountryDelta) ProtoMessage()    {}
+func (*CountryDelta) Descriptor() ([]byte, []int) {
 	return fileDescriptor_453745cff914010e, []int{2}
 }
 
-func (m *Flight) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Flight.Unmarshal(m, b)
+func (m *CountryDelta) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CountryDelta.Unmarshal(m, b)
 }
-func (m *Flight) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Flight.Marshal(b, m, deterministic)
+func (m *CountryDelta) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CountryDelta.Marshal(b, m, deterministic)
 }
-func (m *Flight) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Flight.Merge(m, src)
+func (m *CountryDelta) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CountryDelta.Merge(m, src)
 }
-func (m *Flight) XXX_Size() int {
-	return xxx_messageInfo_Flight.Size(m)
+func (m *CountryDelta) XXX_Size() int {
+	return xxx_messageInfo_CountryDelta.Size(m)
 }
-func (m *Flight) XXX_DiscardUnknown() {
-	xxx_messageInfo_Flight.DiscardUnknown(m)
+func (m *CountryDelta) XXX_DiscardUnknown() {
+	xxx_messageInfo_CountryDelta.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Flight proto.InternalMessageInfo
+var xxx_messageInfo_CountryDelta proto.InternalMessageInfo
 
-func (m *Flight) GetPrice() uint32 {
+func (m *CountryDelta) GetToken() *Token {
 	if m != nil {
-		return m.Price
-	}
-	return 0
-}
-
-func (m *Flight) GetDepart() *Segment {
-	if m != nil {
-		return m.Depart
+		return m.Token
 	}
 	return nil
 }
 
-func (m *Flight) GetReturn() *Segment {
+func (m *CountryDelta) GetTargets() map[string]*Delta {
 	if m != nil {
-		return m.Return
+		return m.Targets
 	}
 	return nil
 }
 
-type Hotel struct {
-	Id                   uint32   `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name                 string   `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+type CityDelta struct {
+	Token                *Token            `protobuf:"bytes,1,opt,name=token,proto3" json:"token,omitempty"`
+	Targets              map[string]*Delta `protobuf:"bytes,2,rep,name=targets,proto3" json:"targets,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
+	XXX_unrecognized     []byte            `json:"-"`
+	XXX_sizecache        int32             `json:"-"`
 }
 
-func (m *Hotel) Reset()         { *m = Hotel{} }
-func (m *Hotel) String() string { return proto.CompactTextString(m) }
-func (*Hotel) ProtoMessage()    {}
-func (*Hotel) Descriptor() ([]byte, []int) {
+func (m *CityDelta) Reset()         { *m = CityDelta{} }
+func (m *CityDelta) String() string { return proto.CompactTextString(m) }
+func (*CityDelta) ProtoMessage()    {}
+func (*CityDelta) Descriptor() ([]byte, []int) {
 	return fileDescriptor_453745cff914010e, []int{3}
 }
 
-func (m *Hotel) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Hotel.Unmarshal(m, b)
+func (m *CityDelta) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CityDelta.Unmarshal(m, b)
 }
-func (m *Hotel) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Hotel.Marshal(b, m, deterministic)
+func (m *CityDelta) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CityDelta.Marshal(b, m, deterministic)
 }
-func (m *Hotel) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Hotel.Merge(m, src)
+func (m *CityDelta) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CityDelta.Merge(m, src)
 }
-func (m *Hotel) XXX_Size() int {
-	return xxx_messageInfo_Hotel.Size(m)
+func (m *CityDelta) XXX_Size() int {
+	return xxx_messageInfo_CityDelta.Size(m)
 }
-func (m *Hotel) XXX_DiscardUnknown() {
-	xxx_messageInfo_Hotel.DiscardUnknown(m)
+func (m *CityDelta) XXX_DiscardUnknown() {
+	xxx_messageInfo_CityDelta.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Hotel proto.InternalMessageInfo
+var xxx_messageInfo_CityDelta proto.InternalMessageInfo
 
-func (m *Hotel) GetId() uint32 {
+func (m *CityDelta) GetToken() *Token {
 	if m != nil {
-		return m.Id
-	}
-	return 0
-}
-
-func (m *Hotel) GetName() string {
-	if m != nil {
-		return m.Name
-	}
-	return ""
-}
-
-type Package struct {
-	Flight               *Flight  `protobuf:"bytes,1,opt,name=flight,proto3" json:"flight,omitempty"`
-	Hotels               []uint32 `protobuf:"varint,2,rep,packed,name=hotels,proto3" json:"hotels,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Package) Reset()         { *m = Package{} }
-func (m *Package) String() string { return proto.CompactTextString(m) }
-func (*Package) ProtoMessage()    {}
-func (*Package) Descriptor() ([]byte, []int) {
-	return fileDescriptor_453745cff914010e, []int{4}
-}
-
-func (m *Package) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Package.Unmarshal(m, b)
-}
-func (m *Package) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Package.Marshal(b, m, deterministic)
-}
-func (m *Package) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Package.Merge(m, src)
-}
-func (m *Package) XXX_Size() int {
-	return xxx_messageInfo_Package.Size(m)
-}
-func (m *Package) XXX_DiscardUnknown() {
-	xxx_messageInfo_Package.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Package proto.InternalMessageInfo
-
-func (m *Package) GetFlight() *Flight {
-	if m != nil {
-		return m.Flight
+		return m.Token
 	}
 	return nil
 }
 
-func (m *Package) GetHotels() []uint32 {
+func (m *CityDelta) GetTargets() map[string]*Delta {
 	if m != nil {
-		return m.Hotels
-	}
-	return nil
-}
-
-type Trip struct {
-	City                 *City      `protobuf:"bytes,1,opt,name=city,proto3" json:"city,omitempty"`
-	Country              *Country   `protobuf:"bytes,2,opt,name=country,proto3" json:"country,omitempty"`
-	Packages             []*Package `protobuf:"bytes,3,rep,name=packages,proto3" json:"packages,omitempty"`
-	Hotels               []*Hotel   `protobuf:"bytes,4,rep,name=hotels,proto3" json:"hotels,omitempty"`
-	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
-	XXX_unrecognized     []byte     `json:"-"`
-	XXX_sizecache        int32      `json:"-"`
-}
-
-func (m *Trip) Reset()         { *m = Trip{} }
-func (m *Trip) String() string { return proto.CompactTextString(m) }
-func (*Trip) ProtoMessage()    {}
-func (*Trip) Descriptor() ([]byte, []int) {
-	return fileDescriptor_453745cff914010e, []int{5}
-}
-
-func (m *Trip) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Trip.Unmarshal(m, b)
-}
-func (m *Trip) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Trip.Marshal(b, m, deterministic)
-}
-func (m *Trip) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Trip.Merge(m, src)
-}
-func (m *Trip) XXX_Size() int {
-	return xxx_messageInfo_Trip.Size(m)
-}
-func (m *Trip) XXX_DiscardUnknown() {
-	xxx_messageInfo_Trip.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Trip proto.InternalMessageInfo
-
-func (m *Trip) GetCity() *City {
-	if m != nil {
-		return m.City
-	}
-	return nil
-}
-
-func (m *Trip) GetCountry() *Country {
-	if m != nil {
-		return m.Country
-	}
-	return nil
-}
-
-func (m *Trip) GetPackages() []*Package {
-	if m != nil {
-		return m.Packages
-	}
-	return nil
-}
-
-func (m *Trip) GetHotels() []*Hotel {
-	if m != nil {
-		return m.Hotels
-	}
-	return nil
-}
-
-type Trips struct {
-	Values               []*Trip  `protobuf:"bytes,1,rep,name=values,proto3" json:"values,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *Trips) Reset()         { *m = Trips{} }
-func (m *Trips) String() string { return proto.CompactTextString(m) }
-func (*Trips) ProtoMessage()    {}
-func (*Trips) Descriptor() ([]byte, []int) {
-	return fileDescriptor_453745cff914010e, []int{6}
-}
-
-func (m *Trips) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Trips.Unmarshal(m, b)
-}
-func (m *Trips) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Trips.Marshal(b, m, deterministic)
-}
-func (m *Trips) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Trips.Merge(m, src)
-}
-func (m *Trips) XXX_Size() int {
-	return xxx_messageInfo_Trips.Size(m)
-}
-func (m *Trips) XXX_DiscardUnknown() {
-	xxx_messageInfo_Trips.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_Trips proto.InternalMessageInfo
-
-func (m *Trips) GetValues() []*Trip {
-	if m != nil {
-		return m.Values
+		return m.Targets
 	}
 	return nil
 }
 
 func init() {
-	proto.RegisterType((*Change)(nil), "internal.Change")
-	proto.RegisterType((*Segment)(nil), "internal.Segment")
-	proto.RegisterType((*Flight)(nil), "internal.Flight")
-	proto.RegisterType((*Hotel)(nil), "internal.Hotel")
-	proto.RegisterType((*Package)(nil), "internal.Package")
-	proto.RegisterType((*Trip)(nil), "internal.Trip")
-	proto.RegisterType((*Trips)(nil), "internal.Trips")
+	proto.RegisterEnum("internal.Continent", Continent_name, Continent_value)
+	proto.RegisterType((*Delta)(nil), "internal.Delta")
+	proto.RegisterType((*ContinentDelta)(nil), "internal.ContinentDelta")
+	proto.RegisterMapType((map[string]*Delta)(nil), "internal.ContinentDelta.TargetsEntry")
+	proto.RegisterType((*CountryDelta)(nil), "internal.CountryDelta")
+	proto.RegisterMapType((map[string]*Delta)(nil), "internal.CountryDelta.TargetsEntry")
+	proto.RegisterType((*CityDelta)(nil), "internal.CityDelta")
+	proto.RegisterMapType((map[string]*Delta)(nil), "internal.CityDelta.TargetsEntry")
 }
 
 func init() { proto.RegisterFile("search.proto", fileDescriptor_453745cff914010e) }
 
 var fileDescriptor_453745cff914010e = []byte{
-	// 520 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x84, 0x53, 0x4d, 0x6f, 0xd4, 0x30,
-	0x10, 0x55, 0xf6, 0x23, 0x9b, 0x4e, 0xd9, 0x16, 0x2c, 0x54, 0x45, 0xe1, 0xc0, 0x2a, 0x07, 0x08,
-	0x14, 0x52, 0x69, 0xe1, 0xc0, 0xb9, 0x15, 0x5f, 0xe2, 0x00, 0x72, 0x7b, 0xe2, 0xe6, 0x26, 0xb3,
-	0x59, 0x6b, 0x13, 0x3b, 0xb2, 0x1d, 0xa4, 0xfd, 0x55, 0xfc, 0x2e, 0xfe, 0x05, 0x8a, 0xed, 0x6c,
-	0x77, 0x5b, 0x24, 0x6e, 0x1e, 0xcf, 0x9b, 0x99, 0xf7, 0x9e, 0x3d, 0xf0, 0x48, 0x23, 0x53, 0xc5,
-	0x3a, 0x6f, 0x95, 0x34, 0x92, 0x44, 0x5c, 0x18, 0x54, 0x82, 0xd5, 0xc9, 0xf3, 0x4a, 0xca, 0xaa,
-	0xc6, 0x0b, 0x7b, 0x7f, 0xdb, 0xad, 0x2e, 0x0c, 0x6f, 0x50, 0x1b, 0xd6, 0xb4, 0x0e, 0x9a, 0x3c,
-	0xbb, 0x0f, 0xc0, 0xa6, 0x35, 0x5b, 0x9f, 0x24, 0xac, 0x33, 0xb2, 0x90, 0x4d, 0x5b, 0xa3, 0x41,
-	0x7f, 0x37, 0xd7, 0xa8, 0x35, 0x97, 0xc2, 0x85, 0xe9, 0x07, 0x08, 0xaf, 0xd6, 0x4c, 0x54, 0x48,
-	0x08, 0x4c, 0x38, 0x33, 0x2c, 0x0e, 0x16, 0x41, 0x76, 0x44, 0xed, 0x99, 0x24, 0x10, 0x95, 0x9d,
-	0x62, 0x86, 0x4b, 0x11, 0x8f, 0x16, 0x41, 0x36, 0xa7, 0xbb, 0x38, 0xfd, 0x13, 0xc0, 0xec, 0x1a,
-	0xab, 0x06, 0x85, 0x21, 0x67, 0x10, 0x4a, 0xc5, 0x2b, 0x2e, 0x7c, 0xb5, 0x8f, 0xfa, 0x9e, 0x25,
-	0x6a, 0x63, 0x6b, 0x8f, 0xa8, 0x3d, 0x1f, 0xf4, 0x1c, 0x1f, 0xf6, 0x24, 0xaf, 0x61, 0x56, 0x58,
-	0x36, 0x3a, 0x9e, 0x2c, 0xc6, 0xd9, 0xf1, 0xf2, 0x71, 0x3e, 0x58, 0x91, 0x3b, 0x9a, 0x74, 0x00,
-	0x90, 0xf7, 0x30, 0x33, 0x6c, 0x83, 0xdf, 0x57, 0xab, 0x78, 0xba, 0x08, 0xb2, 0xe3, 0x65, 0x92,
-	0x3b, 0x2f, 0xf2, 0xc1, 0x8b, 0xfc, 0x66, 0x30, 0x8b, 0x0e, 0xd0, 0xbe, 0xaa, 0x66, 0xa2, 0xe4,
-	0xa2, 0x8a, 0xc3, 0xff, 0x57, 0x79, 0x68, 0x6a, 0x20, 0xfc, 0x54, 0xf3, 0x6a, 0x6d, 0xc8, 0x53,
-	0x98, 0xb6, 0x8a, 0x17, 0x68, 0x85, 0xce, 0xa9, 0x0b, 0xc8, 0x2b, 0x08, 0x4b, 0x6c, 0x99, 0x72,
-	0x4a, 0x8f, 0x97, 0x4f, 0xee, 0x68, 0x7b, 0x8b, 0xa8, 0x07, 0xf4, 0x50, 0x85, 0xa6, 0x53, 0x4e,
-	0xfc, 0xbf, 0xa1, 0x0e, 0x90, 0x9e, 0xc3, 0xf4, 0x8b, 0x34, 0x58, 0x93, 0x13, 0x18, 0xf1, 0xd2,
-	0x4f, 0x1c, 0xf1, 0xb2, 0xb7, 0x55, 0xb0, 0x06, 0x07, 0x5b, 0xfb, 0x73, 0xfa, 0x0d, 0x66, 0x3f,
-	0x58, 0xb1, 0x61, 0x15, 0x92, 0x0c, 0xc2, 0x95, 0x65, 0x6b, 0x4b, 0x0e, 0x4c, 0x74, 0x2a, 0xa8,
-	0xcf, 0xf7, 0xef, 0xb6, 0xee, 0x27, 0xe8, 0x78, 0xb4, 0x18, 0x67, 0x73, 0xea, 0xa3, 0xf4, 0x77,
-	0x00, 0x93, 0x1b, 0xc5, 0x5b, 0x92, 0xc2, 0xa4, 0xe0, 0x66, 0xeb, 0x1b, 0x9d, 0xec, 0xbd, 0x06,
-	0x37, 0x5b, 0x6a, 0x73, 0xe4, 0x1c, 0x66, 0x85, 0xec, 0x84, 0x51, 0xdb, 0x87, 0xea, 0xaf, 0x5c,
-	0x82, 0x0e, 0x08, 0xf2, 0x16, 0xa2, 0xd6, 0xd1, 0xd4, 0xf1, 0xd8, 0x3e, 0xf1, 0x1e, 0xda, 0x0b,
-	0xa0, 0x3b, 0x08, 0x79, 0xb9, 0x23, 0xe8, 0xfe, 0xc3, 0xe9, 0x1d, 0xd8, 0x5a, 0xb3, 0x63, 0x7c,
-	0x01, 0xd3, 0x9e, 0xb0, 0x26, 0x2f, 0x20, 0xfc, 0xc5, 0xea, 0x0e, 0x75, 0x1c, 0xd8, 0x8a, 0x3d,
-	0xce, 0x3d, 0x80, 0xfa, 0xec, 0xb2, 0x86, 0xe8, 0xda, 0xee, 0x1c, 0x2a, 0xb2, 0x84, 0xa8, 0xd7,
-	0x73, 0xb9, 0xfd, 0xda, 0x92, 0xb3, 0x07, 0xff, 0xe1, 0x63, 0xbf, 0x51, 0xc9, 0x3d, 0xed, 0xe4,
-	0x0d, 0x44, 0x9f, 0xd1, 0xb8, 0x99, 0x7b, 0xac, 0x6e, 0xe4, 0x06, 0x45, 0x72, 0x7a, 0x38, 0x54,
-	0x5f, 0xc2, 0xcf, 0xdd, 0x4e, 0xdf, 0x86, 0xb6, 0xf3, 0xbb, 0xbf, 0x01, 0x00, 0x00, 0xff, 0xff,
-	0x19, 0x54, 0xb8, 0x4f, 0xf4, 0x03, 0x00, 0x00,
+	// 408 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x53, 0x4d, 0x6f, 0xda, 0x40,
+	0x10, 0xed, 0x1a, 0xcc, 0xc7, 0xf0, 0x51, 0x77, 0x5b, 0x21, 0xe4, 0xaa, 0x12, 0xa2, 0x42, 0x42,
+	0x3d, 0x18, 0x89, 0x5e, 0x5a, 0xa4, 0x0a, 0xb9, 0xae, 0xab, 0xa0, 0x28, 0x38, 0x32, 0xa0, 0x1c,
+	0x13, 0x13, 0x6d, 0x8c, 0x85, 0xb3, 0x8b, 0xec, 0x25, 0x92, 0x7f, 0x5b, 0x4e, 0x39, 0xe4, 0x90,
+	0x7f, 0x15, 0xd9, 0x8b, 0x83, 0x83, 0xe0, 0xc0, 0x85, 0x9b, 0xe7, 0xed, 0xdb, 0x37, 0xef, 0x79,
+	0x76, 0xa0, 0x1a, 0x12, 0x27, 0xb8, 0x5d, 0x68, 0xab, 0x80, 0x71, 0x86, 0x4b, 0x1e, 0xe5, 0x24,
+	0xa0, 0x8e, 0xaf, 0x7e, 0x75, 0x19, 0x73, 0x7d, 0xd2, 0x4b, 0xf0, 0xf9, 0xfa, 0xae, 0x47, 0xee,
+	0x57, 0x3c, 0x12, 0x34, 0xb5, 0x16, 0x92, 0x30, 0xf4, 0x18, 0x15, 0x65, 0xfb, 0x1b, 0xc8, 0xff,
+	0x88, 0xcf, 0x1d, 0xfc, 0x05, 0xe4, 0x07, 0xc7, 0x5f, 0x93, 0x26, 0x6a, 0xa1, 0xae, 0x6c, 0x8b,
+	0xa2, 0xfd, 0x8c, 0xa0, 0x6e, 0x30, 0xca, 0x3d, 0x4a, 0x28, 0x17, 0xc4, 0x0e, 0xc8, 0x9c, 0x2d,
+	0x09, 0x4d, 0x88, 0x95, 0xfe, 0x47, 0x2d, 0xed, 0xab, 0x4d, 0x63, 0xd8, 0x16, 0xa7, 0x78, 0x08,
+	0x45, 0xee, 0x04, 0x2e, 0xe1, 0x61, 0x53, 0x6a, 0xe5, 0xba, 0x95, 0x7e, 0x67, 0x4b, 0x7c, 0xaf,
+	0xa8, 0x4d, 0x05, 0xcf, 0xa4, 0x3c, 0x88, 0xec, 0xf4, 0x96, 0x7a, 0x0e, 0xd5, 0xec, 0x01, 0x56,
+	0x20, 0xb7, 0x24, 0x51, 0xd2, 0xb5, 0x6c, 0xc7, 0x9f, 0xb1, 0x13, 0x61, 0x59, 0xda, 0x75, 0x92,
+	0xe8, 0x6e, 0x32, 0x0c, 0xa4, 0x5f, 0xa8, 0xfd, 0x84, 0xa0, 0x6a, 0xb0, 0x75, 0x2c, 0x74, 0x54,
+	0x8a, 0x3f, 0xbb, 0x29, 0xbe, 0x67, 0x53, 0x6c, 0xf5, 0x4e, 0x91, 0xe1, 0x11, 0x41, 0xd9, 0xf0,
+	0xf8, 0x71, 0x01, 0x06, 0xbb, 0x01, 0x5a, 0x99, 0x00, 0xa9, 0xd8, 0x09, 0xdc, 0xff, 0xb8, 0x81,
+	0xf2, 0xdb, 0xd8, 0x31, 0x40, 0xc1, 0x9c, 0xd9, 0xd6, 0xa5, 0xa9, 0x7c, 0xc0, 0x25, 0xc8, 0xeb,
+	0x93, 0x91, 0xae, 0xa0, 0x18, 0xd5, 0xff, 0xdb, 0x23, 0x43, 0x57, 0x24, 0xfc, 0x09, 0x6a, 0x63,
+	0xcb, 0x9e, 0x9e, 0x5d, 0xeb, 0x17, 0x66, 0x02, 0xe5, 0x62, 0x68, 0x62, 0xcd, 0x32, 0x50, 0x1e,
+	0x57, 0xa0, 0x68, 0x19, 0xa6, 0x3e, 0x1e, 0xe9, 0x8a, 0xdc, 0x7f, 0x41, 0x50, 0xbc, 0x22, 0x9e,
+	0xbb, 0xe0, 0x21, 0xfe, 0x0b, 0x75, 0x63, 0xe1, 0x50, 0x97, 0x6c, 0x7a, 0x72, 0xdc, 0x3c, 0xf4,
+	0xfc, 0xd4, 0x86, 0x26, 0xf6, 0x45, 0x4b, 0xf7, 0x45, 0x33, 0xe3, 0x7d, 0xc1, 0x43, 0xa8, 0xa5,
+	0x1a, 0xc9, 0xa0, 0x71, 0x63, 0xff, 0xec, 0x0f, 0x0a, 0xfc, 0x06, 0xd8, 0x08, 0x78, 0x3c, 0xc2,
+	0x9f, 0xf7, 0xfc, 0xf8, 0x43, 0x57, 0xe7, 0x85, 0xa4, 0xfe, 0xf9, 0x1a, 0x00, 0x00, 0xff, 0xff,
+	0x31, 0x61, 0xcd, 0x93, 0xe3, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -460,108 +293,144 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// SearcherClient is the client API for Searcher service.
+// WeightsClient is the client API for Weights service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type SearcherClient interface {
-	CityByIp(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*City, error)
-	GetTrips(ctx context.Context, in *Token, opts ...grpc.CallOption) (*Trips, error)
+type WeightsClient interface {
+	ChangeContinet(ctx context.Context, in *ContinentDelta, opts ...grpc.CallOption) (*empty.Empty, error)
+	ChangeCountry(ctx context.Context, in *CountryDelta, opts ...grpc.CallOption) (*empty.Empty, error)
+	ChangeCity(ctx context.Context, in *CityDelta, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
-type searcherClient struct {
+type weightsClient struct {
 	cc *grpc.ClientConn
 }
 
-func NewSearcherClient(cc *grpc.ClientConn) SearcherClient {
-	return &searcherClient{cc}
+func NewWeightsClient(cc *grpc.ClientConn) WeightsClient {
+	return &weightsClient{cc}
 }
 
-func (c *searcherClient) CityByIp(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*City, error) {
-	out := new(City)
-	err := c.cc.Invoke(ctx, "/internal.Searcher/CityByIp", in, out, opts...)
+func (c *weightsClient) ChangeContinet(ctx context.Context, in *ContinentDelta, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/internal.Weights/ChangeContinet", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *searcherClient) GetTrips(ctx context.Context, in *Token, opts ...grpc.CallOption) (*Trips, error) {
-	out := new(Trips)
-	err := c.cc.Invoke(ctx, "/internal.Searcher/GetTrips", in, out, opts...)
+func (c *weightsClient) ChangeCountry(ctx context.Context, in *CountryDelta, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/internal.Weights/ChangeCountry", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// SearcherServer is the server API for Searcher service.
-type SearcherServer interface {
-	CityByIp(context.Context, *empty.Empty) (*City, error)
-	GetTrips(context.Context, *Token) (*Trips, error)
+func (c *weightsClient) ChangeCity(ctx context.Context, in *CityDelta, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/internal.Weights/ChangeCity", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
-// UnimplementedSearcherServer can be embedded to have forward compatible implementations.
-type UnimplementedSearcherServer struct {
+// WeightsServer is the server API for Weights service.
+type WeightsServer interface {
+	ChangeContinet(context.Context, *ContinentDelta) (*empty.Empty, error)
+	ChangeCountry(context.Context, *CountryDelta) (*empty.Empty, error)
+	ChangeCity(context.Context, *CityDelta) (*empty.Empty, error)
 }
 
-func (*UnimplementedSearcherServer) CityByIp(ctx context.Context, req *empty.Empty) (*City, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CityByIp not implemented")
-}
-func (*UnimplementedSearcherServer) GetTrips(ctx context.Context, req *Token) (*Trips, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetTrips not implemented")
+// UnimplementedWeightsServer can be embedded to have forward compatible implementations.
+type UnimplementedWeightsServer struct {
 }
 
-func RegisterSearcherServer(s *grpc.Server, srv SearcherServer) {
-	s.RegisterService(&_Searcher_serviceDesc, srv)
+func (*UnimplementedWeightsServer) ChangeContinet(ctx context.Context, req *ContinentDelta) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeContinet not implemented")
+}
+func (*UnimplementedWeightsServer) ChangeCountry(ctx context.Context, req *CountryDelta) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeCountry not implemented")
+}
+func (*UnimplementedWeightsServer) ChangeCity(ctx context.Context, req *CityDelta) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeCity not implemented")
 }
 
-func _Searcher_CityByIp_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(empty.Empty)
+func RegisterWeightsServer(s *grpc.Server, srv WeightsServer) {
+	s.RegisterService(&_Weights_serviceDesc, srv)
+}
+
+func _Weights_ChangeContinet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ContinentDelta)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SearcherServer).CityByIp(ctx, in)
+		return srv.(WeightsServer).ChangeContinet(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/internal.Searcher/CityByIp",
+		FullMethod: "/internal.Weights/ChangeContinet",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SearcherServer).CityByIp(ctx, req.(*empty.Empty))
+		return srv.(WeightsServer).ChangeContinet(ctx, req.(*ContinentDelta))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Searcher_GetTrips_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Token)
+func _Weights_ChangeCountry_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CountryDelta)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SearcherServer).GetTrips(ctx, in)
+		return srv.(WeightsServer).ChangeCountry(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/internal.Searcher/GetTrips",
+		FullMethod: "/internal.Weights/ChangeCountry",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SearcherServer).GetTrips(ctx, req.(*Token))
+		return srv.(WeightsServer).ChangeCountry(ctx, req.(*CountryDelta))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-var _Searcher_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "internal.Searcher",
-	HandlerType: (*SearcherServer)(nil),
+func _Weights_ChangeCity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CityDelta)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(WeightsServer).ChangeCity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/internal.Weights/ChangeCity",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(WeightsServer).ChangeCity(ctx, req.(*CityDelta))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+var _Weights_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "internal.Weights",
+	HandlerType: (*WeightsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CityByIp",
-			Handler:    _Searcher_CityByIp_Handler,
+			MethodName: "ChangeContinet",
+			Handler:    _Weights_ChangeContinet_Handler,
 		},
 		{
-			MethodName: "GetTrips",
-			Handler:    _Searcher_GetTrips_Handler,
+			MethodName: "ChangeCountry",
+			Handler:    _Weights_ChangeCountry_Handler,
+		},
+		{
+			MethodName: "ChangeCity",
+			Handler:    _Weights_ChangeCity_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -112,14 +112,20 @@
     "SG": [
       "SIN"
     ],
+    "TH": [
+      "BKK",
+      "HKT"
+    ],
     "food": [
       "Nasi Padang",
       "Philippine",
       "Amok",
       "Nasi Lemak"
     ]
-  },
-  "OCE": {
+  }
+}
+
+/*"OCE": {
     "TH": [
       "BKK",
       "HKT"
@@ -131,5 +137,4 @@
       "Pie",
       "Fish and Chips"
     ]
-  }
-}
+  }*/

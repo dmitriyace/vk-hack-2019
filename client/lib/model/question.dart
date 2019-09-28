@@ -1,60 +1,54 @@
+import 'package:client/api/search.pb.dart';
 import 'package:client/api/session.pb.dart';
-import 'package:flutter/material.dart';
 
 enum QuestionType {
-  AUTOCOMPLETE,
-  MULTIPLE_SELECT_GRID,
-  INPUT,
-  TOUR_DATES,
-  MONTH_SELECT,
-  LINEUP
+  YES_DC,
+  ONE_OF_TWO,
+  MULTIPLE_SELECT
 }
 
 class Question {
   int id;
-  final String title;
-  final QuestionType type;
-  final Function idNext;
-  final bool isSkippable;
-  final QuestionPayload payload;
-  Question(this.id, this.title, this.type, this.idNext, this.isSkippable, this.payload);
-  Question.custom(this.title, this.type, this.idNext, this.isSkippable, this.payload);
+  int tier;
+  QuestionType type;
+  QuestionPayload payload;
+  Map<
+      int,
+      Map<String, int>
+  > continentWeights;
+  Map<
+      int,
+      Map<String, int>
+  > countryWeights;
+  Map<
+      int,
+      Map<String, int>
+  > cityWeights;
+  Question(this.id, this.tier, this.type, this.payload, this. continentWeights, this.countryWeights, this.cityWeights);
 }
 
 abstract class QuestionPayload {
-  int maxIntervalDays;
-  List<GridItem> gridItemList;
-  List<Month> monthItemList;
-  Function suggestionsCallback;
-  Function submitCallback;
-}
-class EmptyQuestionPayload extends QuestionPayload {
-  final Function submitCallback;
-  EmptyQuestionPayload(this.submitCallback);
-}
-class AutocompleteQuestionPayload extends QuestionPayload {
-  final Function suggestionsCallback;
-  final Function submitCallback;
-  AutocompleteQuestionPayload(this.suggestionsCallback, this.submitCallback);
-}
-class MultipleSelectGridPayload extends QuestionPayload {
-  final List<GridItem> gridItemList;
-  final Function submitCallback;
-  MultipleSelectGridPayload(this.gridItemList, this.submitCallback);
-}
-class TourDatesPayload extends QuestionPayload {
-  final int maxIntervalDays;
-  final Function submitCallback;
-  TourDatesPayload(this.maxIntervalDays, this.submitCallback);
-}
-class MonthSelectQuestionPayload extends QuestionPayload {
-  final List<Month> monthItemList;
-  final Function submitCallback;
-  MonthSelectQuestionPayload(this.monthItemList, this.submitCallback);
+  String title;
+  String yesOption;
+  String dCOption;
+  String firstOption;
+  String secondOption;
 }
 
-class GridItem {
-  final String title;
-  final Image img;
-  GridItem(this.title, this.img);
+class YesDCQuestionPayload extends QuestionPayload {
+  String title;
+  String yesOption;
+  String dCOption;
+  YesDCQuestionPayload(this.title, this.yesOption, this.dCOption);
+}
+
+class OneOfTwoQuestionPayload extends QuestionPayload {
+  String title;
+  String firstOption;
+  String secondOption;
+  OneOfTwoQuestionPayload(this.title, this.firstOption, this.secondOption);
+}
+
+class MultipleSelectQuestionPayload extends QuestionPayload {
+
 }

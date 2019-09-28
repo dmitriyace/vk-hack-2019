@@ -1,35 +1,75 @@
+import 'dart:math';
+
 import 'package:client/api/session.pb.dart';
 import 'package:client/model/question.dart';
-import 'package:client/pages/sering/question_widgets/autocomplete_question.dart';
+import 'package:client/pages/sering/question_widgets/one_of_two_question.dart';
+import 'package:client/pages/sering/question_widgets/yes_dc_question.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
 
+import '../result_page.dart';
+
 class SeringPage extends StatefulWidget {
-  SeringPage({Key key, this.introQuestions, this.channel}) : super(key: key);
-  final List<Question> introQuestions;
+  SeringPage({Key key, this.questions, this.channel}) : super(key: key);
+  final List<Question> questions;
   final ClientChannel channel;
+  static final int firstQuestion = new Random().nextInt(7);
 
   _SeringPageState createState() => _SeringPageState();
 }
 
 class _SeringPageState extends State<SeringPage> {
-  bool intro = true;
-  int currentQuestionId = 0;
-  Requirements requirements = Requirements();
+  List<int> history = [SeringPage.firstQuestion];
+  int currentQuestionId = SeringPage.firstQuestion;
 
-  void selectQuestionById(int id) {
+  void selectQuestionById(int id, bool forward) {
     setState(() {
-      this.currentQuestionId = id;
+      if (forward) {
+        if (widget.questions.firstWhere((el) => el.id == id, orElse: (){}) != null) {
+          this.currentQuestionId = id;
+          this.history.add(id);
+        }
+      } else if (this.history.length > 1) {
+        this.currentQuestionId = this.history[this.history.length - 2];
+        this.history.removeLast();
+      }
     });
   }
 
   Question getCurrentQuestion() =>
-      widget.introQuestions.firstWhere((q) => q.id == this.currentQuestionId);
+      widget.questions.firstWhere((q) => q.id == this.currentQuestionId);
+
+  int getNextQuestionId() {
+    var questions = this.widget.questions.where((el) => this.history.firstWhere((elem) => elem == el.id, orElse: (){}) == null);
+    final _random = new Random();
+
+    return questions.toList()[_random.nextInt(questions.length)].id;
+  }
+
+  void finish() {
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context) => ResultPage()
+    ));
+  }
 
   Widget getCurrentQuestionCard() {
     switch (getCurrentQuestion().type) {
-      case QuestionType.AUTOCOMPLETE: return AutocompleteQuestion(question: getCurrentQuestion(), selectQuestionById: selectQuestionById, channel: widget.channel, requirements: requirements);
-      default: return Text('default');
+      case QuestionType.YES_DC:
+        return YesDCQuestion(
+            question: getCurrentQuestion(),
+            selectQuestionById: selectQuestionById,
+            getNextQuestionId: getNextQuestionId,
+            finish: finish,
+            channel: widget.channel);
+      case QuestionType.ONE_OF_TWO:
+        return OneOfTwoQuestion(
+            question: getCurrentQuestion(),
+            selectQuestionById: selectQuestionById,
+            getNextQuestionId: getNextQuestionId,
+            finish: finish,
+            channel: widget.channel);
+      default:
+        return Text('default');
     }
   }
 
@@ -38,23 +78,23 @@ class _SeringPageState extends State<SeringPage> {
     return Scaffold(
       body: Center(
           child: Container(
-            width: 300,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.all(30.0),
-                  width: 150.0,
-                  height: 20.0,
-                  color: Colors.black38,
-                ),
-                Expanded(
-                  child: getCurrentQuestionCard(),
-                )
-              ],
+        width: 300,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.all(30.0),
+              width: 150.0,
+              height: 20.0,
+              color: Colors.black38,
             ),
-          )),
+            Expanded(
+              child: getCurrentQuestionCard(),
+            )
+          ],
+        ),
+      )),
     );
   }
 }
