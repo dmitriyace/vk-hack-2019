@@ -8,6 +8,7 @@ import (
 	"github.com/N1cOs/vkhack2019/server/http"
 	"github.com/golang/protobuf/ptypes/empty"
 	"log"
+	"sort"
 )
 
 const (
@@ -109,8 +110,25 @@ func (s *Server) ChangeCity(ctx context.Context, delta *it.CityDelta) (*empty.Em
 	return &empty.Empty{}, nil
 }
 
-func (s *Server) Result(context.Context, *empty.Empty) (*it.Cities, error) {
-	return nil, nil
+func (s *Server) Result(ctx context.Context, token *it.Token) (*it.Cities, error) {
+	session, err := GetSession(token.Value)
+	if err != nil {
+		return nil, err
+	}
+
+	sort.Slice(session.cities, func(i, j int) bool {
+		return session.cities[i].Weight > session.cities[j].Weight
+	})
+
+	var cc []*it.City
+	for i := 0; i < 10; i++ {
+		city := &it.City{
+			Name: session.cities[i].Name,
+		}
+		cc = append(cc, city)
+	}
+
+	return &it.Cities{Values: cc}, nil
 }
 
 func getCities() []City {
