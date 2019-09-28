@@ -11,21 +11,26 @@ import (
 	"log"
 )
 
+type CityInfo struct {
+	City   *City
+	Weight int
+}
+
 type Session struct {
-	cities []City
+	cities []CityInfo
 }
 
 var Sessions = make(map[string]Session)
 
-func GetSession(token string) (Session, error) {
+func GetSession(token string) (*Session, error) {
 	s, ok := Sessions[token]
 	if !ok {
 		msg := fmt.Sprintf("Session with token %s does not exist", token)
 		err := status.Error(codes.InvalidArgument, msg)
-		return Session{}, err
+		return nil, err
 	}
 
-	return s, nil
+	return &s, nil
 }
 
 func (s *Server) Open(ctx context.Context, e *empty.Empty) (*it.Token, error) {
@@ -39,11 +44,18 @@ func (s *Server) Open(ctx context.Context, e *empty.Empty) (*it.Token, error) {
 	go func() {
 		cc := getCities()
 
-		clientCities := make([]City, len(cc))
-		_ = copy(clientCities, cc)
+		var cities []CityInfo
+
+		for _, c := range cc {
+			info := CityInfo{
+				City:   &c,
+				Weight: 0,
+			}
+			cities = append(cities, info)
+		}
 
 		session := Session{
-			cities: clientCities,
+			cities: cities,
 		}
 		Sessions[token.String()] = session
 	}()

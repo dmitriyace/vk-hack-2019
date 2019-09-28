@@ -57,7 +57,7 @@ type City struct {
 	Coordinates Coordinates
 	CountryCode string `json:"country_code"`
 	Continent   string
-	Weight      int
+	Popularity  int `json:"weight"`
 }
 
 var cities []City
@@ -69,9 +69,10 @@ func (s *Server) ChangeContinent(ctx context.Context, delta *it.ContinentDelta) 
 	}
 
 	for i := range session.cities {
-		deltaVal := delta.Targets[session.cities[i].Continent]
+		city := session.cities[i]
+		deltaVal := delta.Targets[city.City.Continent]
 		if deltaVal != nil {
-			session.cities[i].Weight += int(deltaVal.Value)
+			city.Weight += int(deltaVal.Value)
 		}
 	}
 
@@ -86,9 +87,10 @@ func (s *Server) ChangeCountry(ctx context.Context, delta *it.CountryDelta) (*em
 	}
 
 	for i := range session.cities {
-		deltaVal := delta.Targets[session.cities[i].CountryCode]
+		city := session.cities[i]
+		deltaVal := delta.Targets[city.City.CountryCode]
 		if deltaVal != nil {
-			session.cities[i].Weight += int(deltaVal.Value)
+			city.Weight += int(deltaVal.Value)
 		}
 	}
 
@@ -102,9 +104,16 @@ func (s *Server) ChangeCity(ctx context.Context, delta *it.CityDelta) (*empty.Em
 	}
 
 	for i := range session.cities {
-		deltaVal := delta.Targets[session.cities[i].Iata]
+		city := session.cities[i]
+		deltaVal := delta.Targets[city.City.Iata]
 		if deltaVal != nil {
-			session.cities[i].Weight += int(deltaVal.Value)
+			city.Weight += int(deltaVal.Value)
+		}
+	}
+
+	for _, c := range session.cities {
+		if c.Weight > 0 {
+			log.Printf("%s:%s:%d", c.City.Iata, c.City.Name, c.Weight)
 		}
 	}
 
@@ -123,7 +132,7 @@ func (s *Server) Result(ctx context.Context, req *it.ResultRequest) (*it.Cities,
 
 	var cc []*it.City
 	for i := req.Offset; i < req.Offset+req.PageSize; i++ {
-		c := session.cities[i]
+		c := session.cities[i].City
 		city := &it.City{
 			Name:  c.Name,
 			Photo: fmt.Sprintf(urlPhoto, c.Iata),
