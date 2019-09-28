@@ -1,9 +1,12 @@
 package grpc
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
+	it "github.com/N1cOs/vkhack2019/server/grpc/internal"
 	"github.com/N1cOs/vkhack2019/server/http"
+	"github.com/golang/protobuf/ptypes/empty"
 	"log"
 )
 
@@ -56,6 +59,59 @@ type City struct {
 }
 
 var cities []City
+
+func (s *Server) ChangeContinent(ctx context.Context, delta *it.ContinentDelta) (*empty.Empty, error) {
+	session, err := GetSession(delta.Token.Value)
+	if err != nil {
+		return nil, err
+	}
+
+	for i := range session.cities {
+		deltaVal := delta.Targets[session.cities[i].Continent]
+		if deltaVal != nil {
+			session.cities[i].Weight += int(deltaVal.Value)
+		}
+	}
+
+	return &empty.Empty{}, nil
+
+}
+
+func (s *Server) ChangeCountry(ctx context.Context, delta *it.CountryDelta) (*empty.Empty, error) {
+	session, err := GetSession(delta.Token.Value)
+	if err != nil {
+		return nil, err
+	}
+
+	for i := range session.cities {
+		deltaVal := delta.Targets[session.cities[i].CountryCode]
+		if deltaVal != nil {
+			session.cities[i].Weight += int(deltaVal.Value)
+		}
+	}
+
+	return &empty.Empty{}, nil
+}
+
+func (s *Server) ChangeCity(ctx context.Context, delta *it.CityDelta) (*empty.Empty, error) {
+	session, err := GetSession(delta.Token.Value)
+	if err != nil {
+		return nil, err
+	}
+
+	for i := range session.cities {
+		deltaVal := delta.Targets[session.cities[i].Iata]
+		if deltaVal != nil {
+			session.cities[i].Weight += int(deltaVal.Value)
+		}
+	}
+
+	return &empty.Empty{}, nil
+}
+
+func (s *Server) Result(context.Context, *empty.Empty) (*it.Cities, error) {
+	return nil, nil
+}
 
 func getCities() []City {
 	if cities == nil {

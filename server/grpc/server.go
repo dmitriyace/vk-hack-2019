@@ -29,6 +29,8 @@ func (s *Server) Serve(address string) error {
 
 	server := grpc.NewServer(grpc.UnaryInterceptor(logInterceptor))
 	it.RegisterSessionServer(server, s)
+	it.RegisterWeightsServer(server, s)
+
 	return server.Serve(listener)
 }
 

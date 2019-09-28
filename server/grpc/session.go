@@ -17,6 +17,17 @@ type Session struct {
 
 var Sessions = make(map[string]Session)
 
+func GetSession(token string) (Session, error) {
+	s, ok := Sessions[token]
+	if !ok {
+		msg := fmt.Sprintf("Session with token %s does not exist", token)
+		err := status.Error(codes.InvalidArgument, msg)
+		return Session{}, err
+	}
+
+	return s, nil
+}
+
 func (s *Server) Open(ctx context.Context, e *empty.Empty) (*it.Token, error) {
 	token, err := uuid.NewRandom()
 	if err != nil {
