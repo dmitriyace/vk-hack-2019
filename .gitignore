@@ -3,3 +3,6 @@
 build.gradle
 local.properties
 vk-hack-2019.iml
+gradle/
+gradlew
+gradlew.bat
