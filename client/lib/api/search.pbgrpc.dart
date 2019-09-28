@@ -28,6 +28,10 @@ class WeightsClient extends $grpc.Client {
       '/internal.Weights/ChangeCity',
       ($2.CityDelta value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.Empty.fromBuffer(value));
+  static final _$result = $grpc.ClientMethod<$0.Empty, $2.Cities>(
+      '/internal.Weights/Result',
+      ($0.Empty value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $2.Cities.fromBuffer(value));
 
   WeightsClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
@@ -52,6 +56,13 @@ class WeightsClient extends $grpc.Client {
       {$grpc.CallOptions options}) {
     final call = $createCall(
         _$changeCity, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$2.Cities> result($0.Empty request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(_$result, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
@@ -82,6 +93,13 @@ abstract class WeightsServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $2.CityDelta.fromBuffer(value),
         ($0.Empty value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.Empty, $2.Cities>(
+        'Result',
+        result_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($2.Cities value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.Empty> changeContinet_Pre(
@@ -99,10 +117,16 @@ abstract class WeightsServiceBase extends $grpc.Service {
     return changeCity(call, await request);
   }
 
+  $async.Future<$2.Cities> result_Pre(
+      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
+    return result(call, await request);
+  }
+
   $async.Future<$0.Empty> changeContinet(
       $grpc.ServiceCall call, $2.ContinentDelta request);
   $async.Future<$0.Empty> changeCountry(
       $grpc.ServiceCall call, $2.CountryDelta request);
   $async.Future<$0.Empty> changeCity(
       $grpc.ServiceCall call, $2.CityDelta request);
+  $async.Future<$2.Cities> result($grpc.ServiceCall call, $0.Empty request);
 }

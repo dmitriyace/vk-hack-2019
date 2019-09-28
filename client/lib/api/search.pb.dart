@@ -11,8 +11,6 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'session.pb.dart' as $1;
 
-export 'search.pbenum.dart';
-
 class Delta extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('Delta', package: const $pb.PackageName('internal'), createEmptyInstance: create)
     ..a<$core.int>(1, 'value', $pb.PbFieldType.O3)
@@ -124,5 +122,54 @@ class CityDelta extends $pb.GeneratedMessage {
   void clearToken() => clearField(1);
 
   $core.Map<$core.String, Delta> get targets => $_getMap(1);
+}
+
+class City extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('City', package: const $pb.PackageName('internal'), createEmptyInstance: create)
+    ..aOS(1, 'name')
+    ..hasRequiredFields = false
+  ;
+
+  City._() : super();
+  factory City() => create();
+  factory City.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory City.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  City clone() => City()..mergeFromMessage(this);
+  City copyWith(void Function(City) updates) => super.copyWith((message) => updates(message as City));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static City create() => City._();
+  City createEmptyInstance() => create();
+  static $pb.PbList<City> createRepeated() => $pb.PbList<City>();
+  static City getDefault() => _defaultInstance ??= create()..freeze();
+  static City _defaultInstance;
+
+  $core.String get name => $_getS(0, '');
+  set name($core.String v) { $_setString(0, v); }
+  $core.bool hasName() => $_has(0);
+  void clearName() => clearField(1);
+}
+
+class Cities extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Cities', package: const $pb.PackageName('internal'), createEmptyInstance: create)
+    ..pc<City>(1, 'values', $pb.PbFieldType.PM, subBuilder: City.create)
+    ..hasRequiredFields = false
+  ;
+
+  Cities._() : super();
+  factory Cities() => create();
+  factory Cities.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Cities.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  Cities clone() => Cities()..mergeFromMessage(this);
+  Cities copyWith(void Function(Cities) updates) => super.copyWith((message) => updates(message as Cities));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static Cities create() => Cities._();
+  Cities createEmptyInstance() => create();
+  static $pb.PbList<Cities> createRepeated() => $pb.PbList<Cities>();
+  static Cities getDefault() => _defaultInstance ??= create()..freeze();
+  static Cities _defaultInstance;
+
+  $core.List<City> get values => $_getList(0);
 }
 
