@@ -127,6 +127,8 @@ class CityDelta extends $pb.GeneratedMessage {
 class City extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('City', package: const $pb.PackageName('internal'), createEmptyInstance: create)
     ..aOS(1, 'name')
+    ..aOS(2, 'country')
+    ..aOS(3, 'photo')
     ..hasRequiredFields = false
   ;
 
@@ -148,6 +150,54 @@ class City extends $pb.GeneratedMessage {
   set name($core.String v) { $_setString(0, v); }
   $core.bool hasName() => $_has(0);
   void clearName() => clearField(1);
+
+  $core.String get country => $_getS(1, '');
+  set country($core.String v) { $_setString(1, v); }
+  $core.bool hasCountry() => $_has(1);
+  void clearCountry() => clearField(2);
+
+  $core.String get photo => $_getS(2, '');
+  set photo($core.String v) { $_setString(2, v); }
+  $core.bool hasPhoto() => $_has(2);
+  void clearPhoto() => clearField(3);
+}
+
+class ResultRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('ResultRequest', package: const $pb.PackageName('internal'), createEmptyInstance: create)
+    ..a<$1.Token>(1, 'token', $pb.PbFieldType.OM, defaultOrMaker: $1.Token.getDefault, subBuilder: $1.Token.create)
+    ..a<$core.int>(2, 'pageSize', $pb.PbFieldType.OU3, protoName: 'pageSize')
+    ..a<$core.int>(3, 'offset', $pb.PbFieldType.OU3)
+    ..hasRequiredFields = false
+  ;
+
+  ResultRequest._() : super();
+  factory ResultRequest() => create();
+  factory ResultRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory ResultRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  ResultRequest clone() => ResultRequest()..mergeFromMessage(this);
+  ResultRequest copyWith(void Function(ResultRequest) updates) => super.copyWith((message) => updates(message as ResultRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static ResultRequest create() => ResultRequest._();
+  ResultRequest createEmptyInstance() => create();
+  static $pb.PbList<ResultRequest> createRepeated() => $pb.PbList<ResultRequest>();
+  static ResultRequest getDefault() => _defaultInstance ??= create()..freeze();
+  static ResultRequest _defaultInstance;
+
+  $1.Token get token => $_getN(0);
+  set token($1.Token v) { setField(1, v); }
+  $core.bool hasToken() => $_has(0);
+  void clearToken() => clearField(1);
+
+  $core.int get pageSize => $_get(1, 0);
+  set pageSize($core.int v) { $_setUnsignedInt32(1, v); }
+  $core.bool hasPageSize() => $_has(1);
+  void clearPageSize() => clearField(2);
+
+  $core.int get offset => $_get(2, 0);
+  set offset($core.int v) { $_setUnsignedInt32(2, v); }
+  $core.bool hasOffset() => $_has(2);
+  void clearOffset() => clearField(3);
 }
 
 class Cities extends $pb.GeneratedMessage {

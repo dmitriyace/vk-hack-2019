@@ -28,6 +28,14 @@ message CityDelta {
 
 message City {
     string name = 1;
+    string country = 2;
+    string photo = 3;
+}
+
+message ResultRequest {
+    Token token = 1;
+    uint32 pageSize = 2;
+    uint32 offset = 3;
 }
 
 message Cities {
@@ -38,5 +46,5 @@ service Weights {
     rpc ChangeContinent(ContinentDelta) returns (google.protobuf.Empty);
     rpc ChangeCountry(CountryDelta) returns (google.protobuf.Empty);
     rpc ChangeCity(CityDelta) returns (google.protobuf.Empty);
-    rpc Result(Token) returns (Cities);
+    rpc Result(ResultRequest) returns (Cities);
 }

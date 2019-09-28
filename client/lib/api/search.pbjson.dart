@@ -70,6 +70,17 @@ const City$json = const {
   '1': 'City',
   '2': const [
     const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'country', '3': 2, '4': 1, '5': 9, '10': 'country'},
+    const {'1': 'photo', '3': 3, '4': 1, '5': 9, '10': 'photo'},
+  ],
+};
+
+const ResultRequest$json = const {
+  '1': 'ResultRequest',
+  '2': const [
+    const {'1': 'token', '3': 1, '4': 1, '5': 11, '6': '.internal.Token', '10': 'token'},
+    const {'1': 'pageSize', '3': 2, '4': 1, '5': 13, '10': 'pageSize'},
+    const {'1': 'offset', '3': 3, '4': 1, '5': 13, '10': 'offset'},
   ],
 };
 
