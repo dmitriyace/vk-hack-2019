@@ -1,5 +1,6 @@
 import 'package:client/api/session.pb.dart';
 import 'package:client/model/question.dart';
+import 'package:client/pages/sering/question_widgets/one_of_two_question.dart';
 import 'package:client/pages/sering/question_widgets/yes_dc_question.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
@@ -47,6 +48,13 @@ class _SeringPageState extends State<SeringPage> {
     switch (getCurrentQuestion().type) {
       case QuestionType.YES_DC:
         return YesDCQuestion(
+            question: getCurrentQuestion(),
+            selectQuestionById: selectQuestionById,
+            getNextQuestionId: getNextQuestionId,
+            finish: finish,
+            channel: widget.channel);
+      case QuestionType.ONE_OF_TWO:
+        return OneOfTwoQuestion(
             question: getCurrentQuestion(),
             selectQuestionById: selectQuestionById,
             getNextQuestionId: getNextQuestionId,

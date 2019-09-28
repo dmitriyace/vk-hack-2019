@@ -3,6 +3,7 @@ import 'package:client/api/session.pb.dart';
 
 enum QuestionType {
   YES_DC,
+  ONE_OF_TWO,
   MULTIPLE_SELECT
 }
 
@@ -30,6 +31,8 @@ abstract class QuestionPayload {
   String title;
   String yesOption;
   String dCOption;
+  String firstOption;
+  String secondOption;
 }
 
 class YesDCQuestionPayload extends QuestionPayload {
@@ -37,6 +40,13 @@ class YesDCQuestionPayload extends QuestionPayload {
   String yesOption;
   String dCOption;
   YesDCQuestionPayload(this.title, this.yesOption, this.dCOption);
+}
+
+class OneOfTwoQuestionPayload extends QuestionPayload {
+  String title;
+  String firstOption;
+  String secondOption;
+  OneOfTwoQuestionPayload(this.title, this.firstOption, this.secondOption);
 }
 
 class MultipleSelectQuestionPayload extends QuestionPayload {

@@ -77,8 +77,14 @@ class _GlobalParentState extends State<_GlobalParent> {
             "HKT": 10
           }
         }),
-    Question(2, 1, QuestionType.YES_DC,
-        YesDCQuestionPayload('3 вопрос', 'Да', 'Хз'), null, null, null),
+    Question(
+        2,
+        1,
+        QuestionType.ONE_OF_TWO,
+        OneOfTwoQuestionPayload('Что выберете?', 'Пицца', 'Суши'),
+        {0: {"NOR": 3, "EUR": 3}, 1: {"ASI": 3}},
+        {0: {"IT": 5}, 1: {"JP": 5}},
+        null),
     Question(3, 1, QuestionType.YES_DC,
         YesDCQuestionPayload('4 вопрос', 'Да', 'Хз'), null, null, null),
     Question(4, 1, QuestionType.YES_DC,
