@@ -116,14 +116,14 @@ class _GlobalParentState extends State<_GlobalParent> {
       null,
       {
         0: {
-          "BR": 2,
-          "HK": 2,
-          "MA": 2,
-          "TH": 2,
-          "TR": 2,
-          "TN": 2,
-          "KR": 2,
-          "EG": 1
+          "BR": 10,
+          "HK": 10,
+          "MA": 10,
+          "TH": 10,
+          "TR": 10,
+          "TN": 10,
+          "KR": 10,
+          "EG": 10
         }
       },
       null,
