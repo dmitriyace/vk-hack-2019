@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:grpc/grpc.dart';
 
+import '../../result_page.dart';
+
 class YesDCQuestion extends StatefulWidget implements QuestWidget {
   YesDCQuestion(
       {Key key,
@@ -14,12 +16,14 @@ class YesDCQuestion extends StatefulWidget implements QuestWidget {
       this.selectQuestionById,
       this.channel,
       this.getNextQuestionId,
+        this.navi,
       this.finish})
       : super(key: key);
   final Question question;
   final Function selectQuestionById;
   final Function getNextQuestionId;
   final Function finish;
+  final Function navi;
   final ClientChannel channel;
 
   @override
@@ -27,14 +31,14 @@ class YesDCQuestion extends StatefulWidget implements QuestWidget {
 
   void done() {
     _YesDCQuestionState.model = false;
-    this.finish();
+    this.finish().then((resp) => this.navi(resp));
   }
 
   void skip() {
     _YesDCQuestionState.model = false;
     var id = this.getNextQuestionId();
     if (id == null)
-      this.finish();
+      this.finish().then((resp) => this.navi(resp));
     else
       this.selectQuestionById(id);
   }

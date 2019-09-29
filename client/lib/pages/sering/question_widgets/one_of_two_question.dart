@@ -15,12 +15,14 @@ class OneOfTwoQuestion extends StatefulWidget implements QuestWidget {
       this.selectQuestionById,
       this.channel,
       this.getNextQuestionId,
+        this.navi,
       this.finish})
       : super(key: key);
   final Question question;
   final Function selectQuestionById;
   final Function getNextQuestionId;
   final Function finish;
+  final Function navi;
   final ClientChannel channel;
 
   @override
@@ -86,14 +88,14 @@ class OneOfTwoQuestion extends StatefulWidget implements QuestWidget {
 
   void done() {
     _OneOfTwoQuestionState.model = 0;
-    this.finish();
+    this.finish().then((resp) => this.navi(resp));
   }
 
   void skip() {
     _OneOfTwoQuestionState.model = 0;
     var id = this.getNextQuestionId();
     if (id == null)
-      this.finish();
+      this.finish().then((resp) => this.navi(resp));
     else
       this.selectQuestionById(id);
   }

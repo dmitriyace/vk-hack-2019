@@ -90,15 +90,22 @@ class _SeringPageState extends State<SeringPage> {
           : -1;
   }
 
-  void finish() async {
+  Future<Cities> finish() async {
     var client = WeightsClient(widget.channel);
     var resultRequest = ResultRequest();
     resultRequest.token = HomePage.token;
-    resultRequest.pageSize = 5;
+    resultRequest.pageSize = 20;
     resultRequest.offset = 0;
     Cities results = await client.result(resultRequest);
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => ResultPage(results: results)));
+    return results;
+  }
+
+  void navi(res) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                ResultPage(results: res, channel: widget.channel)));
   }
 
   QuestWidget getCurrentQuestionCard() {
@@ -116,6 +123,7 @@ class _SeringPageState extends State<SeringPage> {
             selectQuestionById: selectQuestionById,
             getNextQuestionId: getNextQuestionId,
             finish: finish,
+            navi: navi,
             channel: widget.channel);
         return currentQuestionCard;
 
@@ -125,6 +133,7 @@ class _SeringPageState extends State<SeringPage> {
             selectQuestionById: selectQuestionById,
             getNextQuestionId: getNextQuestionId,
             finish: finish,
+            navi: navi,
             channel: widget.channel);
         return currentQuestionCard;
       default:
