@@ -39,7 +39,7 @@ class _GlobalParentState extends State<_GlobalParent> {
             'Вы хотели бы увидеть одно из Семи Чудес Света вживую?',
             'Да!',
             'Без разницы',
-        Image.asset('images/giza.jpg')),
+            Image.asset('images/giza.jpg')),
         null,
         null,
         {
@@ -49,8 +49,8 @@ class _GlobalParentState extends State<_GlobalParent> {
         1,
         1,
         QuestionType.YES_DC,
-        YesDCQuestionPayload(
-            'Как насчет искупаться в теплом море?', 'Определенно.', 'Не важно', Image.asset('images/beach.jpg')),
+        YesDCQuestionPayload('Как насчет искупаться в теплом море?',
+            'Определенно.', 'Не важно', Image.asset('images/beach.jpg')),
         null,
         {
           0: {
@@ -89,7 +89,12 @@ class _GlobalParentState extends State<_GlobalParent> {
         2,
         1,
         QuestionType.ONE_OF_TWO,
-        OneOfTwoQuestionPayload('Что выберете?', 'Пицца', Image.asset('images/pizza.jpg'), 'Суши', Image.asset('images/sushi.jpg')),
+        OneOfTwoQuestionPayload(
+            'Что выберете?',
+            'Пицца',
+            Image.asset('images/pizza.jpg'),
+            'Суши',
+            Image.asset('images/sushi.jpg')),
         {
           0: {"NOR": 1, "EUR": 1},
           1: {"ASI": 1}
@@ -100,7 +105,14 @@ class _GlobalParentState extends State<_GlobalParent> {
         },
         null),
     Question(
-      3, 1, QuestionType.YES_DC, YesDCQuestionPayload('Хотите избежать процесс получения визы?', 'Да, мое время - на вес золота', 'Не волнует', Image.asset('image/visa.jpg')),
+      3,
+      1,
+      QuestionType.YES_DC,
+      YesDCQuestionPayload(
+          'Хотите избежать процесс получения визы?',
+          'Да, мое время - на вес золота',
+          'Не волнует',
+          Image.asset('image/visa.jpg')),
       null,
       {
         0: {
@@ -116,16 +128,35 @@ class _GlobalParentState extends State<_GlobalParent> {
       },
       null,
     ),
-    Question(4, 1, QuestionType.YES_DC, YesDCQuestionPayload('Горные пейзажи завораживают вас до глубины души', 'О, да', 'Ничего особенного', Image.asset('images/mountains.jpg')),
-    null, null, null),
-    Question(5, 1, QuestionType.YES_DC, YesDCQuestionPayload('Вы - настоящий ценитель Высокого', 'Именно так.', 'Не особо', Image.asset('images/sculpture.jpg')),
-    null, null, null),
-    Question(6, 1, QuestionType.YES_DC, YesDCQuestionPayload('Экзотика вас не пугает, а напротив', 'Так и есть', 'Только не насекомые!', Image.asset('images/venus.jpg')),
+    Question(
+        4,
+        1,
+        QuestionType.YES_DC,
+        YesDCQuestionPayload('Горные пейзажи завораживают вас до глубины души',
+            'О, да', 'Ничего особенного', Image.asset('images/mountains.jpg')),
+        null,
+        null,
+        null),
+    Question(
+        5,
+        1,
+        QuestionType.YES_DC,
+        YesDCQuestionPayload('Вы - настоящий ценитель Высокого', 'Именно так.',
+            'Не особо', Image.asset('images/sculpture.jpg')),
+        null,
+        null,
+        null),
+    Question(
+        6,
+        1,
+        QuestionType.YES_DC,
+        YesDCQuestionPayload('Экзотика вас не пугает, а напротив', 'Так и есть',
+            'Только не насекомые!', Image.asset('images/venus.jpg')),
         {
-          0: {
-            "ASI": 1
-          }
-        }, null, null),
+          0: {"ASI": 1}
+        },
+        null,
+        null),
   ];
 
   @override
@@ -133,7 +164,9 @@ class _GlobalParentState extends State<_GlobalParent> {
     return MaterialApp(
       title: 'Aviasales Demo',
       theme: ThemeData(
-        backgroundColor: Color.fromRGBO(68, 148, 236, 1),
+        backgroundColor: Color(0xff4494EC),
+        primaryTextTheme: TextTheme(title: TextStyle(color: Colors.white)),
+        buttonColor: Color(0xffE68130),
       ),
       home: HomePage(questions: _questions, channel: _channel),
     );

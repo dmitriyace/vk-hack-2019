@@ -17,14 +17,15 @@ class HomePage extends StatelessWidget {
   static Token token;
 
   void createSessionClient() {
-    SessionClient(this.channel).open(Empty()).then(
-            (resp) => HomePage.token = resp
-    );
+    SessionClient(this.channel)
+        .open(Empty())
+        .then((resp) => HomePage.token = resp);
   }
 
   // todo move this function to final screen
   _launchURL() async {
-    const url = 'https://www.aviasales.ru/search?origin=LED&destination=NYC&depart_date=2019-10-01';
+    const url =
+        'https://www.aviasales.ru/search?origin=LED&destination=NYC&depart_date=2019-10-01';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -35,23 +36,49 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(child: Container(
-          width: 200,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              RaisedButton(onPressed: () {
-                this.createSessionClient();
-                Navigator.push(context, MaterialPageRoute(
-                    builder: (context) {
-                      HomePage.firstQuestion = new Random().nextInt(3);
-                      return SeringPage(questions: questions, channel: channel);}
-                ));
-              }, child: Text('Начать'))
-            ],
-          ),
-        ),)
+        backgroundColor: Theme
+            .of(context)
+            .backgroundColor,
+        body: Center(
+          child: Container(
+            width: 224,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Container(
+                  height: 43,
+                  child: Center(
+                    child: RaisedButton(
+                      onPressed: () {
+                        this.createSessionClient();
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                              HomePage.firstQuestion = new Random().nextInt(3);
+                              return SeringPage(
+                                  questions: questions, channel: channel);
+                            }));
+                      },
+                      child: Padding(padding: EdgeInsets.all(12.0),
+                        child: Text(
+                          'подобрать тур?',
+                          style: TextStyle(fontSize: 18.0),
+                        ),
+                      ),
+                      textColor: Theme
+                          .of(context)
+                          .primaryTextTheme
+                          .title
+                          .color,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(15.0),
+                      ),
+                    ),
+                  ),)
+              ],
+            ),)
+          ,
+        )
     );
   }
 }
