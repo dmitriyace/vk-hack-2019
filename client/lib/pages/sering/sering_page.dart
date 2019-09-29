@@ -144,6 +144,7 @@ class _SeringPageState extends State<SeringPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Center(
         child: Stack(
           children: <Widget>[
@@ -156,17 +157,8 @@ class _SeringPageState extends State<SeringPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.11,
                   child: Center(
-                    child: MaterialButton(
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      minWidth: MediaQuery.of(context).size.width * 0.65,
-                      color: Colors.grey,
-                        shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                      child: new Text('Перейти к результатам теста',
-                          style: new TextStyle(color: Colors.white)),
-                      onPressed: () {
-                        currentQuestionCard.done();
-                      },
-                    ),
+                    child: _btnConstructor(
+                        7, 'Перейти к результатам теста', 'done'),
                   ),
                 ),
                 SizedBox(
@@ -176,38 +168,54 @@ class _SeringPageState extends State<SeringPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.11,
                   child: Center(
-                    child: MaterialButton(
-                      height: MediaQuery.of(context).size.height * 0.06,
-                      minWidth: MediaQuery.of(context).size.width * 0.65,
-                      color: Colors.green,
-                      shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0)),
-                      child: new Text('Пропустить вопрос',
-                          style: new TextStyle(color: Colors.white)),
-                      onPressed: () {
-                        currentQuestionCard.skip();
-                      },
-                    ),
+                    child: _btnConstructor(7, 'пропустить вопрос', 'skip'),
                   ),
                 ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.015,
-                child: Container(),),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.015,
+                  child: Container(),
+                ),
               ],
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                SizedBox(height: MediaQuery.of(context).size.height * 0.155,),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.155,
+                ),
                 Expanded(
                     child: DragHandler(
                         context: context,
                         card: getCurrentQuestionCard(),
                         questionType: currentQuestionType)),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.125,),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.125,
+                ),
               ],
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _btnConstructor(double padding, String text, callback) {
+    return Padding(
+      padding: EdgeInsets.all(7),
+      child: MaterialButton(
+        minWidth: MediaQuery.of(context).size.width * 0.65,
+        color: Theme.of(context).buttonColor,
+        shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(15.0)),
+        child: new Text(text, style: new TextStyle(color: Colors.white)),
+        onPressed: () {
+          if (callback == 'done') {
+            currentQuestionCard.done();
+          } else {
+            currentQuestionCard.skip();
+          }
+        },
       ),
     );
   }

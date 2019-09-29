@@ -16,7 +16,7 @@ class YesDCQuestion extends StatefulWidget implements QuestWidget {
       this.selectQuestionById,
       this.channel,
       this.getNextQuestionId,
-        this.navi,
+      this.navi,
       this.finish})
       : super(key: key);
   final Question question;
@@ -108,20 +108,20 @@ class _YesDCQuestionState extends State<YesDCQuestion> {
       elevation: 3,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.83,
-//        height: MediaQuery.of(context).size.height * 1,
         padding: const EdgeInsets.all(10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Center(
-                child: Padding(
-              padding: EdgeInsets.fromLTRB(43, 60, 43, 30),
-              child: Text(
-                widget.question.payload.title,
-                style: new TextStyle(fontSize: 20),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(43, 60, 43, 30),
+                child: Text(
+                  widget.question.payload.title,
+                  style: new TextStyle(fontSize: 20),
+                ),
               ),
-            )),
+            ),
             Center(
               child: SizedBox(
                 height: 300,
