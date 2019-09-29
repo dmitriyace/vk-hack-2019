@@ -43,7 +43,7 @@ class _GlobalParentState extends State<_GlobalParent> {
         null,
         null,
         {
-          0: {"CAI": 6}
+          0: {"CAI": 3}
         }),
     Question(
         1,
@@ -54,35 +54,35 @@ class _GlobalParentState extends State<_GlobalParent> {
         null,
         {
           0: {
-            "BR": 5,
-            "ES": 5,
-            "FR": 5,
-            "IT": 5,
-            "GR": 5,
-            "MA": 5,
-            "TN": 5,
-            "EG": 5,
-            "TR": 5,
-            "JP": 5,
-            "TH": 5
+            "BR": 3,
+            "ES": 3,
+            "FR": 3,
+            "IT": 3,
+            "GR": 3,
+            "MA": 3,
+            "TN": 3,
+            "EG": 3,
+            "TR": 3,
+            "JP": 3,
+            "TH": 3
           }
         },
         {
           0: {
-            "LAS": 5,
-            "RIO": 5,
-            "BCN": 5,
-            "NCE": 5,
-            "MRS": 5,
-            "HER": 5,
-            "CAS": 5,
-            "TUN": 5,
-            "HRG": 5,
-            "SSH": 5,
-            "AYT": 5,
-            "OSA": 5,
-            "BKK": 5,
-            "HKT": 5
+            "LAS": 2,
+            "RIO": 2,
+            "BCN": 2,
+            "NCE": 2,
+            "MRS": 2,
+            "HER": 2,
+            "CAS": 2,
+            "TUN": 2,
+            "HRG": 2,
+            "SSH": 2,
+            "AYT": 2,
+            "OSA": 2,
+            "BKK": 2,
+            "HKT": 2
           }
         }),
     Question(
@@ -91,26 +91,41 @@ class _GlobalParentState extends State<_GlobalParent> {
         QuestionType.ONE_OF_TWO,
         OneOfTwoQuestionPayload('Что выберете?', 'Пицца', Image.asset('images/pizza.jpg'), 'Суши', Image.asset('images/sushi.jpg')),
         {
-          0: {"NOR": 3, "EUR": 3},
-          1: {"ASI": 3}
+          0: {"NOR": 1, "EUR": 1},
+          1: {"ASI": 1}
         },
         {
-          0: {"IT": 5},
-          1: {"JP": 5}
+          0: {"IT": 3},
+          1: {"JP": 3}
         },
         null),
     Question(
       3, 1, QuestionType.YES_DC, YesDCQuestionPayload('Хотите избежать процесс получения визы?', 'Да, мое время - на вес золота', 'Не волнует', Image.asset('image/visa.jpg')),
       null,
-      null,
+      {
+        0: {
+          "BR": 2,
+          "HK": 2,
+          "MA": 2,
+          "TH": 2,
+          "TR": 2,
+          "TN": 2,
+          "KR": 2,
+          "EG": 1
+        }
+      },
       null,
     ),
     Question(4, 1, QuestionType.YES_DC, YesDCQuestionPayload('Горные пейзажи завораживают вас до глубины души', 'О, да', 'Ничего особенного', Image.asset('images/mountains.jpg')),
     null, null, null),
-    Question(5, 1, QuestionType.YES_DC, YesDCQuestionPayload('Вы - настоящий ценитель Высокого', 'Именно так.', 'ДА ДА Я', Image.asset('images/sculpture.jpg')),
+    Question(5, 1, QuestionType.YES_DC, YesDCQuestionPayload('Вы - настоящий ценитель Высокого', 'Именно так.', 'Не особо', Image.asset('images/sculpture.jpg')),
     null, null, null),
     Question(6, 1, QuestionType.YES_DC, YesDCQuestionPayload('Экзотика вас не пугает, а напротив', 'Так и есть', 'Только не насекомые!', Image.asset('images/venus.jpg')),
-    null, null, null),
+        {
+          0: {
+            "ASI": 1
+          }
+        }, null, null),
   ];
 
   @override
