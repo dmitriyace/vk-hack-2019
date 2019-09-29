@@ -5,19 +5,33 @@ import (
 	"fmt"
 	it "github.com/N1cOs/vkhack2019/server/grpc/internal"
 	"github.com/golang/protobuf/ptypes/empty"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+	"log"
 	"math/rand"
 	"time"
 )
 
-func (s *Server) Random(ctx context.Context, e *empty.Empty) (*it.Cities, error) {
+func (s *Server) GetRandom(ctx context.Context, token *it.Token) (*it.Cities, error) {
 	rand.Seed(time.Now().UnixNano())
-	cities := getCities()
+
+	session, err := GetSession(token.Value)
+	if err != nil {
+		return nil, err
+	}
+
+	cities := session.randomCities
+	if len(cities) < 2 {
+		return nil, status.Error(codes.Unavailable, "")
+	}
+
+	log.Println(len(cities))
 
 	index := rand.Intn(len(cities) / 2)
 	c1, c2 := cities[index], cities[len(cities)/2+index-1]
 
 	var cc []*it.City
-	for _, c := range []City{c1, c2} {
+	for _, c := range []*City{c1, c2} {
 		city := &it.City{
 			Iata:        c.Iata,
 			Name:        c.Name,
@@ -27,4 +41,23 @@ func (s *Server) Random(ctx context.Context, e *empty.Empty) (*it.Cities, error)
 		cc = append(cc, city)
 	}
 	return &it.Cities{Values: cc}, nil
+}
+
+func (s *Server) DeleteRandom(ctx context.Context, req *it.AnswerRequest) (*empty.Empty, error) {
+	session, err := GetSession(req.Token.Value)
+	if err != nil {
+		return nil, err
+	}
+
+	var cities []*City
+	for _, c := range session.randomCities {
+		if c.Iata != req.Iata {
+			cities = append(cities, c)
+		}
+	}
+
+	session.randomCities = cities
+	//log.Printf("%p\n", session)
+	//log.Printf("%p\n", session.randomCities)
+	return &empty.Empty{}, nil
 }

@@ -43,9 +43,15 @@ message Cities {
     repeated City values = 1;
 }
 
+message AnswerRequest {
+    Token token = 1;
+    string iata = 2;
+}
+
 service Questions {
-    rpc Random(google.protobuf.Empty) returns (Cities);
-} 
+    rpc GetRandom(Token) returns (Cities);
+    rpc DeleteRandom(AnswerRequest) returns (google.protobuf.Empty);
+}
 
 service Weights {
     rpc ChangeContinent(ContinentDelta) returns (google.protobuf.Empty);

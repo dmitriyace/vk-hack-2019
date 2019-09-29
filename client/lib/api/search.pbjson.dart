@@ -92,3 +92,11 @@ const Cities$json = const {
   ],
 };
 
+const AnswerRequest$json = const {
+  '1': 'AnswerRequest',
+  '2': const [
+    const {'1': 'token', '3': 1, '4': 1, '5': 11, '6': '.internal.Token', '10': 'token'},
+    const {'1': 'iata', '3': 2, '4': 1, '5': 9, '10': 'iata'},
+  ],
+};
+

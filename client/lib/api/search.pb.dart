@@ -229,3 +229,35 @@ class Cities extends $pb.GeneratedMessage {
   $core.List<City> get values => $_getList(0);
 }
 
+class AnswerRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('AnswerRequest', package: const $pb.PackageName('internal'), createEmptyInstance: create)
+    ..a<$1.Token>(1, 'token', $pb.PbFieldType.OM, defaultOrMaker: $1.Token.getDefault, subBuilder: $1.Token.create)
+    ..aOS(2, 'iata')
+    ..hasRequiredFields = false
+  ;
+
+  AnswerRequest._() : super();
+  factory AnswerRequest() => create();
+  factory AnswerRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory AnswerRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  AnswerRequest clone() => AnswerRequest()..mergeFromMessage(this);
+  AnswerRequest copyWith(void Function(AnswerRequest) updates) => super.copyWith((message) => updates(message as AnswerRequest));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static AnswerRequest create() => AnswerRequest._();
+  AnswerRequest createEmptyInstance() => create();
+  static $pb.PbList<AnswerRequest> createRepeated() => $pb.PbList<AnswerRequest>();
+  static AnswerRequest getDefault() => _defaultInstance ??= create()..freeze();
+  static AnswerRequest _defaultInstance;
+
+  $1.Token get token => $_getN(0);
+  set token($1.Token v) { setField(1, v); }
+  $core.bool hasToken() => $_has(0);
+  void clearToken() => clearField(1);
+
+  $core.String get iata => $_getS(1, '');
+  set iata($core.String v) { $_setString(1, v); }
+  $core.bool hasIata() => $_has(1);
+  void clearIata() => clearField(2);
+}
+
