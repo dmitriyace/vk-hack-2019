@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:grpc/grpc.dart';
 
+import '../../result_page.dart';
+
 class YesDCQuestion extends StatefulWidget implements QuestWidget {
   YesDCQuestion(
       {Key key,
@@ -14,12 +16,14 @@ class YesDCQuestion extends StatefulWidget implements QuestWidget {
       this.selectQuestionById,
       this.channel,
       this.getNextQuestionId,
+      this.navi,
       this.finish})
       : super(key: key);
   final Question question;
   final Function selectQuestionById;
   final Function getNextQuestionId;
   final Function finish;
+  final Function navi;
   final ClientChannel channel;
 
   @override
@@ -27,14 +31,14 @@ class YesDCQuestion extends StatefulWidget implements QuestWidget {
 
   void done() {
     _YesDCQuestionState.model = false;
-    this.finish();
+    this.finish().then((resp) => this.navi(resp));
   }
 
   void skip() {
     _YesDCQuestionState.model = false;
     var id = this.getNextQuestionId();
     if (id == null)
-      this.finish();
+      this.finish().then((resp) => this.navi(resp));
     else
       this.selectQuestionById(id);
   }
@@ -104,62 +108,65 @@ class _YesDCQuestionState extends State<YesDCQuestion> {
       elevation: 3,
       child: Container(
         width: MediaQuery.of(context).size.width * 0.83,
-        height: MediaQuery.of(context).size.height * 1,
         padding: const EdgeInsets.all(10.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.08,
+            Center(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(43, 60, 43, 30),
+                child: Text(
+                  widget.question.payload.title,
+                  style: new TextStyle(fontSize: 20),
+                ),
+              ),
             ),
             Center(
-              child: Text(widget.question.payload.title),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.7,
-              child: Center(
-                child: Column(children: <Widget>[
-                  Card(
-                    child: widget.question.payload.firstImage,
-                    elevation: 10,
-                  ),
-                  Card(
-                    child: widget.question.payload.secondImage,
-                    elevation: 10,
-                  )
-
-                  /*MaterialButton(
-                          height: 35,
-                          color: Colors.green,
-                          child: new Text(widget.question.payload.yesOption,
-                              style: new TextStyle(
-                                  fontSize: 16.0, color: Colors.white)),
-                          onPressed: () {
-                            setState(() {
-                              _YesDCQuestionState.model = true;
-                              widget.forward();
-                            });
-                          },
+              child: SizedBox(
+                height: 300,
+                child: Center(
+                  child: Column(children: <Widget>[
+                    _btnBuilder(43.0, widget.question.payload.yesOption, 18.0),
+                    _btnBuilder(43.0, widget.question.payload.dCOption, 18.0),
+                    Center(
+                      child: Container(
+                        height: 160,
+                        child: Card(
+                          child: widget.question.payload.image,
+                          elevation: 10,
                         ),
-                        MaterialButton(
-                          height: 35,
-                          color: Colors.grey,
-                          child: new Text(widget.question.payload.dCOption,
-                              style: new TextStyle(
-                                  fontSize: 16.0, color: Colors.white)),
-                          onPressed: () {
-                            setState(() {
-                              _YesDCQuestionState.model = false;
-                              widget.forward();
-                            });
-                          },
-                        )*/
-                ]),
+                      ),
+                    )
+                  ]),
+                ),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  _btnBuilder(height, text, fontSize) {
+    return MaterialButton(
+      minWidth: 200,
+      color: Theme.of(context).backgroundColor,
+      child: Padding(
+        padding: EdgeInsets.all(6),
+        child: Text(
+          text,
+          style: new TextStyle(fontSize: fontSize, color: Colors.white),
+        ),
+      ),
+      onPressed: () {
+        setState(() {
+          _YesDCQuestionState.model = false;
+          widget.forward();
+        });
+      },
+      shape: RoundedRectangleBorder(
+        borderRadius: new BorderRadius.circular(15.0),
       ),
     );
   }

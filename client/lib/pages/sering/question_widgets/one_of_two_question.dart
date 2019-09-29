@@ -15,12 +15,14 @@ class OneOfTwoQuestion extends StatefulWidget implements QuestWidget {
       this.selectQuestionById,
       this.channel,
       this.getNextQuestionId,
+      this.navi,
       this.finish})
       : super(key: key);
   final Question question;
   final Function selectQuestionById;
   final Function getNextQuestionId;
   final Function finish;
+  final Function navi;
   final ClientChannel channel;
 
   @override
@@ -86,14 +88,14 @@ class OneOfTwoQuestion extends StatefulWidget implements QuestWidget {
 
   void done() {
     _OneOfTwoQuestionState.model = 0;
-    this.finish();
+    this.finish().then((resp) => this.navi(resp));
   }
 
   void skip() {
     _OneOfTwoQuestionState.model = 0;
     var id = this.getNextQuestionId();
     if (id == null)
-      this.finish();
+      this.finish().then((resp) => this.navi(resp));
     else
       this.selectQuestionById(id);
   }
@@ -109,34 +111,34 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 300,
-      height: 700,
-      padding: const EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-        border: Border.all(),
-        borderRadius: BorderRadius.all(
-            Radius.circular(15.0)
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Stack(
-            children: <Widget>[
-              Text(widget.question.payload.title),
-              Row(
-                children: <Widget>[
-                  GestureDetector(
+    return Card(
+      elevation: 3,
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.83,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Column(
+              children: <Widget>[
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(43, 40, 43, 30),
+                    child: Text(
+                      widget.question.payload.title,
+                      style: new TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: GestureDetector(
                     child: Container(
-                      width: 90,
-                      height: 160,
-                      child: Stack(
-                        children: <Widget>[
-                          widget.question.payload.firstImage,
-                          Text(widget.question.payload.firstOption)
-                        ],
+                      width: 260,
+                      height: 150,
+                      child: FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: widget.question.payload.firstImage,
                       ),
                     ),
                     onTap: () {
@@ -144,15 +146,16 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
                       widget.forward();
                     },
                   ),
-                  GestureDetector(
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: 46),
+                  child: GestureDetector(
                     child: Container(
-                      width: 90,
-                      height: 160,
-                      child: Stack(
-                        children: <Widget>[
-                          widget.question.payload.secondImage,
-                          Text(widget.question.payload.secondOption)
-                        ],
+                      width: 260,
+                      height: 150,
+                      child: FittedBox(
+                        fit: BoxFit.fitWidth,
+                        child: widget.question.payload.secondImage,
                       ),
                     ),
                     onTap: () {
@@ -160,11 +163,11 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
                       widget.forward();
                     },
                   ),
-                ],
-              ),
-            ],
-          ),
-        ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
