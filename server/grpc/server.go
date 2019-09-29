@@ -44,6 +44,11 @@ func (s *Server) Serve(address string) error {
 
 func logInterceptor(ctx context.Context, req interface{},
 	info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
+	defer func() {
+		if r := recover(); r != nil {
+			log.Printf("Panic at method %s", info.FullMethod)
+		}
+	}()
 	start := time.Now()
 	resp, err := handler(ctx, req)
 
