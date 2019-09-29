@@ -157,6 +157,51 @@ class _GlobalParentState extends State<_GlobalParent> {
         },
         null,
         null),
+    Question(
+        7,
+        1,
+        QuestionType.YES_DC,
+        YesDCQuestionPayload(
+            'Какие эмоции вы испытываете в мегаполисе?',
+            'Обожаю суету',
+            'Предпочитаю уединение',
+            Image.asset('images/traffic.jpg')),
+        null,
+        null,
+        null),
+    Question(
+        8,
+        1,
+        QuestionType.YES_DC,
+        YesDCQuestionPayload('Как на счет баров?', 'Активный вечер - мой выбор',
+            'Бары явно не для меня', Image.asset('images/bar.jpg')),
+        null,
+        null,
+        null),
+    Question(
+        9,
+        1,
+        QuestionType.YES_DC,
+        YesDCQuestionPayload(
+            'Вам бы хотелось познакомиться с коренными жителями города?',
+            'Абсолютно точно!',
+            'На улице не знакомлюсь.',
+            Image.asset('images/meeting.jpg')),
+        null,
+        null,
+        null),
+    Question(
+        10,
+        1,
+        QuestionType.YES_DC,
+        YesDCQuestionPayload(
+            'Вы любите бродить по узким улочкам?',
+            'Идеальное приключение - заплутать в них.',
+            'Люблю широкие проспекты!',
+            Image.asset('images/street.jpg')),
+        null,
+        null,
+        null),
   ];
 
   @override
