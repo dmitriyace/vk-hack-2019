@@ -11,7 +11,10 @@ import (
 	"log"
 )
 
-var popularCityIatas = []string{"ATH", "CAI", "DUB", "FLR", "JAI", "MAA", "MAD", "MOW", "ORL", "RUH", "VCE"}
+var popularCityIatas = []string{"AGR", "AMS", "ATH", "AYT", "BCN", "BER", "BKK", "BOM", "CAI", "CAN", "CUN",
+	"DEL", "DPS", "DUB", "DXB", "FLR", "HKG", "HKT", "IST", "JAI", "JHB", "JNB", "KUL", "LAS", "LAX", "LON",
+	"MAA", "MAD", "MFM", "MIA", "MIL", "MOW", "NYC", "ORL", "OSA", "PAR", "PRG", "ROM", "RUH", "SEL", "SHA",
+	"SIN", "TPE", "TYO", "UTP", "VCE", "VIE"}
 
 type CityInfo struct {
 	City   *City
