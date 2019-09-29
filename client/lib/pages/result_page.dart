@@ -95,7 +95,7 @@ class ResultPage extends StatelessWidget {
                                         child: Center(
                                           child: Text('Забронировать', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white)),
                                         ),
-                                      ),onTap: (){launch(this.results.values[index].flight.bookingUrl)},)
+                                      ),onTap: (){launch(this.results.values[index].flight.bookingUrl);},)
                                     ),
                                   ],
                                 ),
