@@ -31,7 +31,8 @@ class _SeringPageState extends State<SeringPage> {
   Future<Question> getSpecialQuestion() async {
     Cities generatedCities;
     QuestionsClient questionsClient = QuestionsClient(widget.channel);
-    await questionsClient.random(Empty()).then((resp) => generatedCities = resp);
+    print(HomePage.token);
+    await questionsClient.getRandom(HomePage.token).then((resp) => generatedCities = resp);
     return Question(-1, 1, QuestionType.ONE_OF_TWO, OneOfTwoQuestionPayload('Какой вид вам нравится больше?', '', Image.network(generatedCities.values[0].photo), '', Image.network(generatedCities.values[1].photo)),
       null, null, {0: {generatedCities.values[0].iata: 2}, 1: {generatedCities.values[1].iata: 2}});
   }
@@ -63,7 +64,7 @@ class _SeringPageState extends State<SeringPage> {
         this.history.firstWhere((elem) => elem == el.id, orElse: () {}) ==
         null);
     final _random = new Random();
-    if (_random.nextDouble() <= 0.20) {
+    if (_random.nextDouble() <= 0.20 && this.history.length > 1) {
       return -1;
     } else return questions.length > 0
         ? questions.toList()[_random.nextInt(questions.length)].id
@@ -83,7 +84,7 @@ class _SeringPageState extends State<SeringPage> {
 
   QuestWidget getCurrentQuestionCard() {
     setState(() {
-      this.getSpecialQuestion().then((resp) => this.preparedSpecialQuestion = resp);
+      if (history.length > 1) this.getSpecialQuestion().then((resp) => this.preparedSpecialQuestion = resp);
       currentQuestionType = getCurrentQuestion().type;
     });
     switch (currentQuestionType) {
