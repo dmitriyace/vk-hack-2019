@@ -10,22 +10,35 @@ import 'dart:async' as $async;
 import 'dart:core' as $core;
 
 import 'package:grpc/service_api.dart' as $grpc;
-import 'google/protobuf/empty.pb.dart' as $0;
+import 'session.pb.dart' as $1;
 import 'search.pb.dart' as $2;
+import 'google/protobuf/empty.pb.dart' as $0;
 export 'search.pb.dart';
 
 class QuestionsClient extends $grpc.Client {
-  static final _$random = $grpc.ClientMethod<$0.Empty, $2.Cities>(
-      '/internal.Questions/Random',
-      ($0.Empty value) => value.writeToBuffer(),
+  static final _$getRandom = $grpc.ClientMethod<$1.Token, $2.Cities>(
+      '/internal.Questions/GetRandom',
+      ($1.Token value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $2.Cities.fromBuffer(value));
+  static final _$deleteRandom = $grpc.ClientMethod<$2.AnswerRequest, $0.Empty>(
+      '/internal.Questions/DeleteRandom',
+      ($2.AnswerRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.Empty.fromBuffer(value));
 
   QuestionsClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
 
-  $grpc.ResponseFuture<$2.Cities> random($0.Empty request,
+  $grpc.ResponseFuture<$2.Cities> getRandom($1.Token request,
       {$grpc.CallOptions options}) {
-    final call = $createCall(_$random, $async.Stream.fromIterable([request]),
+    final call = $createCall(_$getRandom, $async.Stream.fromIterable([request]),
+        options: options);
+    return $grpc.ResponseFuture(call);
+  }
+
+  $grpc.ResponseFuture<$0.Empty> deleteRandom($2.AnswerRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(
+        _$deleteRandom, $async.Stream.fromIterable([request]),
         options: options);
     return $grpc.ResponseFuture(call);
   }
@@ -35,21 +48,35 @@ abstract class QuestionsServiceBase extends $grpc.Service {
   $core.String get $name => 'internal.Questions';
 
   QuestionsServiceBase() {
-    $addMethod($grpc.ServiceMethod<$0.Empty, $2.Cities>(
-        'Random',
-        random_Pre,
+    $addMethod($grpc.ServiceMethod<$1.Token, $2.Cities>(
+        'GetRandom',
+        getRandom_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
+        ($core.List<$core.int> value) => $1.Token.fromBuffer(value),
         ($2.Cities value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$2.AnswerRequest, $0.Empty>(
+        'DeleteRandom',
+        deleteRandom_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $2.AnswerRequest.fromBuffer(value),
+        ($0.Empty value) => value.writeToBuffer()));
   }
 
-  $async.Future<$2.Cities> random_Pre(
-      $grpc.ServiceCall call, $async.Future<$0.Empty> request) async {
-    return random(call, await request);
+  $async.Future<$2.Cities> getRandom_Pre(
+      $grpc.ServiceCall call, $async.Future<$1.Token> request) async {
+    return getRandom(call, await request);
   }
 
-  $async.Future<$2.Cities> random($grpc.ServiceCall call, $0.Empty request);
+  $async.Future<$0.Empty> deleteRandom_Pre(
+      $grpc.ServiceCall call, $async.Future<$2.AnswerRequest> request) async {
+    return deleteRandom(call, await request);
+  }
+
+  $async.Future<$2.Cities> getRandom($grpc.ServiceCall call, $1.Token request);
+  $async.Future<$0.Empty> deleteRandom(
+      $grpc.ServiceCall call, $2.AnswerRequest request);
 }
 
 class WeightsClient extends $grpc.Client {

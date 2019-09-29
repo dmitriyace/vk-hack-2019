@@ -11,18 +11,26 @@ import (
 	"log"
 )
 
-type Session struct {
-	cities []City
+var popularCityIatas = []string{"ATH", "CAI", "DUB", "FLR", "JAI", "MAA", "MAD", "MOW", "ORL", "RUH", "VCE"}
+
+type CityInfo struct {
+	City   *City
+	Weight int
 }
 
-var Sessions = make(map[string]Session)
+type Session struct {
+	cities       []CityInfo
+	randomCities []*City
+}
 
-func GetSession(token string) (Session, error) {
+var Sessions = make(map[string]*Session)
+
+func GetSession(token string) (*Session, error) {
 	s, ok := Sessions[token]
 	if !ok {
 		msg := fmt.Sprintf("Session with token %s does not exist", token)
 		err := status.Error(codes.InvalidArgument, msg)
-		return Session{}, err
+		return nil, err
 	}
 
 	return s, nil
@@ -39,11 +47,29 @@ func (s *Server) Open(ctx context.Context, e *empty.Empty) (*it.Token, error) {
 	go func() {
 		cc := getCities()
 
-		clientCities := make([]City, len(cc))
-		_ = copy(clientCities, cc)
+		iatas := make(map[string]bool)
+		for _, c := range popularCityIatas {
+			iatas[c] = true
+		}
 
-		session := Session{
-			cities: clientCities,
+		var cities []CityInfo
+		var popularCC []*City
+
+		for i := range cc {
+			info := CityInfo{
+				City:   &cc[i],
+				Weight: 0,
+			}
+
+			if iatas[cc[i].Iata] {
+				popularCC = append(popularCC, &cc[i])
+			}
+			cities = append(cities, info)
+		}
+
+		session := &Session{
+			cities:       cities,
+			randomCities: popularCC,
 		}
 		Sessions[token.String()] = session
 	}()

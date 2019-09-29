@@ -6,6 +6,7 @@ import 'package:client/model/question.dart';
 import 'package:client/pages/sering/sering_page.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({Key key, this.questions, this.channel}) : super(key: key);
@@ -19,6 +20,16 @@ class HomePage extends StatelessWidget {
     SessionClient(this.channel).open(Empty()).then(
             (resp) => HomePage.token = resp
     );
+  }
+
+  // todo move this function to final screen
+  _launchURL() async {
+    const url = 'https://www.aviasales.ru/search?origin=LED&destination=NYC&depart_date=2019-10-01';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   @override

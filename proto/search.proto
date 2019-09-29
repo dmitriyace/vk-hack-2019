@@ -26,26 +26,39 @@ message CityDelta {
     map<string, Delta> targets = 2; 
 }
 
+message Flight {
+    uint32 price = 1;
+    string bookingUrl = 2;
+}
+
 message City {
     string iata = 1;
     string name = 2;
     string countryCode = 3;
     string photo = 4;
+    Flight flight = 5;
 }
 
 message ResultRequest {
     Token token = 1;
-    uint32 pageSize = 2;
-    uint32 offset = 3;
+    string month = 2;
+    uint32 pageSize = 3;
+    uint32 offset = 4;
 }
 
 message Cities {
     repeated City values = 1;
 }
 
+message AnswerRequest {
+    Token token = 1;
+    string iata = 2;
+}
+
 service Questions {
-    rpc Random(google.protobuf.Empty) returns (Cities);
-} 
+    rpc GetRandom(Token) returns (Cities);
+    rpc DeleteRandom(AnswerRequest) returns (google.protobuf.Empty);
+}
 
 service Weights {
     rpc ChangeContinent(ContinentDelta) returns (google.protobuf.Empty);
