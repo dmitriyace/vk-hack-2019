@@ -131,9 +131,15 @@ class _YesDCQuestionState extends State<YesDCQuestion> {
                     _btnBuilder(43.0, widget.question.payload.dCOption, 18.0),
                     Center(
                       child: Container(
-                        height: 160,
                         child: Card(
-                          child: widget.question.payload.image,
+                          child: Container(
+                            width: 260,
+                            height: 160,
+                            child: FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: widget.question.payload.image,
+                            ),
+                          ),
                           elevation: 10,
                         ),
                       ),
