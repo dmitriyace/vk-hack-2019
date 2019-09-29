@@ -84,7 +84,7 @@ class ResultPage extends StatelessWidget {
                                       child: Container(
                                         color: Colors.black54,
                                         child: Center(
-                                            child: Text("${this.results.values[index].flight.price.toString()}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white),
+                                            child: Text("${this.results.values[index].flight.price.toString()}₽", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white),
                                                 )),
                                       ),
                                     ),
