@@ -9,6 +9,7 @@ import (
 	"github.com/N1cOs/vkhack2019/server/http"
 	"github.com/golang/protobuf/ptypes/empty"
 	"log"
+	"math"
 	"sort"
 )
 
@@ -128,10 +129,42 @@ func (s *Server) Result(ctx context.Context, req *it.ResultRequest) (*it.Cities,
 	for i := req.Offset; i < req.Offset+req.PageSize; i++ {
 		c := session.cities[i].City
 		city := &it.City{
+			Iata:  c.Iata,
 			Name:  c.Name,
 			Photo: fmt.Sprintf(urlPhoto, c.Iata),
 		}
 		cc = append(cc, city)
+	}
+
+	ch := make(chan Response)
+	for _, c := range cc {
+		go cheapFlights(c.Iata, req.Month, ch)
+	}
+
+	for range cc {
+		r := <-ch
+		if r.Err != nil || !r.Success {
+			log.Println(r.Err)
+			continue
+		}
+
+		for k, v := range r.Data {
+			minPrice := math.MaxInt32
+			for _, flt := range v {
+				if flt.Price < minPrice {
+					minPrice = flt.Price
+				}
+			}
+
+			for i, c := range cc {
+				if c.Iata == k {
+					cc[i].Flight = &it.Flight{
+						Price:      uint32(minPrice),
+						BookingUrl: "sas",
+					}
+				}
+			}
+		}
 	}
 
 	return &it.Cities{Values: cc}, nil

@@ -7,7 +7,6 @@ import (
 	"github.com/golang/protobuf/ptypes/empty"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
-	"log"
 	"math/rand"
 	"time"
 )
@@ -22,13 +21,11 @@ func (s *Server) GetRandom(ctx context.Context, token *it.Token) (*it.Cities, er
 
 	cities := session.randomCities
 	if len(cities) < 2 {
-		return nil, status.Error(codes.Unavailable, "")
+		return nil, status.Error(codes.Unavailable, "Only one city left")
 	}
 
-	log.Println(len(cities))
-
 	index := rand.Intn(len(cities) / 2)
-	c1, c2 := cities[index], cities[len(cities)/2+index-1]
+	c1, c2 := cities[index], cities[len(cities)/2+index]
 
 	var cc []*it.City
 	for _, c := range []*City{c1, c2} {
@@ -57,7 +54,5 @@ func (s *Server) DeleteRandom(ctx context.Context, req *it.AnswerRequest) (*empt
 	}
 
 	session.randomCities = cities
-	//log.Printf("%p\n", session)
-	//log.Printf("%p\n", session.randomCities)
 	return &empty.Empty{}, nil
 }

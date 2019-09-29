@@ -6,13 +6,17 @@ import (
 	"google.golang.org/grpc"
 	"log"
 	"net"
+	"os"
 	"time"
 )
 
 const (
-	urlCities = "http://api.travelpayouts.com/data/ru/cities.json"
-	urlPhoto  = "http://95.213.38.135/images/%s.jpg"
+	urlCities       = "http://api.travelpayouts.com/data/ru/cities.json"
+	urlPhoto        = "http://95.213.38.135/images/%s.jpg"
+	urlMonthFlights = "http://api.travelpayouts.com/v1/prices/cheap"
 )
+
+var Token = os.Getenv("AVIA_TOKEN")
 
 type Server struct {
 }

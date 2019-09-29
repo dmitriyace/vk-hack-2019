@@ -66,6 +66,14 @@ const CityDelta_TargetsEntry$json = const {
   '7': const {'7': true},
 };
 
+const Flight$json = const {
+  '1': 'Flight',
+  '2': const [
+    const {'1': 'price', '3': 1, '4': 1, '5': 13, '10': 'price'},
+    const {'1': 'bookingUrl', '3': 2, '4': 1, '5': 9, '10': 'bookingUrl'},
+  ],
+};
+
 const City$json = const {
   '1': 'City',
   '2': const [
@@ -73,6 +81,7 @@ const City$json = const {
     const {'1': 'name', '3': 2, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'countryCode', '3': 3, '4': 1, '5': 9, '10': 'countryCode'},
     const {'1': 'photo', '3': 4, '4': 1, '5': 9, '10': 'photo'},
+    const {'1': 'flight', '3': 5, '4': 1, '5': 11, '6': '.internal.Flight', '10': 'flight'},
   ],
 };
 
@@ -80,8 +89,9 @@ const ResultRequest$json = const {
   '1': 'ResultRequest',
   '2': const [
     const {'1': 'token', '3': 1, '4': 1, '5': 11, '6': '.internal.Token', '10': 'token'},
-    const {'1': 'pageSize', '3': 2, '4': 1, '5': 13, '10': 'pageSize'},
-    const {'1': 'offset', '3': 3, '4': 1, '5': 13, '10': 'offset'},
+    const {'1': 'month', '3': 2, '4': 1, '5': 9, '10': 'month'},
+    const {'1': 'pageSize', '3': 3, '4': 1, '5': 13, '10': 'pageSize'},
+    const {'1': 'offset', '3': 4, '4': 1, '5': 13, '10': 'offset'},
   ],
 };
 

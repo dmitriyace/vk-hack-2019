@@ -124,12 +124,45 @@ class CityDelta extends $pb.GeneratedMessage {
   $core.Map<$core.String, Delta> get targets => $_getMap(1);
 }
 
+class Flight extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('Flight', package: const $pb.PackageName('internal'), createEmptyInstance: create)
+    ..a<$core.int>(1, 'price', $pb.PbFieldType.OU3)
+    ..aOS(2, 'bookingUrl', protoName: 'bookingUrl')
+    ..hasRequiredFields = false
+  ;
+
+  Flight._() : super();
+  factory Flight() => create();
+  factory Flight.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Flight.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  Flight clone() => Flight()..mergeFromMessage(this);
+  Flight copyWith(void Function(Flight) updates) => super.copyWith((message) => updates(message as Flight));
+  $pb.BuilderInfo get info_ => _i;
+  @$core.pragma('dart2js:noInline')
+  static Flight create() => Flight._();
+  Flight createEmptyInstance() => create();
+  static $pb.PbList<Flight> createRepeated() => $pb.PbList<Flight>();
+  static Flight getDefault() => _defaultInstance ??= create()..freeze();
+  static Flight _defaultInstance;
+
+  $core.int get price => $_get(0, 0);
+  set price($core.int v) { $_setUnsignedInt32(0, v); }
+  $core.bool hasPrice() => $_has(0);
+  void clearPrice() => clearField(1);
+
+  $core.String get bookingUrl => $_getS(1, '');
+  set bookingUrl($core.String v) { $_setString(1, v); }
+  $core.bool hasBookingUrl() => $_has(1);
+  void clearBookingUrl() => clearField(2);
+}
+
 class City extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('City', package: const $pb.PackageName('internal'), createEmptyInstance: create)
     ..aOS(1, 'iata')
     ..aOS(2, 'name')
     ..aOS(3, 'countryCode', protoName: 'countryCode')
     ..aOS(4, 'photo')
+    ..a<Flight>(5, 'flight', $pb.PbFieldType.OM, defaultOrMaker: Flight.getDefault, subBuilder: Flight.create)
     ..hasRequiredFields = false
   ;
 
@@ -166,13 +199,19 @@ class City extends $pb.GeneratedMessage {
   set photo($core.String v) { $_setString(3, v); }
   $core.bool hasPhoto() => $_has(3);
   void clearPhoto() => clearField(4);
+
+  Flight get flight => $_getN(4);
+  set flight(Flight v) { setField(5, v); }
+  $core.bool hasFlight() => $_has(4);
+  void clearFlight() => clearField(5);
 }
 
 class ResultRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ResultRequest', package: const $pb.PackageName('internal'), createEmptyInstance: create)
     ..a<$1.Token>(1, 'token', $pb.PbFieldType.OM, defaultOrMaker: $1.Token.getDefault, subBuilder: $1.Token.create)
-    ..a<$core.int>(2, 'pageSize', $pb.PbFieldType.OU3, protoName: 'pageSize')
-    ..a<$core.int>(3, 'offset', $pb.PbFieldType.OU3)
+    ..aOS(2, 'month')
+    ..a<$core.int>(3, 'pageSize', $pb.PbFieldType.OU3, protoName: 'pageSize')
+    ..a<$core.int>(4, 'offset', $pb.PbFieldType.OU3)
     ..hasRequiredFields = false
   ;
 
@@ -195,15 +234,20 @@ class ResultRequest extends $pb.GeneratedMessage {
   $core.bool hasToken() => $_has(0);
   void clearToken() => clearField(1);
 
-  $core.int get pageSize => $_get(1, 0);
-  set pageSize($core.int v) { $_setUnsignedInt32(1, v); }
-  $core.bool hasPageSize() => $_has(1);
-  void clearPageSize() => clearField(2);
+  $core.String get month => $_getS(1, '');
+  set month($core.String v) { $_setString(1, v); }
+  $core.bool hasMonth() => $_has(1);
+  void clearMonth() => clearField(2);
 
-  $core.int get offset => $_get(2, 0);
-  set offset($core.int v) { $_setUnsignedInt32(2, v); }
-  $core.bool hasOffset() => $_has(2);
-  void clearOffset() => clearField(3);
+  $core.int get pageSize => $_get(2, 0);
+  set pageSize($core.int v) { $_setUnsignedInt32(2, v); }
+  $core.bool hasPageSize() => $_has(2);
+  void clearPageSize() => clearField(3);
+
+  $core.int get offset => $_get(3, 0);
+  set offset($core.int v) { $_setUnsignedInt32(3, v); }
+  $core.bool hasOffset() => $_has(3);
+  void clearOffset() => clearField(4);
 }
 
 class Cities extends $pb.GeneratedMessage {
