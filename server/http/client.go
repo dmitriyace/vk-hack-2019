@@ -44,8 +44,17 @@ type Request struct {
 }
 
 func (r *Request) Do() (io.ReadCloser, error) {
-	reqUrl := fmt.Sprintf("%s?%s", r.url, r.params.Encode())
-	for i := 0; i < r.repeats; i++ {
+	reqUrl := r.url
+	if len(r.params) > 0 {
+		reqUrl = fmt.Sprintf("%s?%s", r.url, r.params.Encode())
+	}
+
+	repeats := r.repeats
+	if repeats == 0 {
+		repeats = 1
+	}
+
+	for i := 0; i < repeats; i++ {
 		ch := make(chan Response)
 		go func() {
 			req, err := http.NewRequest(r.method, reqUrl, r.body)
@@ -71,6 +80,12 @@ func (r *Request) Do() (io.ReadCloser, error) {
 					msg := fmt.Sprintf("Request error, host: %s", reqUrl)
 					return nil, status.Error(codes.Unavailable, msg)
 				}
+
+				if !(r.Value.StatusCode >= 200 && r.Value.StatusCode <= 299) {
+					msg := fmt.Sprintf("Request error, host: %s, code: %d", reqUrl, r.Value.StatusCode)
+					return nil, status.Error(codes.Unavailable, msg)
+				}
+
 				return r.Value.Body, nil
 			case <-tout:
 				log.Printf("Request %s took more than %dms, repeats: %d", reqUrl,
