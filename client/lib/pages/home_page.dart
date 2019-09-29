@@ -61,7 +61,7 @@ class HomePage extends StatelessWidget {
                       },
                       child: Padding(padding: EdgeInsets.all(12.0),
                         child: Text(
-                          'подобрать тур?',
+                          'Подобрать тур?',
                           style: TextStyle(fontSize: 18.0),
                         ),
                       ),
