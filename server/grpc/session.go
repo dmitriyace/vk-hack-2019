@@ -11,16 +11,19 @@ import (
 	"log"
 )
 
+var popularCityIatas = []string{"ATH", "CAI", "DUB", "FLR", "JAI", "MAA", "MAD", "MOW", "ORL", "RUH", "VCE"}
+
 type CityInfo struct {
 	City   *City
 	Weight int
 }
 
 type Session struct {
-	cities []CityInfo
+	cities       []CityInfo
+	randomCities []*City
 }
 
-var Sessions = make(map[string]Session)
+var Sessions = make(map[string]*Session)
 
 func GetSession(token string) (*Session, error) {
 	s, ok := Sessions[token]
@@ -30,7 +33,7 @@ func GetSession(token string) (*Session, error) {
 		return nil, err
 	}
 
-	return &s, nil
+	return s, nil
 }
 
 func (s *Server) Open(ctx context.Context, e *empty.Empty) (*it.Token, error) {
@@ -44,18 +47,29 @@ func (s *Server) Open(ctx context.Context, e *empty.Empty) (*it.Token, error) {
 	go func() {
 		cc := getCities()
 
+		iatas := make(map[string]bool)
+		for _, c := range popularCityIatas {
+			iatas[c] = true
+		}
+
 		var cities []CityInfo
+		var popularCC []*City
 
 		for i := range cc {
 			info := CityInfo{
 				City:   &cc[i],
 				Weight: 0,
 			}
+
+			if iatas[cc[i].Iata] {
+				popularCC = append(popularCC, &cc[i])
+			}
 			cities = append(cities, info)
 		}
 
-		session := Session{
-			cities: cities,
+		session := &Session{
+			cities:       cities,
+			randomCities: popularCC,
 		}
 		Sessions[token.String()] = session
 	}()
