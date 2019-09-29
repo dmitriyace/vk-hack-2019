@@ -281,16 +281,13 @@ class _DragHandlerState extends State<DragHandler>
     return new Center(
       child: Transform(
         transform: Matrix4.translationValues(cardOffset.dx, cardOffset.dy, 0.0),
-        child: new Container(
-          width: 400,
-          height: 400,
-          padding: const EdgeInsets.all(16.0),
-          child: GestureDetector(
+        child:
+        GestureDetector(
             onPanStart: _onPanStart,
             onPanUpdate: _onPanUpdate,
             onPanEnd: _onPanEnd,
             child: widget.card,
-          ),
+
         ),
       ),
     );

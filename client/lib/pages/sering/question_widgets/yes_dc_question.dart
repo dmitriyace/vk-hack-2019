@@ -100,55 +100,66 @@ class _YesDCQuestionState extends State<YesDCQuestion> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 300,
-      height: 400,
-      padding: const EdgeInsets.all(10.0),
-      decoration: BoxDecoration(
-        border: Border.all(),
-        borderRadius: BorderRadius.all(
-            Radius.circular(15.0) //         <--- border radius here
-        ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Text(widget.question.payload.title),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                _YesDCQuestionState.model = !_YesDCQuestionState.model;
-              });
-            },
-            child: Container(
-              child: Column(children: <Widget>[
-                Column(children: <Widget>[
-                  MaterialButton(
-                    height: 35,
-                    color: Colors.green,
-                    child: new Text(widget.question.payload.yesOption,
-                        style:
-                            new TextStyle(fontSize: 16.0, color: Colors.white)),
-                    onPressed: () {
-                      // todo handle answer logic
-                    },
-                  ),
-                  MaterialButton(
-                    height: 35,
-                    color: Colors.grey,
-                    child: new Text(widget.question.payload.dCOption,
-                        style:
-                            new TextStyle(fontSize: 16.0, color: Colors.white)),
-                    onPressed: () {
-                      // todo handle answer logic
-                    },
-                  )
-                ]),
-              ]),
+    return Card(
+      elevation: 3,
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.83,
+        height: MediaQuery.of(context).size.height * 1,
+        padding: const EdgeInsets.all(10.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.08,
             ),
-          ),
-        ],
+            Center(
+              child: Text(widget.question.payload.title),
+            ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.7,
+              child: Center(
+                child: Column(children: <Widget>[
+                  Card(
+                    child: widget.question.payload.firstImage,
+                    elevation: 10,
+                  ),
+                  Card(
+                    child: widget.question.payload.secondImage,
+                    elevation: 10,
+                  )
+
+                  /*MaterialButton(
+                          height: 35,
+                          color: Colors.green,
+                          child: new Text(widget.question.payload.yesOption,
+                              style: new TextStyle(
+                                  fontSize: 16.0, color: Colors.white)),
+                          onPressed: () {
+                            setState(() {
+                              _YesDCQuestionState.model = true;
+                              widget.forward();
+                            });
+                          },
+                        ),
+                        MaterialButton(
+                          height: 35,
+                          color: Colors.grey,
+                          child: new Text(widget.question.payload.dCOption,
+                              style: new TextStyle(
+                                  fontSize: 16.0, color: Colors.white)),
+                          onPressed: () {
+                            setState(() {
+                              _YesDCQuestionState.model = false;
+                              widget.forward();
+                            });
+                          },
+                        )*/
+                ]),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

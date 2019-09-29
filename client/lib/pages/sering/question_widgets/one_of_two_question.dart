@@ -80,7 +80,7 @@ class OneOfTwoQuestion extends StatefulWidget implements QuestWidget {
       if (id == null)
         this.finish();
       else
-        this.selectQuestionById(id, true);
+        this.selectQuestionById(id);
     }
   }
 
@@ -111,7 +111,7 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
   Widget build(BuildContext context) {
     return Container(
       width: 300,
-      height: 400,
+      height: 700,
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         border: Border.all(),
@@ -140,7 +140,8 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
                       ),
                     ),
                     onTap: () {
-                      // todo handle answer
+                      _OneOfTwoQuestionState.model = 1;
+                      widget.forward();
                     },
                   ),
                   GestureDetector(
@@ -155,7 +156,8 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
                       ),
                     ),
                     onTap: () {
-
+                      _OneOfTwoQuestionState.model = 2;
+                      widget.forward();
                     },
                   ),
                 ],
