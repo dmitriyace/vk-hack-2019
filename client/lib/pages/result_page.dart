@@ -2,6 +2,7 @@ import 'package:client/api/search.pb.dart';
 import 'package:client/api/search.pbgrpc.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'home_page.dart';
 
@@ -88,13 +89,13 @@ class ResultPage extends StatelessWidget {
                                       ),
                                     ),
                                     Expanded(
-                                      child: Container(
+                                      child: GestureDetector(child: Container(
                                         margin: EdgeInsets.only(left: 12.0),
                                         color: Colors.orange,
                                         child: Center(
                                           child: Text('Забронировать', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white)),
                                         ),
-                                      ),
+                                      ),onTap: (){launch(this.results.values[index].flight.bookingUrl)},)
                                     ),
                                   ],
                                 ),
