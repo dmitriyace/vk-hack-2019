@@ -12,8 +12,10 @@ import (
 
 const (
 	urlCities       = "http://api.travelpayouts.com/data/ru/cities.json"
+	urlCountries    = "http://api.travelpayouts.com/data/ru/countries.json"
 	urlPhoto        = "http://95.213.38.135/images/%s.jpg"
 	urlMonthFlights = "http://api.travelpayouts.com/v1/prices/cheap"
+	urlSearch       = "https://www.aviasales.ru/search"
 )
 
 var Token = os.Getenv("AVIA_TOKEN")
