@@ -11,7 +11,7 @@ import (
 
 const (
 	urlCities = "http://api.travelpayouts.com/data/ru/cities.json"
-	urlPhoto  = "http://photo.hotellook.com/static/cities/500x250/%s.jpg"
+	urlPhoto  = "http://95.213.38.135/images/%s.jpg"
 )
 
 type Server struct {
