@@ -56,6 +56,7 @@ type City struct {
 	Iata        string `json:"code"`
 	Name        string
 	Coordinates Coordinates
+	CountryName string
 	CountryCode string `json:"country_code"`
 	Continent   string
 	Popularity  int `json:"weight"`
@@ -129,9 +130,14 @@ func (s *Server) Result(ctx context.Context, req *it.ResultRequest) (*it.Cities,
 	for i := req.Offset; i < req.Offset+req.PageSize; i++ {
 		c := session.cities[i].City
 		city := &it.City{
-			Iata:  c.Iata,
-			Name:  c.Name,
-			Photo: fmt.Sprintf(urlPhoto, c.Iata),
+			Iata:        c.Iata,
+			Name:        c.Name,
+			CountryName: c.CountryName,
+			Photo:       fmt.Sprintf(urlPhoto, c.Iata),
+			Flight: &it.Flight{
+				Price:      0,
+				BookingUrl: "",
+			},
 		}
 		cc = append(cc, city)
 	}
@@ -148,6 +154,12 @@ func (s *Server) Result(ctx context.Context, req *it.ResultRequest) (*it.Cities,
 			continue
 		}
 
+		for i, c := range cc {
+			if c.Iata == r.IataDest {
+				cc[i].Flight.BookingUrl = r.Link
+			}
+		}
+
 		for k, v := range r.Data {
 			minPrice := math.MaxInt32
 			for _, flt := range v {
@@ -160,7 +172,7 @@ func (s *Server) Result(ctx context.Context, req *it.ResultRequest) (*it.Cities,
 				if c.Iata == k {
 					cc[i].Flight = &it.Flight{
 						Price:      uint32(minPrice),
-						BookingUrl: "sas",
+						BookingUrl: r.Link,
 					}
 				}
 			}
@@ -168,6 +180,32 @@ func (s *Server) Result(ctx context.Context, req *it.ResultRequest) (*it.Cities,
 	}
 
 	return &it.Cities{Values: cc}, nil
+}
+
+func getCountries() map[string]string {
+	b := http.NewBuilder()
+	req := b.Url(urlCountries).Method("GET").Build()
+	body, err := req.Do()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer body.Close()
+
+	var cc []struct {
+		Code string
+		Name string
+	}
+
+	err = json.NewDecoder(body).Decode(&cc)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	res := make(map[string]string)
+	for _, c := range cc {
+		res[c.Code] = c.Name
+	}
+	return res
 }
 
 func getCities() []City {
@@ -186,9 +224,11 @@ func getCities() []City {
 			log.Fatal(err)
 		}
 
+		countries := getCountries()
 		for i := range cities {
 			con, _ := continent(cities[i].Coordinates)
 			cities[i].Continent = con
+			cities[i].CountryName = countries[cities[i].CountryCode]
 		}
 	}
 

@@ -34,9 +34,10 @@ message Flight {
 message City {
     string iata = 1;
     string name = 2;
-    string countryCode = 3;
-    string photo = 4;
-    Flight flight = 5;
+    string countryName = 3;
+    string countryCode = 4;
+    string photo = 5;
+    Flight flight = 6;
 }
 
 message ResultRequest {

@@ -160,9 +160,10 @@ class City extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('City', package: const $pb.PackageName('internal'), createEmptyInstance: create)
     ..aOS(1, 'iata')
     ..aOS(2, 'name')
-    ..aOS(3, 'countryCode', protoName: 'countryCode')
-    ..aOS(4, 'photo')
-    ..a<Flight>(5, 'flight', $pb.PbFieldType.OM, defaultOrMaker: Flight.getDefault, subBuilder: Flight.create)
+    ..aOS(3, 'countryName', protoName: 'countryName')
+    ..aOS(4, 'countryCode', protoName: 'countryCode')
+    ..aOS(5, 'photo')
+    ..a<Flight>(6, 'flight', $pb.PbFieldType.OM, defaultOrMaker: Flight.getDefault, subBuilder: Flight.create)
     ..hasRequiredFields = false
   ;
 
@@ -190,20 +191,25 @@ class City extends $pb.GeneratedMessage {
   $core.bool hasName() => $_has(1);
   void clearName() => clearField(2);
 
-  $core.String get countryCode => $_getS(2, '');
-  set countryCode($core.String v) { $_setString(2, v); }
-  $core.bool hasCountryCode() => $_has(2);
-  void clearCountryCode() => clearField(3);
+  $core.String get countryName => $_getS(2, '');
+  set countryName($core.String v) { $_setString(2, v); }
+  $core.bool hasCountryName() => $_has(2);
+  void clearCountryName() => clearField(3);
 
-  $core.String get photo => $_getS(3, '');
-  set photo($core.String v) { $_setString(3, v); }
-  $core.bool hasPhoto() => $_has(3);
-  void clearPhoto() => clearField(4);
+  $core.String get countryCode => $_getS(3, '');
+  set countryCode($core.String v) { $_setString(3, v); }
+  $core.bool hasCountryCode() => $_has(3);
+  void clearCountryCode() => clearField(4);
 
-  Flight get flight => $_getN(4);
-  set flight(Flight v) { setField(5, v); }
-  $core.bool hasFlight() => $_has(4);
-  void clearFlight() => clearField(5);
+  $core.String get photo => $_getS(4, '');
+  set photo($core.String v) { $_setString(4, v); }
+  $core.bool hasPhoto() => $_has(4);
+  void clearPhoto() => clearField(5);
+
+  Flight get flight => $_getN(5);
+  set flight(Flight v) { setField(6, v); }
+  $core.bool hasFlight() => $_has(5);
+  void clearFlight() => clearField(6);
 }
 
 class ResultRequest extends $pb.GeneratedMessage {
