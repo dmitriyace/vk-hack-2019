@@ -21,7 +21,7 @@ class _GlobalParent extends StatefulWidget {
 }
 
 class _GlobalParentState extends State<_GlobalParent> {
-  static var _channel = ClientChannel('95.213.38.135',
+  static var _channel = ClientChannel('5.63.153.29',
       port: 8080,
       options: ChannelOptions(credentials: ChannelCredentials.insecure()));
 
@@ -55,35 +55,35 @@ class _GlobalParentState extends State<_GlobalParent> {
         null,
         {
           0: {
-            "BR": 3,
-            "ES": 3,
-            "FR": 3,
-            "IT": 3,
-            "GR": 3,
-            "MA": 3,
-            "TN": 3,
-            "EG": 3,
-            "TR": 3,
-            "JP": 3,
-            "TH": 3
+            "BR": 1,
+            "ES": 1,
+            "FR": 1,
+            "IT": 1,
+            "GR": 1,
+            "MA": 1,
+            "TN": 1,
+            "EG": 1,
+            "TR": 1,
+            "JP": 1,
+            "TH": 1
           }
         },
         {
           0: {
-            "LAS": 2,
-            "RIO": 2,
-            "BCN": 2,
-            "NCE": 2,
-            "MRS": 2,
-            "HER": 2,
-            "CAS": 2,
-            "TUN": 2,
-            "HRG": 2,
-            "SSH": 2,
-            "AYT": 2,
-            "OSA": 2,
-            "BKK": 2,
-            "HKT": 2
+            "LAS": 1,
+            "RIO": 1,
+            "BCN": 1,
+            "NCE": 1,
+            "MRS": 1,
+            "HER": 1,
+            "CAS": 1,
+            "TUN": 1,
+            "HRG": 1,
+            "SSH": 1,
+            "AYT": 1,
+            "OSA": 1,
+            "BKK": 1,
+            "HKT": 1
           }
         }),
     Question(
@@ -101,8 +101,8 @@ class _GlobalParentState extends State<_GlobalParent> {
           1: {"ASI": 1}
         },
         {
-          0: {"IT": 3},
-          1: {"JP": 3}
+          0: {"IT": 1},
+          1: {"JP": 1}
         },
         null),
     Question(
@@ -117,14 +117,14 @@ class _GlobalParentState extends State<_GlobalParent> {
       null,
       {
         0: {
-          "BR": 5,
-          "HK": 5,
-          "MA": 5,
-          "TH": 5,
-          "TR": 5,
-          "TN": 5,
-          "KR": 5,
-          "EG": 5
+          "BR": 4,
+          "HK": 4,
+          "MA": 4,
+          "TH": 4,
+          "TR": 4,
+          "TN": 4,
+          "KR": 4,
+          "EG": 4
         }
       },
       null,

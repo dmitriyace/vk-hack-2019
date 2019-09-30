@@ -1,5 +1,6 @@
 import 'package:client/api/search.pb.dart';
 import 'package:client/api/search.pbgrpc.dart';
+import 'package:client/api/session.pbgrpc.dart';
 import 'package:flutter/material.dart';
 import 'package:grpc/grpc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,6 +24,9 @@ class ResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    SessionClient(channel).close(HomePage.token);
+
     return Scaffold(
       body: Container(
         color: Theme.of(context).backgroundColor,
@@ -42,9 +46,9 @@ class ResultPage extends StatelessWidget {
                   child: ListView.builder(
                       itemCount: this.results.values.length,
                       itemBuilder: (BuildContext context, int index) {
-                        if (index <= this.results.values.length) {
-                          this.more(20, this.results.values.length); /*4*/
-                        }
+                       /* if (index <= this.results.values.length) {
+                          this.more(20, this.results.values.length); *//*4*//*
+                        }*/
                         return Container(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
