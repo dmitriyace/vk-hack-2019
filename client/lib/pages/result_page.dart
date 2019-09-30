@@ -33,7 +33,7 @@ class ResultPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    height: MediaQuery.of(context).size.height * 0.06,
                     child: Center(
                       child: Text('Вот что нам удалось подобрать:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white)),
                     )),
@@ -52,8 +52,8 @@ class ResultPage extends StatelessWidget {
                             children: <Widget>[
                               SizedBox(
                                   height: 80,
-                                  child: Card(
-                                    elevation: 5,
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(15.0),
                                     child: FittedBox(
                                       child: FadeInImage(
                                           image: NetworkImage(
@@ -63,35 +63,45 @@ class ResultPage extends StatelessWidget {
                                       fit: BoxFit.fitWidth,
                                     ),
                                   )),
+                              SizedBox(height: 10,),
                               SizedBox(
                                   height: 30,
                                   child: Container(
-                                    color: Colors.black54,
+                                    decoration: BoxDecoration(
+                                        color: Colors.black54,
+                                        borderRadius: BorderRadius.all(Radius.circular(20.0))
+                                    ),
                                     child: Center(
                                       child: Text(
                                           "${this.results.values[index].name}, ${this.results.values[index].countryName}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white))
                                     ),
                                   )),
                               SizedBox(
-                                height: 8,
+                                height: 10,
                               ),
                               SizedBox(
                                 height: 30,
                                 child: Row(
                                   children: <Widget>[
                                     SizedBox(
-                                      width: MediaQuery.of(context).size.width * 0.24,
+                                      width: MediaQuery.of(context).size.width * 0.3,
                                       child: Container(
-                                        color: Colors.black54,
+                                        decoration: BoxDecoration(
+                                            color: Colors.black54,
+                                          borderRadius: BorderRadius.all(Radius.circular(20.0))
+                                        ),
                                         child: Center(
-                                            child: Text("${this.results.values[index].flight.price.toString()}₽", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white),
+                                            child: Text(this.results.values[index].flight.price != 0 ? (this.results.values[index].flight.price.toString().length > 4 ? "${this.results.values[index].flight.price.toString().substring(0,2) + ' ' + this.results.values[index].flight.price.toString().substring(2)} ₽" : "${this.results.values[index].flight.price.toString().substring(0,1) + ' ' + this.results.values[index].flight.price.toString().substring(1)} ₽") : "¯\\_(ツ)_/¯", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white),
                                                 )),
                                       ),
                                     ),
                                     Expanded(
                                       child: GestureDetector(child: Container(
-                                        margin: EdgeInsets.only(left: 12.0),
-                                        color: Colors.orange,
+                                        margin: EdgeInsets.only(left: 8.0),
+                                        decoration: BoxDecoration(
+                                            color: Colors.orange,
+                                            borderRadius: BorderRadius.all(Radius.circular(20.0))
+                                        ),
                                         child: Center(
                                           child: Text('Забронировать', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0, color: Colors.white)),
                                         ),
@@ -99,7 +109,8 @@ class ResultPage extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                              )
+                              ),
+                              SizedBox(height: 10,),
                             ],
                           ),
                         );

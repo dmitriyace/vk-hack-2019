@@ -1,6 +1,7 @@
 import 'package:client/api/session.pbgrpc.dart';
 import 'package:client/pages/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:grpc/grpc.dart';
 
 import 'model/question.dart';
@@ -112,18 +113,18 @@ class _GlobalParentState extends State<_GlobalParent> {
           'Хотите избежать процесс получения визы?',
           'Да, мое время - на вес золота',
           'Не волнует',
-          Image.asset('image/visa.jpg')),
+          Image.asset('images/visa.jpg')),
       null,
       {
         0: {
-          "BR": 10,
-          "HK": 10,
-          "MA": 10,
-          "TH": 10,
-          "TR": 10,
-          "TN": 10,
-          "KR": 10,
-          "EG": 10
+          "BR": 5,
+          "HK": 5,
+          "MA": 5,
+          "TH": 5,
+          "TR": 5,
+          "TN": 5,
+          "KR": 5,
+          "EG": 5
         }
       },
       null,
@@ -173,7 +174,7 @@ class _GlobalParentState extends State<_GlobalParent> {
         8,
         1,
         QuestionType.YES_DC,
-        YesDCQuestionPayload('Как на счет баров?', 'Активный вечер - мой выбор',
+        YesDCQuestionPayload('Как на счет баров?', 'Совсем не прочь',
             'Бары явно не для меня', Image.asset('images/bar.jpg')),
         null,
         null,
@@ -206,6 +207,10 @@ class _GlobalParentState extends State<_GlobalParent> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       title: 'Aviasales Demo',
       theme: ThemeData(

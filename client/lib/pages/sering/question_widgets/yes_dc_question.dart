@@ -106,6 +106,9 @@ class _YesDCQuestionState extends State<YesDCQuestion> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.83,
         padding: const EdgeInsets.all(10.0),
@@ -115,33 +118,32 @@ class _YesDCQuestionState extends State<YesDCQuestion> {
           children: <Widget>[
             Center(
               child: Padding(
-                padding: EdgeInsets.fromLTRB(43, 60, 43, 30),
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 7),
                 child: Text(
                   widget.question.payload.title,
                   style: new TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ),
             Center(
               child: SizedBox(
-                height: 300,
+                height: 270,
                 child: Center(
-                  child: Column(children: <Widget>[
-                    _btnBuilder(43.0, widget.question.payload.yesOption, 18.0),
-                    _btnBuilder(43.0, widget.question.payload.dCOption, 18.0),
+                  child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.stretch,children: <Widget>[
+                    Center(child: _btnBuilder(43.0, widget.question.payload.yesOption, 18.0),),
+                    SizedBox(height: 5,),
+                    Center(child: _btnBuilder(43.0, widget.question.payload.dCOption, 18.0),),
+                    SizedBox(height: 5,),
                     Center(
                       child: Container(
-                        child: Card(
-                          child: Container(
-                            width: 260,
-                            height: 160,
-                            child: FittedBox(
+
+                            width: 220,
+                            height: 150,
+                            child: ClipRRect(borderRadius: BorderRadius.circular(30.0), child: FittedBox(
                               fit: BoxFit.fitWidth,
                               child: widget.question.payload.image,
-                            ),
-                          ),
-                          elevation: 10,
-                        ),
+                            ),)
                       ),
                     )
                   ]),
@@ -156,7 +158,7 @@ class _YesDCQuestionState extends State<YesDCQuestion> {
 
   _btnBuilder(height, text, fontSize) {
     return MaterialButton(
-      minWidth: 200,
+      minWidth: MediaQuery.of(context).size.width * 0.7,
       color: Theme.of(context).backgroundColor,
       child: Padding(
         padding: EdgeInsets.all(6),

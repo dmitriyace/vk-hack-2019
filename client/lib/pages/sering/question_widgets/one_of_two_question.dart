@@ -113,6 +113,9 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
       child: Container(
         width: MediaQuery.of(context).size.width * 0.83,
         child: Column(
@@ -123,7 +126,7 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
               children: <Widget>[
                 Center(
                   child: Padding(
-                    padding: EdgeInsets.fromLTRB(43, 40, 43, 30),
+                    padding: EdgeInsets.fromLTRB(43, 15, 43, 7),
                     child: Text(
                       widget.question.payload.title,
                       style: new TextStyle(fontSize: 20),
@@ -131,16 +134,18 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.only(top: 8.0,left: 8.0,right: 8.0, bottom: 8.0),
                   child: GestureDetector(
                     child: Container(
-                      width: 260,
-                      height: 150,
-                      child: FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: widget.question.payload.firstImage,
-                      ),
-                    ),
+                        width: 220,
+                        height: 140,
+                        child: ClipRRect(
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: widget.question.payload.firstImage,
+                          ),
+                          borderRadius: BorderRadius.circular(30.0),
+                        )),
                     onTap: () {
                       _OneOfTwoQuestionState.model = 1;
                       widget.forward();
@@ -148,16 +153,18 @@ class _OneOfTwoQuestionState extends State<OneOfTwoQuestion> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 46),
+                  padding: EdgeInsets.only(bottom: 26),
                   child: GestureDetector(
                     child: Container(
-                      width: 260,
-                      height: 150,
-                      child: FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: widget.question.payload.secondImage,
-                      ),
-                    ),
+                        width: 220,
+                        height: 140,
+                        child: ClipRRect(
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: widget.question.payload.secondImage,
+                          ),
+                          borderRadius: BorderRadius.circular(30.0),
+                        )),
                     onTap: () {
                       _OneOfTwoQuestionState.model = 2;
                       widget.forward();

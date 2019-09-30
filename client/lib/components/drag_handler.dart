@@ -218,10 +218,10 @@ class _DragHandlerState extends State<DragHandler>
 
   void _onPanEnd(DragEndDetails details) {
     final dragVector = cardOffset / cardOffset.distance;
-    final isInLeftRegion = (cardOffset.dx / context.size.width) < -0.45;
-    final isInRightRegion = (cardOffset.dx / context.size.width) > 0.45;
-    final isInTopRegion = (cardOffset.dy / context.size.height) < -0.40;
-    final isInBottomRegion = (cardOffset.dy / context.size.height) > 0.40;
+    final isInLeftRegion = (cardOffset.dx / context.size.width) < -0.25;
+    final isInRightRegion = (cardOffset.dx / context.size.width) > 0.25;
+    final isInTopRegion = (cardOffset.dy / context.size.height) < -0.2;
+    final isInBottomRegion = (cardOffset.dy / context.size.height) > 0.2;
 
     setState(() {
       if (isInLeftRegion || isInRightRegion) {

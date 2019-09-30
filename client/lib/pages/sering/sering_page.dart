@@ -47,7 +47,7 @@ class _SeringPageState extends State<SeringPage> {
             '',
             Image.network(generatedCities.values[1].photo)),
         null,
-        null,
+        {0: {generatedCities.values[0].countryCode: 1}, 1: {generatedCities.values[0].countryCode: 1}},
         {
           0: {generatedCities.values[0].iata: 2},
           1: {generatedCities.values[1].iata: 2}
@@ -68,23 +68,6 @@ class _SeringPageState extends State<SeringPage> {
   }
 
   Question getCurrentQuestion() {
-    if (!this.check && this.history.length > 2) {
-      var delta = CityDelta();
-      var client = WeightsClient(widget.channel);
-      delta.token = HomePage.token;
-    Map<String, int> tete = {"AGR":10, "AMS":10, "ATH":10, "AYT":10, "BCN":10, "BER":10, "BKK":10, "BOM":10, "CAI":10, "CAN":10, "CUN":10,"DEL":10, "DPS":10, "DUB":10, "DXB":10, "FLR":10, "HKG":10, "HKT":10, "IST":10, "JAI":10, "JHB":10, "JNB":10, "KUL":10, "LAS":10, "LAX":10, "LON":10,"MAA":10, "MAD":10, "MFM":10, "MIA":10, "MIL":10, "MOW":10, "NYC":10, "ORL":10, "OSA":10, "PAR":10, "PRG":10, "ROM":10, "RUH":10, "SEL":10, "SHA":10,"SIN":10, "TPE":10, "TYO":10, "UTP":10, "VCE":10, "VIE":10};
-      tete.forEach((k, v) {
-        var d = Delta.create();
-        d.value = v;
-        delta.targets[k] = d;
-
-      });
-
-      client.changeCity(delta);
-
-
-      this.check = true;
-    }
     Question question;
     if (this.currentQuestionId == -1) {
       question = this.preparedSpecialQuestion;
@@ -186,7 +169,7 @@ class _SeringPageState extends State<SeringPage> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.11,
                   child: Center(
-                    child: _btnConstructor(7, 'пропустить вопрос', 'skip'),
+                    child: _btnConstructor(7, 'Пропустить вопрос', 'skip'),
                   ),
                 ),
                 SizedBox(
