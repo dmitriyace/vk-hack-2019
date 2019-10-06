@@ -24,8 +24,11 @@ func (s *Server) GetRandom(ctx context.Context, token *it.Token) (*it.Cities, er
 		return nil, status.Error(codes.Unavailable, "Only one city left")
 	}
 
-	index := rand.Intn(len(cities) / 2)
-	c1, c2 := cities[index], cities[len(cities)/2+index]
+	index1, index2 := rand.Intn(len(cities)), rand.Intn(len(cities))
+	for index1 == index2 {
+		index2 = rand.Intn(len(cities))
+	}
+	c1, c2 := cities[index1], cities[index2]
 
 	var cc []*it.City
 	for _, c := range []*City{c1, c2} {
